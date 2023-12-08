@@ -5,7 +5,7 @@
 # 用来创建用户对象
 # 包含 id, name, phone , email,avatar , password
 class UserProfile:
-    def __init__(self, user_id:str, name:str, email:str = None, phone:str = None,avatar:str = None,avatar_url:str = None, info:dict = None,password:str = None):
+    def __init__(self, user_id:str, name:str, email:str = str(), phone:str = str(),avatar:str = str(),avatar_url:str = str(), info:dict = {},password:str = str()):
         self.user_id = user_id
         self.name = name
         self.email = email

@@ -17,7 +17,6 @@ class Ticket(UpdateTime,Priority,Status,ID):
         Priority.__init__(self, priority.get_priority())
         Status.__init__(self, status.get_status())
         UpdateTime.__init__(self, create_time.get_create_time())
-        
     pass 
 
 # 帮我测试
