@@ -3,25 +3,31 @@ from base_class.user.type import User
 
 from enum import Enum
 
-class RecordType(Enum):
+    
+class Record(ID):
     TEXT = 1
     IMAGE = 2
     VIDEO = 3
     FILE = 4
-    
-class Record(ID):
-    def __init__(self, id:str,records_type: RecordType, content:str ) -> None:
+    LINK = 5
+
+    # 获取一个测试用的记录
+    @staticmethod
+    def get_test():
+        return Record(ID.get_test(), Record.TEXT, "This is a test record")
+
+    def __init__(self, id:str,records_type: int, content:str ) -> None:
         # 调用父类的构造函数来初始化继承的属性
         ID.__init__(self, id)
-        self._records_type = records_type
-        self._content = content
+        self.__records_type = records_type
+        self.__content = content
         pass
     
     def get_records_type(self):
-        return self._records_type
+        return self.__records_type
     
     def get_content(self):
-        return self._content
+        return self.__content
 
         
     

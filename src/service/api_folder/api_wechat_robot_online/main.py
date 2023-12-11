@@ -13,10 +13,7 @@ from models.wechat_robot_online.types.log_processing_type import LogProcessingFi
 from models.wechat_robot_online.types.robot_task_type import RobotTask, RobotTaskType
 from utils import  local_logger
 
-from service.api_folder.api_ticketing_system.sub_model1 import api_bp as api_bp_sub
 api_bp = Blueprint('wechat_robot_online', __name__ ,url_prefix='/wechat_robot_online')
-
-api_bp.register_blueprint(api_bp_sub)
 
 CORS(api_bp) # 解决跨域问题
 
