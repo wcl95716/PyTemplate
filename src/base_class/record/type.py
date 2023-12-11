@@ -1,5 +1,5 @@
-from base.id.type import ID
-from base.user.type import User
+from base_class.id.type import ID
+from base_class.user.type import User
 
 from enum import Enum
 

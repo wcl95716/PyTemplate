@@ -7,9 +7,9 @@ sys.path.append("./src")
 # 属性为id
 # 确保继承属性的类有一个唯一id
 
-from base.id.type import ID
-from base.record.type import Record
-from base.user.type import User
+from base_class.id.type import ID
+from base_class.record.type import Record
+from base_class.user.type import User
 
 # list[Record]  list[ChatRecord] 
 class ChatRecord(Record):

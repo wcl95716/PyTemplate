@@ -3,7 +3,7 @@
 # 属性为id
 # 确保继承属性的类有一个唯一id
 
-from base.id.type import ID
+from base_class.id.type import ID
 
 
 class User(ID):

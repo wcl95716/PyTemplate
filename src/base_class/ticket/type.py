@@ -5,10 +5,10 @@ import time
 sys.path.append("./src")
 
 
-from base.id.type import ID
-from base.priority.type import Priority
-from base.status.type import Status
-from base.update_time.type import UpdateTime
+from base_class.id.type import ID
+from base_class.priority.type import Priority
+from base_class.status.type import Status
+from base_class.update_time.type import UpdateTime
 
 class Ticket(UpdateTime,Priority,Status,ID):
     
@@ -21,9 +21,9 @@ class Ticket(UpdateTime,Priority,Status,ID):
 
 # 帮我测试
 if __name__ == '__main__':
-    from base.priority.type import Priority
-    from base.status.type import Status
-    from base.update_time.type import UpdateTime
+    from base_class.priority.type import Priority
+    from base_class.status.type import Status
+    from base_class.update_time.type import UpdateTime
     id = '1'
     priority = Priority(Priority.NORMAL)
     status = Status(Status.IN_PROGRESS)
