@@ -1,7 +1,6 @@
 import datetime
 import sys
 import time
-from base.base.type import BaseClass
 sys.path.append("./src")
 
 # id 类  

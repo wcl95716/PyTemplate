@@ -1,7 +1,8 @@
 from enum import Enum
 import random
 
-from base.base.type import BaseClass
+from base_class.base.type import BaseClass
+
 
 class Status(BaseClass):
     NEW = 0

@@ -3,7 +3,10 @@
 # 属性为id
 # 确保继承属性的类有一个唯一id
 
-from base.base.type import BaseClass
+
+
+
+from base_class.base.type import BaseClass
 
 
 class ID(BaseClass):

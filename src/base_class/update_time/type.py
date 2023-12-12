@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from base.base.type import BaseClass
+from base_class.base.type import BaseClass
+
 
 class UpdateTime(BaseClass):
     # 获取一个测试用的记录
