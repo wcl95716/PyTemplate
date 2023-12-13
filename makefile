@@ -20,10 +20,6 @@ checkout:
 delete_env:
 	conda remove -n ticketing-website --all
 
-buildexe:
-	pyinstaller --onefile .\my_start.py
-	cp .\dist\my_start.exe .\my_start.exe
-
 push:
 	git add *
 	git commit -m "update"

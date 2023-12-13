@@ -74,7 +74,6 @@ def get_organizationgroups_from_url(excel_url: str) -> list[OrganizationGroup]:
 
     # 使用download_excel_and_read函数下载Excel文件并读取内容
     df = download_excel_and_read(excel_url)
-   
     
     if df is not None:
         # 创建一个空列表来存储OrganizationGroup对象
@@ -137,20 +136,22 @@ def upload_img_file(img_path:str) -> None:
 if __name__=='__main__':
 
     # 传入Excel文件路径，并获取OrganizationGroup对象列表
-    vehicle_url= "http://47.116.201.99:8001/test/uploads/e14062a2ce264f1696ecff388904ef93_12.6.xlsx"
-    excel_file_path= "http://47.116.201.99:8001/test/uploads/540827975aca41339c96d2a2804a4ccb_-12-6.xlsx"
+    # vehicle_url= "http://127.0.0.1:8001/test/uploads/5d1cf85c71b94aa4bdac16393c986d55_12.6.xlsx"
+    # excel_file_path= "http://localhost:8001/test/uploads/757e28eb783e4f86af3e48bb2580c237_-12-6.xlsx"
+    
+    vehicle_url= "http://47.116.201.99:8001/test/uploads/c4cca99f1c2743bcb016ea80e3f61e87_12.66.xlsx"
+    excel_file_path= "http://47.116.201.99:8001/test/uploads/80fcd33050464a439d65e71bdaa54a64_-12-11.xlsx"
+
 
     # 获取分类后的数据
     # 创建LogProcessingType对象并进行分类
     log_processing = get_log_processing(vehicle_url, excel_file_path)
     
     tasks = log_processing.get_all_robot_task_by_group_and_status()
-    # tasks.extend(log_processing.get_all_robot_task_by_group())
+    tasks.extend(log_processing.get_all_robot_task_by_group())
     print(len(log_processing.vehicle_data_by_group.keys()) , len(tasks) )
-    count = 0
     for task in tasks:
-        count +=1
-        print("task: ",count, task.task_type,task.to_user , task.content)
+        print("task: ", task.task_type,task.to_user , task.content)
 
     # Create a DataFrame from the list of dictionaries
 

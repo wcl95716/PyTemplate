@@ -58,7 +58,8 @@ class ChatActionFunctionFactory:
             "content": content,
             "message_time": message_time,
             "message_type": message_type,
-            "chat_profile":1001
+            "chat_profile":1001,
+            "avatar_url": "http://47.116.201.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg",
         }
         response = requests.post(url, json=chatMessage)
         if group_message is None:
@@ -85,7 +86,8 @@ class ChatActionFunctionFactory:
                     "content": content,
                     "message_time": message_time,
                     "message_type": message_type,
-                    "chat_profile":1000
+                    "chat_profile":1000,
+                    "avatar_url": "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png"
                 }
                 response = requests.post(url, json=chatMessage)
                 pass
@@ -113,7 +115,7 @@ class ChatActionFunctionFactory:
             "created_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "status": 0,
             "priority": 0,
-            "creator": message[0],
+            "creator": group_id +"/"+ message[0],
             "assigned_to": "",
             "ticket_type": "",
             "closed_time": "",

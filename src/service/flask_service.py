@@ -10,7 +10,7 @@ app = Flask(__name__,template_folder='templates')
 CORS(app) # 解决跨域问题
 app.logger.setLevel(logging.DEBUG)
 
-from models.ticketing_system.web_api.main import api_bp as api_ticketing_system
+from service.api_folder.api_ticketing_system.main import api_bp as api_ticketing_system
 from service.api_folder.api_wechat_robot_online.main import api_bp as api_wechat_robot_online
 
 app.register_blueprint(api_ticketing_system)

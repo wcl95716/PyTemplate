@@ -11,8 +11,10 @@ from models.ticketing_system.types.ticket_record import TicketRecord
 from models.ticketing_system.types.user_profile import UserProfile
 from utils import  local_logger
 
+from service.api_folder.api_ticketing_system.sub_model1 import api_bp as api_bp_sub
 api_bp = Blueprint('ticketing_system', __name__ ,url_prefix='/test')
 
+api_bp.register_blueprint(api_bp_sub)
 
 # 配置文件上传目录和允许的文件扩展名
 UPLOAD_FOLDER = 'uploads'
@@ -51,7 +53,9 @@ def api_get_chat_history(ticket_id):
     try:
         chats = ticketing_system.chat_api.get_chat_history(ticket_id)
         if chats is None:
-            return jsonify({"error": "No chat history found"})
+            # 如果没有聊天记录，则返回 404
+            return jsonify({"error": "Chat history not found"}), 404
+            pass
         local_logger.logger.info("api_get_chat_history  successfully")
         return jsonify(chats)
     except Exception as e:
@@ -232,6 +236,7 @@ def api_get_file(filename):
     file_path = ticketing_system.chat_api.get_file(filename)
     local_logger.logger.info("file_path : %s", file_path)
     return send_file(file_path)
+
 
 
 @api_bp.route('/get_users' , methods=['GET'])
