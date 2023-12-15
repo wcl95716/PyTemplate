@@ -12,9 +12,11 @@ app.logger.setLevel(logging.DEBUG)
 
 from service.api_folder.api_ticketing_system.main import api_bp as api_ticketing_system
 from service.api_folder.api_wechat_robot_online.main import api_bp as api_wechat_robot_online
+from service.api_folder.api_wechatrobot.main import api_bp as api_wechatrobot
 
-app.register_blueprint(api_ticketing_system)
-app.register_blueprint(api_wechat_robot_online)
+#app.register_blueprint(api_ticketing_system)
+#app.register_blueprint(api_wechat_robot_online)
+app.register_blueprint(api_wechatrobot)
 
 def get_app():
     return app
