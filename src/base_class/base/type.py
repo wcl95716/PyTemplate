@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import sys
+from typing import Any
 sys.path.append("./src")
 
 
@@ -13,16 +14,16 @@ class BaseClass(ABC):
     # 强制实现：在抽象基类中使用@abstractmethod可以确保所有子类都实现这些方法。这对于保持一致的接口和预期行为非常重要。
     # 防止直接实例化：带有抽象方法的类不能被直接实例化。这样可以防止创建不完整或不符合要求的对象。
     # 设计模式和架构：在复杂的软件设计和架构中，抽象基类和抽象方法有助于提供清晰的层次结构和责任划分。这对于大型项目和团队合作尤其重要。
-    @classmethod
-    @abstractmethod
-    def get_instance(cls):
-        pass
-    
+        @classmethod
+        @abstractmethod
+        def get_instance(cls) -> 'BaseClass':
+            pass
+        
 
-    # @abstractmethod
-    def to_dict(self):
-        pass
-    pass 
+        # @abstractmethod
+        def to_dict(self) -> dict[str, Any]:
+            return {}
+        pass 
 
     
     

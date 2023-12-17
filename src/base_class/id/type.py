@@ -18,17 +18,17 @@ class ID(BaseClass):
     #创建静态函数， 可以获取一个测试用的ID
     count = 0
     @classmethod
-    def get_test(cls) -> 'ID':
+    def get_instance(cls) -> 'ID':
         ID.count += 1
-        return ID(ID.count)
-    
+        return ID(str(ID.count))
+
         pass
     
-    def __init__(self,id) -> None:
+    def __init__(self,id:str) -> None:
         self.__id = id
         pass
     
-    def get_id(self): 
+    def get_id(self) -> str: 
         return self.__id   
         pass     
     

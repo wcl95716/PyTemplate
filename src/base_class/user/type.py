@@ -10,8 +10,8 @@ class User(ID):
 
     # 获取一个测试用的记录
     @staticmethod
-    def get_instance():
-        return User(ID.get_instance(),"test","test","test","test","test")
+    def get_instance() -> "User":
+        return User(ID.get_instance().get_id(),"test","test","test","test","test")
         pass
 
     # 姓名 手机 邮箱 头像 密码
@@ -25,29 +25,27 @@ class User(ID):
         self.__password = password
         pass
     
-    def get_name(self):
+    def get_name(self) -> str:
         return self.__name
         pass  
-    def get_phone(self):
+    def get_phone(self) -> str:
         return self.__phone
         pass
-    def get_email(self):
+    def get_email(self) -> str:
         return self.__email
-        pass
-    def get_avatar(self):
+
+    def get_avatar(self) -> str:
         return self.__avatar
-        pass
-    def get_password(self):
+
+    def get_password(self) -> str:
         return self.__password
-        pass
-    def to_dict(self):
+
+    def to_dict(self) -> dict[str, str]:
         return self.__dict__
-        pass 
-    
+
     @classmethod
-    def from_dict(cls , user_dict:dict):
+    def from_dict(cls, user_dict: dict[str, str]) -> "User":
         return cls(**user_dict)
-        pass
 
     pass 
 

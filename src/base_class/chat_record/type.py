@@ -16,7 +16,7 @@ class ChatRecord(Record):
 
     # 获取一个测试用的记录
     @staticmethod
-    def get_instance():
+    def get_instance() -> 'ChatRecord':
         return ChatRecord(Record.get_instance(), User.get_instance(), User.get_instance())
     
     def __init__(self,record:Record, user:User,to_user:User) -> None:

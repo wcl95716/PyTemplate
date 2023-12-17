@@ -13,8 +13,8 @@ class Record(ID):
 
     # 获取一个测试用的记录
     @staticmethod
-    def get_instance():
-        return Record(ID.get_instance(), Record.TEXT, "This is a test record")
+    def get_instance() -> 'Record':
+        return Record(ID.get_instance().get_id(), Record.TEXT, "This is a test record")
 
     def __init__(self, id:str,records_type: int, content:str ) -> None:
         # 调用父类的构造函数来初始化继承的属性
@@ -23,10 +23,10 @@ class Record(ID):
         self.__content = content
         pass
     
-    def get_records_type(self):
+    def get_records_type(self) -> int:
         return self.__records_type
     
-    def get_content(self):
+    def get_content(self) -> str:
         return self.__content
     
     
