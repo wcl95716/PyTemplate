@@ -165,7 +165,6 @@ class TicketFilter:
         
         local_logger.logger.info(f"get_filter_condition_ticket_id result_list : {len(result_list)}")
         return result_list
-
     
     pass 
 
