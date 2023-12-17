@@ -10,8 +10,8 @@ class User(ID):
 
     # 获取一个测试用的记录
     @staticmethod
-    def get_test():
-        return User(ID.get_test(),"test","test","test","test","test")
+    def get_instance():
+        return User(ID.get_instance(),"test","test","test","test","test")
         pass
 
     # 姓名 手机 邮箱 头像 密码

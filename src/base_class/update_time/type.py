@@ -6,7 +6,7 @@ from base_class.base.type import BaseClass
 class UpdateTime(BaseClass):
     # 获取一个测试用的记录
     @staticmethod
-    def get_test():
+    def get_instance():
         return UpdateTime(datetime.now())
 
     def __init__(self, create_time: datetime) -> None:

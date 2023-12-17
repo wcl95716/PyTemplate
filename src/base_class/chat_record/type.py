@@ -16,8 +16,8 @@ class ChatRecord(Record):
 
     # 获取一个测试用的记录
     @staticmethod
-    def get_test():
-        return ChatRecord(Record.get_test(), User.get_test(), User.get_test())
+    def get_instance():
+        return ChatRecord(Record.get_instance(), User.get_instance(), User.get_instance())
     
     def __init__(self,record:Record, user:User,to_user:User) -> None:
         # 调用父类的构造函数来初始化继承的属性

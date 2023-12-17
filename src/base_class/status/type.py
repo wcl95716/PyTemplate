@@ -13,7 +13,7 @@ class Status(BaseClass):
     # 创建静态函数， 可以获取一个测试用例子
     # Create a static method to get a  test status
     @staticmethod
-    def get_test():
+    def get_instance():
         # Get a random priority
         random_status = random.choice([Status.NEW, Status.IN_PROGRESS, Status.COMPLETED, Status.CLOSED])
         return Status(random_status)

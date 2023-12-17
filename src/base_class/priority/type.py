@@ -14,7 +14,7 @@ class Priority(BaseClass):
     # 创建静态函数， 可以获取一个测试用例子
     # Create a static method to get a random test priority
     @staticmethod
-    def get_test():
+    def get_instance():
         # Get a random priority
         random_priority = random.choice([Priority.HIGHEST, Priority.URGENT, Priority.NORMAL, Priority.NOT_URGENT, Priority.NOT_NEEDED])
         return Priority(random_priority)

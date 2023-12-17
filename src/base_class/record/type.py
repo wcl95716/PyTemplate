@@ -1,6 +1,6 @@
-from base_class.id.type import ID
 from base_class.user.type import User
 
+from base_class.id.type import ID
 from enum import Enum
 
     
@@ -13,8 +13,8 @@ class Record(ID):
 
     # 获取一个测试用的记录
     @staticmethod
-    def get_test():
-        return Record(ID.get_test(), Record.TEXT, "This is a test record")
+    def get_instance():
+        return Record(ID.get_instance(), Record.TEXT, "This is a test record")
 
     def __init__(self, id:str,records_type: int, content:str ) -> None:
         # 调用父类的构造函数来初始化继承的属性
@@ -28,6 +28,17 @@ class Record(ID):
     
     def get_content(self):
         return self.__content
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
         
     
