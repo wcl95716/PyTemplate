@@ -99,15 +99,8 @@ def get_tickets_by_filter(search_criteria: Optional[str], status_filter: Optiona
         args.append(status_filter)
 
     if search_criteria:
-        if search_criteria == "title":
-            sql += " AND title LIKE %s"
-        elif search_criteria == "content":
-            sql += " AND content LIKE %s"
-        elif search_criteria == "assigned_to_id":
-            sql += " AND assigned_to_id LIKE %s"
-        elif search_criteria == "creator_id":
-            sql += " AND creator_id LIKE %s"
-        args.append('%' + str(search_criteria) + '%')
+        sql += " AND (title LIKE %s OR content LIKE %s OR assigned_to_id LIKE %s)"
+        args.extend(['%' + search_criteria + '%' for _ in range(3)])
 
     if start_date and end_date:
         sql += " AND create_time BETWEEN %s AND %s"
@@ -135,8 +128,9 @@ def get_tickets_by_filter(search_criteria: Optional[str], status_filter: Optiona
     return tickets
 
 
+
 if __name__ == '__main__':
-    tickets = get_tickets_by_filter("1", None, None,None)
+    tickets = get_tickets_by_filter("2", None, None,None)
     for ticket in tickets:
         print(ticket.to_dict())
     
