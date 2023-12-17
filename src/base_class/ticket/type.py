@@ -12,7 +12,7 @@ from base_class.priority.type import Priority
 from base_class.status.type import Status
 from base_class.update_time.type import UpdateTime
 
-class Ticket(ID, UpdateTime):
+class Ticket(ID, UpdateTime,Status,Priority):
     # 获取一个测试用的记录
     @staticmethod
     def get_instance() -> 'Ticket':
@@ -28,8 +28,10 @@ class Ticket(ID, UpdateTime):
                  creator_id:str,
                  create_time:datetime ):
         ID.__init__(self, id)
-        self.__status = Status(status)
-        self.__priority = Priority(priority)
+        Status.__init__(self, status)  # Change self to status
+        Priority.__init__(self, priority)
+        self.__type = type
+        
         UpdateTime.__init__(self, create_time)
         self.__title = title
         self.__content = content
@@ -50,6 +52,10 @@ class Ticket(ID, UpdateTime):
     
     def get_content(self) -> str:
         return self.__content
+    
+    def get_type(self) -> int:
+        return self.__type
+    
     
     
     pass 

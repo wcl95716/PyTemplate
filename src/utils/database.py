@@ -51,16 +51,23 @@ class DatabaseManager:
             conn.close()
 
     @classmethod
-    def execute(cls, sql: str, args: Optional[Any] = None) -> None:
+    def execute(cls, sql: str, args: Optional[Any] = None) -> bool:
         instance = cls._get_instance()
         conn = instance.pool.connection()
         cursor = conn.cursor()
         try:
             cursor.execute(sql, args or ())
             conn.commit()
+            return True
+        except pymysql.Error as e:
+            # 处理数据库错误
+            print(f"Database error: {e}")
+            conn.rollback()  # 回滚事务
+            return False
         finally:
             cursor.close()
             conn.close()
+
             
             
     @classmethod
