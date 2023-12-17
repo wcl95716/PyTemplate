@@ -24,25 +24,6 @@ def insert_ticket(
     
     pass 
 
-def get_tickets() -> list[Ticket]:
-    sql = "SELECT * FROM ticket"
-    result = DatabaseManager.query(sql)
-    tickets = []
-    for row in result:
-        id:str = row[0]
-        status:int = row[1]
-        priority:int = row[2]
-        type:int = row[3]
-        title:str = row[4]
-        content:str = row[5]
-        assigned_to_id:str = row[6]
-        creator_id:str = row[7]
-        create_time:datetime = row[8]
-        ticket = Ticket(id,status,priority,type,title,content,assigned_to_id,creator_id,create_time)
-        tickets.append(ticket)
-    return tickets
-
-
 def update_ticket(ticket:Ticket) -> bool:
     sql = "UPDATE ticket SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
     args = (ticket.__status, ticket.get_priority(), ticket.__type, ticket.get_title(), ticket.get_content(), ticket.get_assigned_to_user(), ticket.get_creator(), ticket.get_create_time(), ticket.get_id())
@@ -88,7 +69,7 @@ def get_ticket(ticket_id:str)-> Optional[Ticket]:
 # 返回类型为 list[Ticket]
 # 根据条件获取 tickets
 # 根据条件获取 tickets
-def get_tickets_by_filter(search_criteria: Optional[str], status_filter: Optional[int], start_date: Optional[str], end_date: Optional[str]) -> List[Ticket]:
+def get_tickets_by_filter(search_criteria: Optional[str] = None, status_filter: Optional[int] = None, start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Ticket]:
     # 构建 SQL 查询
     sql = "SELECT * FROM ticket WHERE 1=1"
 
@@ -109,7 +90,6 @@ def get_tickets_by_filter(search_criteria: Optional[str], status_filter: Optiona
     # 执行查询
     tickets = []
     result = DatabaseManager.query(sql, args)
-
     for row in result:
         id = row[0]
         status = row[1]
@@ -128,9 +108,13 @@ def get_tickets_by_filter(search_criteria: Optional[str], status_filter: Optiona
     return tickets
 
 
-
 if __name__ == '__main__':
-    tickets = get_tickets_by_filter("2", None, None,None)
+    tickets = get_tickets_by_filter(
+        #search_criteria=None,
+        #status_filter=1,
+        start_date="2020-01-02 00:00:00",
+        end_date="2020-01-03 23:59:59",
+    )
     for ticket in tickets:
         print(ticket.to_dict())
     

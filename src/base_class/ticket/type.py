@@ -3,7 +3,7 @@ from datetime import datetime
 import sys
 sys.path.append("./src")
 import time
-from typing import Any
+from typing import Any, Optional
 
 from base_class.user.type import User
 
@@ -26,13 +26,14 @@ class Ticket(ID, UpdateTime,Status,Priority):
                  content:str, 
                  assigned_to_id:str,
                  creator_id:str,
-                 create_time:datetime ):
+                 create_time:datetime,
+                 update_time:Optional[datetime] = None):
         ID.__init__(self, id)
         Status.__init__(self, status)  # Change self to status
         Priority.__init__(self, priority)
         self.__type = type
         
-        UpdateTime.__init__(self, create_time)
+        UpdateTime.__init__(self, create_time,update_time)
         self.__title = title
         self.__content = content
         self.__assigned_to_id = assigned_to_id

@@ -29,7 +29,8 @@ class DatabaseManager:
         if cls._instance is None:
             cls._instance = cls.__new__(cls)
             cls.__init__(cls._instance, host, port, user, password, db)
-            
+            cls._get_instance().create_database_if_not_exists(db)
+             
     @classmethod
     def _get_instance(cls) -> 'DatabaseManager':
         if cls._instance is None:
@@ -87,14 +88,22 @@ class DatabaseManager:
 
 
     @classmethod
-    def execute_sql_file(cls, database_name: str, file_path: str) -> None:
+    def execute_sql_file(cls, file_path: str) -> None:
         instance = cls._get_instance()
-        command = f"mysql -u {instance.pool._kwargs['user']} -p{instance.pool._kwargs['password']} -h {instance.pool._kwargs['host']} {database_name} < {file_path}"
-        subprocess.run(command, shell=True)
+        docker_str = "docker exec -i mysql-container"
+        command = f"{docker_str} mysql -u {instance.pool._kwargs['user']} -p{instance.pool._kwargs['password']} -h {instance.pool._kwargs['host']} {instance.pool._kwargs['database']} < {file_path}"
+        
+        try:
+            subprocess.run(command, shell=True, check=True, stderr=subprocess.PIPE)
+            print(f"Successfully executed SQL file: {file_path}")
+        except subprocess.CalledProcessError as e:
+            # 捕获并打印错误信息
+            print(f"Error executing SQL file: {e}")
+            print(e.stderr.decode('utf-8'))
 
 
 # 初始化单例
-DatabaseManager.init('localhost', 3306, 'root', '12345678', 'global_data')
+DatabaseManager.init('localhost', 3308, 'root', '12345678', 'panda_code_database')
 
 # # 示例使用
 # try:
