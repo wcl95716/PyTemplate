@@ -18,7 +18,8 @@ class Ticket(ID, UpdateTime,Status,Priority):
     def get_instance() -> 'Ticket':
         return Ticket(ID.get_UUID().get_id(),1,1,1,"new ticket","",User.get_instance().get_id(), User.get_instance().get_id(), datetime.now())
     
-    def __init__(self, id:str,
+    def __init__(self, 
+                 id:str,
                  status:int,
                  priority:int,
                  type:int,
@@ -49,7 +50,18 @@ class Ticket(ID, UpdateTime,Status,Priority):
         return self.__creator_id
     
     def to_dict(self) -> dict[str, Any]:
-        return self.__dict__
+        return {
+            'id': self.get_id(),
+            'status': self.get_status(),
+            'priority': self.get_priority(),
+            'type': self.get_type(),
+            'title': self.get_title(),
+            'content': self.get_content(),
+            'assigned_to_id': self.get_assigned_to_user(),
+            'creator_id': self.get_creator(),
+            'create_time': self.get_create_time(),
+            'update_time': self.get_update_time()
+        }
     
     def get_content(self) -> str:
         return self.__content

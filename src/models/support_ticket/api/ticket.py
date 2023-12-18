@@ -1,4 +1,3 @@
-
 import sys
 sys.path.append("./src")
 
@@ -7,6 +6,7 @@ from typing import Any, Dict, List, Optional, Union
 from base_class.ticket.type import Ticket
 
 from utils.database import DatabaseManager
+from typing import Optional
 
 def insert_ticket(
                  status:int,
@@ -32,33 +32,13 @@ def update_ticket(ticket:Ticket) -> bool:
     return False
 
 
-def delete_ticket(ticket_id:str)->bool:
+def delete_ticket(ticket_id:Optional[str])->bool:
     sql = "DELETE FROM ticket WHERE id=%s"
     args = (ticket_id)
     if DatabaseManager.execute(sql, args):
         return True
     return False
 
-
-def get_ticket(ticket_id:str)-> Optional[Ticket]:
-    sql = "SELECT * FROM ticket WHERE id=%s"
-    args = (ticket_id)
-    result = DatabaseManager.query(sql, args)
-    if not result:
-        return None
-    
-    id:str = result[0][0]
-    status:int = result[0][1]
-    priority:int = result[0][2]
-    type:int = result[0][3]
-    title:str = result[0][4]
-    content:str = result[0][5]
-    assigned_to_id:str = result[0][6]
-    creator_id:str = result[0][7]
-    create_time:datetime = result[0][8]
-    ticket = Ticket(id,status,priority,type,title,content,assigned_to_id,creator_id,create_time)
-    return ticket
-    pass
     
 # 根据条件获取tickets
 # 例如 search_criteria:str , status:int ,start_date:str  , end_date:str
@@ -69,7 +49,7 @@ def get_ticket(ticket_id:str)-> Optional[Ticket]:
 # 返回类型为 list[Ticket]
 # 根据条件获取 tickets
 # 根据条件获取 tickets
-def get_tickets_by_filter(search_criteria: Optional[str] = None, status_filter: Optional[int] = None, start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Ticket]:
+def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optional[str] = None, status_filter: Optional[str] = None, start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Ticket]:
     # 构建 SQL 查询
     sql = "SELECT * FROM ticket WHERE 1=1"
 
@@ -78,6 +58,10 @@ def get_tickets_by_filter(search_criteria: Optional[str] = None, status_filter: 
     if status_filter is not None:
         sql += " AND status = %s"
         args.append(status_filter)
+    
+    if input_id is not None:
+        sql += " AND id = %s"
+        args.append(input_id)
 
     if search_criteria:
         sql += " AND (title LIKE %s OR content LIKE %s OR assigned_to_id LIKE %s)"
@@ -91,7 +75,7 @@ def get_tickets_by_filter(search_criteria: Optional[str] = None, status_filter: 
     tickets = []
     result = DatabaseManager.query(sql, args)
     for row in result:
-        id = row[0]
+        this_id: str = row[0]
         status = row[1]
         priority = row[2]
         type = row[3]
@@ -100,9 +84,10 @@ def get_tickets_by_filter(search_criteria: Optional[str] = None, status_filter: 
         assigned_to_id = row[6]
         creator_id = row[7]
         create_time = row[8]
+        update_time = row[9]
 
         # 创建 Ticket 对象并添加到列表
-        ticket = Ticket(id, status, priority, type, title, content, assigned_to_id, creator_id, create_time)
+        ticket = Ticket(this_id, status, priority, type, title, content, assigned_to_id, creator_id, create_time,update_time)
         tickets.append(ticket)
 
     return tickets
@@ -111,9 +96,9 @@ def get_tickets_by_filter(search_criteria: Optional[str] = None, status_filter: 
 if __name__ == '__main__':
     tickets = get_tickets_by_filter(
         #search_criteria=None,
-        #status_filter=1,
-        start_date="2020-01-02 00:00:00",
-        end_date="2020-01-03 23:59:59",
+        status_filter='1',
+        # start_date="2020-01-02 00:00:00",
+        # end_date="2020-01-03 23:59:59",
     )
     for ticket in tickets:
         print(ticket.to_dict())

@@ -13,7 +13,6 @@ from utils.database import DatabaseManager
 
 def main() -> None:
     sql_folder = 'src/database/tables'
-    database_name = "panda_code_database"
 
     # 创建数据库（如果不存在）
     #DatabaseManager.create_database_if_not_exists(database_name)

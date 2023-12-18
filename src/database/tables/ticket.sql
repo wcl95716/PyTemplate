@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS ticket (
     assigned_to_id VARCHAR(100),
     creator_id VARCHAR(100),
     create_time DATETIME,
-    update_time DATETIME
+    update_time DATETIME,
+    extended_field JSON,
+    key_id VARCHAR(100)
 );
 
 -- 插入数据

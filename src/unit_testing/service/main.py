@@ -4,7 +4,7 @@ sys.path.append("./src")
 from models.ticketing_system.types.enum_type import TicketStatus
 
 
-from service import flask_service
+from service import fastapi
 from models.ticketing_system.types import chat_record,ticket_record
 
 import requests
