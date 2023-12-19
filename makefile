@@ -1,11 +1,11 @@
 
 # 停止先前的程序
 stop:
-	-lsof -t -i :39839 | xargs kill -9
+	-lsof -t -i :5000 | xargs kill -9
 
 # 启动新程序
 start:
-	nohup uvicorn src.main:app --host 0.0.0.0 --port 39839 --reload &
+	nohup uvicorn src.main:app --host 0.0.0.0 --port 5000 --reload &
 
 
 install:
