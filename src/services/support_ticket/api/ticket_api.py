@@ -1,9 +1,11 @@
 import sys
+
+from models.ticket.type import Ticket
 sys.path.append("./src")
 
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Union
-from base_class.ticket.type import Ticket
+# from base_class.ticket.type import Ticket
 
 from utils.database import DatabaseManager
 from typing import Optional
@@ -26,7 +28,7 @@ def insert_ticket(
 
 def update_ticket(ticket:Ticket) -> bool:
     sql = "UPDATE ticket SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
-    args = (ticket.__status, ticket.get_priority(), ticket.__type, ticket.get_title(), ticket.get_content(), ticket.get_assigned_to_user(), ticket.get_creator(), ticket.get_create_time(), ticket.get_id())
+    args = (ticket.status, ticket.priority, ticket.type, ticket.title, ticket.content, ticket.assigned_to_id, ticket.creator_id, ticket.create_time, ticket.id)
     if DatabaseManager.execute(sql, args):
         return True
     return False
@@ -75,7 +77,7 @@ def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optio
     tickets = []
     result = DatabaseManager.query(sql, args)
     for row in result:
-        this_id: str = row[0]
+        this_id = row[0]
         status = row[1]
         priority = row[2]
         type = row[3]
@@ -85,23 +87,23 @@ def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optio
         creator_id = row[7]
         create_time = row[8]
         update_time = row[9]
-
+        
+        print("this_id",this_id)
         # 创建 Ticket 对象并添加到列表
-        ticket = Ticket(this_id, status, priority, type, title, content, assigned_to_id, creator_id, create_time,update_time)
+        ticket = Ticket(
+            id=this_id,
+            status=status,
+            priority=priority,
+            type=type,
+            title=title,
+            content=content,
+            assigned_to_id=assigned_to_id,
+            creator_id=creator_id,
+            create_time=create_time,
+            update_time=update_time
+        )
         tickets.append(ticket)
 
     return tickets
 
 
-if __name__ == '__main__':
-    tickets = get_tickets_by_filter(
-        #search_criteria=None,
-        status_filter='1',
-        # start_date="2020-01-02 00:00:00",
-        # end_date="2020-01-03 23:59:59",
-    )
-    for ticket in tickets:
-        print(ticket.to_dict())
-    
-    
-    pass

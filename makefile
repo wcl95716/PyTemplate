@@ -5,7 +5,7 @@ stop:
 
 # 启动新程序
 start:
-	nohup uvicorn src.main:app --host 0.0.0.0 --port 25432 --reload &
+	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 25432 --reload &
 
 
 install:

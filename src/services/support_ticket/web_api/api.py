@@ -4,34 +4,19 @@ This module provides the API endpoints for support tickets.
 from datetime import datetime
 import json
 import sys
+
+from models.ticket.type import Ticket
 sys.path.append("./src")
 from unittest.mock import Base
 
 from pydantic import BaseModel
-from base_class.ticket.type import Ticket
 
-
-from models.support_ticket.api import ticket_api
+from services.support_ticket.api import ticket_api
 
 from fastapi import APIRouter, Body, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
 
-# 创建一个 APIRouter
-# router = APIRouter()
 
-
-class TicketClass(BaseModel):
-    id:Optional[str]
-    status:int
-    priority:int
-    type:int
-    title:str 
-    content:str 
-    assigned_to_id:str
-    creator_id:str
-    create_time:datetime
-    update_time:Optional[datetime]
-    pass
 
 class TicketAPI(FastAPI):
     
@@ -65,8 +50,8 @@ class TicketAPI(FastAPI):
             Response: _description_
         """
         # 调用相应的方法获取数据
-        tickets = ticket_api.get_tickets_by_filter(id, search_criteria, status_filter, start_date, end_date)
-        tickets_data:list[dict[str, Any]] = [ticket.to_dict() for ticket in tickets]
+        tickets: List[Ticket] = ticket_api.get_tickets_by_filter(id, search_criteria, status_filter, start_date, end_date)
+        tickets_data:list[dict[str, Any]] =  [ ticket.model_dump() for ticket in tickets]
         def serialize_datetime(obj: datetime) -> str:
             if isinstance(obj, datetime):
                 return obj.strftime("%Y-%m-%d %H:%M:%S")
@@ -90,7 +75,7 @@ class TicketAPI(FastAPI):
         return Response(status_code=204)
     
     async def update_tickets(self, 
-                          ticket:TicketClass = Body(description="Ticket object")
+                          ticket:Ticket = Body(description="Ticket object")
                        ) -> Response:
         
         ticket_api.update_ticket(Ticket(**ticket.dict()))
@@ -99,7 +84,7 @@ class TicketAPI(FastAPI):
     
     # 创建工单
     async def create_ticket(self, 
-                      ticket:TicketClass = Body(description="Ticket object")
+                      ticket:Ticket = Body(description="Ticket object")
                       ) -> Response:
         ticket_api.insert_ticket(
             status=ticket.status,  # Add the missing "status" argument

@@ -1,18 +1,9 @@
-
-
 import sys
 sys.path.append("./src")
 
-from fastapi import FastAPI
+# 导入 FastAPI 实例
+from api.fastapi import fast_api
 
-from models.support_ticket.web_api.api import TicketAPI
-
-
-app = FastAPI()
-app.include_router(TicketAPI().router, prefix="/ticket",tags=["Ticket Operations"])
-
-
-@app.get("/")
-def read_root() -> dict[str, str]:
-    return {"message": "Hello, World!"}
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:fast_api", host="0.0.0.0", port=25432, reload=True)
