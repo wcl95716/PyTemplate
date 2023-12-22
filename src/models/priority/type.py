@@ -10,5 +10,5 @@ class PriorityEnum(Enum):
     NOT_NEEDED = 4
 
 class Priority(BaseModel):
-    priority_type: int
+    priority: int
 
