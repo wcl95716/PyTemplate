@@ -12,8 +12,9 @@ install:
 	python -m pip install --upgrade pip
 	pip install --ignore-installed -r requirements.txt
 
-delete_env:
-	conda remove -n ticketing-website --all
+env:
+	conda create --name myenv python=3.11.5
+	conda activate myenv
 
 init_mysql:
 	scripts/setup-database.sh

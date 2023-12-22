@@ -1,7 +1,7 @@
-DBUtils==3.0.3
+dbutils==3.0.3
 matplotlib==3.8.2
 pandas==2.1.4
 pydantic==2.5.3
-PyMySQL==1.0.2
+pymysql==1.1.0
 urllib3==2.1.0
 uvicorn==0.25.0
