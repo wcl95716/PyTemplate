@@ -1,5 +1,5 @@
-import sys
-sys.path.append("./src")
+
+
 from models.chat_record.type import ChatRecord
 from utils.database import DatabaseManager
 

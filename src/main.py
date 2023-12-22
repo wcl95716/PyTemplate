@@ -1,5 +1,5 @@
-import sys
-sys.path.append("./src")
+
+
 
 # 导入 FastAPI 实例
 from api.fastapi import fast_api

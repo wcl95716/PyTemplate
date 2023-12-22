@@ -1,14 +1,17 @@
-import sys
+from datetime import datetime
+from typing import Optional
+
+
 
 from models.ticket.type import Ticket
-sys.path.append("./src")
 
-from datetime import datetime
+
+
 from typing import Any, Dict, List, Optional, Union
 # from base_class.ticket.type import Ticket
 
 from utils.database import DatabaseManager
-from typing import Optional
+
 
 def insert_ticket(
                  status:int,

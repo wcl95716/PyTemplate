@@ -6,8 +6,8 @@ from typing import Any
 
 from pymysql.connections import Connection
 
-import sys
-sys.path.append("./src")
+
+
 
 from utils.database import DatabaseManager
 

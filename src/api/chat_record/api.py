@@ -1,10 +1,10 @@
 
 from datetime import datetime
-import sys
+
 from typing import Any
 
 from models.chat_record.type import ChatRecord
-sys.path.append("./src")
+
 
 from fastapi import FastAPI, Response
 

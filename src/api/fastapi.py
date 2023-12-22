@@ -1,11 +1,11 @@
 
+from fastapi import FastAPI
 
-import sys
+
 from api.chat_record.api import CharRecordAPI
-sys.path.append("./src")
+
 from api.support_ticket.api import TicketAPI
 
-from fastapi import FastAPI
 
 fast_api = FastAPI()
 fast_api.include_router(TicketAPI().router, prefix="/ticket",tags=["Ticket Operations"])

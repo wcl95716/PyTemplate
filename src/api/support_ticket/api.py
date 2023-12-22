@@ -3,8 +3,8 @@ This module provides the API endpoints for support tickets.
 """
 from datetime import datetime
 import json
-import sys
-sys.path.append("./src")
+
+
 
 from models.ticket.type import Ticket
 from services.support_ticket import service
