@@ -24,7 +24,7 @@ init_db:
 	python src/db/mysql/run.py
 
 push:
-	git add *
+	git add .
 	git commit -m "update"
 	git push origin main
 
