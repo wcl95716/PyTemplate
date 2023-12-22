@@ -4,14 +4,15 @@ This module provides the API endpoints for support tickets.
 from datetime import datetime
 import json
 import sys
+sys.path.append("./src")
 
 from models.ticket.type import Ticket
-sys.path.append("./src")
+from services.support_ticket import service
+
 from unittest.mock import Base
 
 from pydantic import BaseModel
 
-from services.support_ticket.api import ticket_api
 
 from fastapi import APIRouter, Body, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
@@ -50,7 +51,7 @@ class TicketAPI(FastAPI):
             Response: _description_
         """
         # 调用相应的方法获取数据
-        tickets: List[Ticket] = ticket_api.get_tickets_by_filter(id, search_criteria, status_filter, start_date, end_date)
+        tickets: List[Ticket] = service.get_tickets_by_filter(id, search_criteria, status_filter, start_date, end_date)
         tickets_data:list[dict[str, Any]] =  [ ticket.model_dump() for ticket in tickets]
         def serialize_datetime(obj: datetime) -> str:
             if isinstance(obj, datetime):
@@ -71,14 +72,14 @@ class TicketAPI(FastAPI):
         """
         
         for id in id_list:
-            ticket_api.delete_ticket(id)
+            service.delete_ticket(id)
         return Response(status_code=204)
     
     async def update_tickets(self, 
                           ticket:Ticket = Body(description="Ticket object")
                        ) -> Response:
         
-        ticket_api.update_ticket(Ticket(**ticket.dict()))
+        service.update_ticket(Ticket(**ticket.dict()))
         return Response(status_code=204)
 
     
@@ -86,7 +87,7 @@ class TicketAPI(FastAPI):
     async def create_ticket(self, 
                       ticket:Ticket = Body(description="Ticket object")
                       ) -> Response:
-        ticket_api.insert_ticket(
+        service.insert_ticket(
             status=ticket.status,  # Add the missing "status" argument
             priority=ticket.priority,
             type=ticket.type,
