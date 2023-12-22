@@ -20,6 +20,9 @@ checkout:
 delete_env:
 	conda remove -n ticketing-website --all
 
+init_db:
+	python src/init_db.py
+
 push:
 	git add *
 	git commit -m "update"
