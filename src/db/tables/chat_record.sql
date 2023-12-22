@@ -1,3 +1,6 @@
+-- 删除表（如果它已经存在）
+DROP TABLE IF EXISTS chat_records;
+
 CREATE TABLE IF NOT EXISTS chat_records (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     type INT NOT NULL,
