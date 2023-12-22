@@ -91,7 +91,7 @@ class DatabaseManager:
     def execute_sql_file(cls, file_path: str) -> None:
         instance = cls._get_instance()
         docker_str = "docker exec -i mysql-container"
-        command = f"{docker_str} mysql -u {instance.pool._kwargs['user']} -p{instance.pool._kwargs['password']} -h {instance.pool._kwargs['host']} {instance.pool._kwargs['database']} < {file_path}"
+        command = f"{docker_str} mysql -u {instance.pool._kwargs['user']} -p{instance.pool._kwargs['password']} -h {instance.pool._kwargs['host']} --default-character-set=utf8mb4  {instance.pool._kwargs['database']} < {file_path}"
         
         try:
             subprocess.run(command, shell=True, check=True, stderr=subprocess.PIPE)
