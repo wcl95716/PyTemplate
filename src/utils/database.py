@@ -50,6 +50,20 @@ class DatabaseManager:
         finally:
             cursor.close()
             conn.close()
+            
+    @classmethod
+    def query_to_dict(cls, sql: str, args: Optional[Any] = None) -> list[dict[str, Any]]:
+        instance = cls._get_instance()
+        conn = instance.pool.connection()
+        # 使用 DictCursor 以便结果以字典形式返回
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        try:
+            cursor.execute(sql, args or ())
+            result:list[dict[str, Any]] = cursor.fetchall()
+            return result
+        finally:
+            cursor.close()
+            conn.close()
 
     @classmethod
     def execute(cls, sql: str, args: Optional[Any] = None) -> bool:
@@ -68,6 +82,7 @@ class DatabaseManager:
         finally:
             cursor.close()
             conn.close()
+            
 
             
             
@@ -100,7 +115,8 @@ class DatabaseManager:
             # 捕获并打印错误信息
             print(f"Error executing SQL file: {e}")
             print(e.stderr.decode('utf-8'))
-
+            
+            
 
 # 初始化单例
 DatabaseManager.init('localhost', 3308, 'root', '12345678', 'panda_code_database')
