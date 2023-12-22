@@ -6,6 +6,14 @@ pip install pipreqs
 pipreqs ./ --force
 '''
 
+# 格式化工具
+```
+
+pip install black
+black your_project_directory
+
+```
+
 
 '''
 	python -m pip install --upgrade pip

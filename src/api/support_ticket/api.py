@@ -3,9 +3,6 @@ This module provides the API endpoints for support tickets.
 """
 from datetime import datetime
 import json
-
-
-from models.ticket.type import Ticket
 from services.support_ticket import service
 
 from unittest.mock import Base
@@ -15,6 +12,9 @@ from pydantic import BaseModel
 
 from fastapi import APIRouter, Body, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
+
+from models.ticket.type import Ticket
+
 
 
 class TicketAPI(FastAPI):
