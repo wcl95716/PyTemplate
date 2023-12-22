@@ -9,16 +9,14 @@ start:
 
 
 install:
-	conda env list | grep ticketing-website || conda create --name ticketing-website python=3.9
 	python -m pip install --upgrade pip
 	pip install --ignore-installed -r requirements.txt
 
-checkout:
-	conda activate ticketing-website
-
-
 delete_env:
 	conda remove -n ticketing-website --all
+
+init_mysql:
+	scripts/setup-database.sh
 
 init_db:
 	python src/db/mysql/run.py
