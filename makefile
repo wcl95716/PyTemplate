@@ -21,7 +21,7 @@ delete_env:
 	conda remove -n ticketing-website --all
 
 init_db:
-	python src/init_db.py
+	python src/db/mysql/run.py
 
 push:
 	git add *
