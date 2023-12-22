@@ -1,5 +1,3 @@
-
-
 from models.chat_record.type import ChatRecord
 from utils.database import DatabaseManager
 
@@ -22,18 +20,27 @@ from models.ticket.type import Ticket
 #     INDEX idx_type (type)
 # ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+
 # 增加一条记录
-def insert_chat_record(chat_record:ChatRecord) -> bool:
+def insert_chat_record(chat_record: ChatRecord) -> bool:
     sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id, create_time) VALUES (%s, %s, %s, %s, %s, %s)"
-    args = (chat_record.type, chat_record.content, chat_record.title, chat_record.creator_id, chat_record.assigned_to_id, chat_record.create_time)
+    args = (
+        chat_record.type,
+        chat_record.content,
+        chat_record.title,
+        chat_record.creator_id,
+        chat_record.assigned_to_id,
+        chat_record.create_time,
+    )
     if DatabaseManager.execute(sql, args):
         return True
     return False
     pass
 
-def get_chat_records_by_creator_id(creator_id:str) -> list[ChatRecord]:
+
+def get_chat_records_by_creator_id(creator_id: str) -> list[ChatRecord]:
     sql = "SELECT * FROM chat_records WHERE creator_id=%s"
-    args = (creator_id)
+    args = creator_id
     result = DatabaseManager.query_to_dict(sql, args)
     # print("adsasdasd ",result)
     records = []
@@ -46,5 +53,3 @@ def get_chat_records_by_creator_id(creator_id:str) -> list[ChatRecord]:
         pass
     return records
     pass
-
-

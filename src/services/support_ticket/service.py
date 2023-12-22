@@ -2,49 +2,68 @@ from datetime import datetime
 from typing import Optional
 
 
-
 from models.ticket.type import Ticket
 
 
-
 from typing import Any, Dict, List, Optional, Union
+
 # from base_class.ticket.type import Ticket
 
 from utils.database import DatabaseManager
 
 
 def insert_ticket(
-                 status:int,
-                 priority:int,
-                 type:int,
-                 title:str ,
-                 content:str, 
-                 assigned_to_id:str,
-                 creator_id:str,
-                 create_time:datetime
+    status: int,
+    priority: int,
+    type: int,
+    title: str,
+    content: str,
+    assigned_to_id: str,
+    creator_id: str,
+    create_time: datetime,
 ) -> None:
     sql = "INSERT INTO ticket (status, priority, type, title, content, assigned_to_id, creator_id, create_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    args = (status, priority, type, title, content, assigned_to_id, creator_id, create_time)
+    args = (
+        status,
+        priority,
+        type,
+        title,
+        content,
+        assigned_to_id,
+        creator_id,
+        create_time,
+    )
     DatabaseManager.execute(sql, args)
-    
-    pass 
 
-def update_ticket(ticket:Ticket) -> bool:
+    pass
+
+
+def update_ticket(ticket: Ticket) -> bool:
     sql = "UPDATE ticket SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
-    args = (ticket.status, ticket.priority, ticket.type, ticket.title, ticket.content, ticket.assigned_to_id, ticket.creator_id, ticket.create_time, ticket.id)
+    args = (
+        ticket.status,
+        ticket.priority,
+        ticket.type,
+        ticket.title,
+        ticket.content,
+        ticket.assigned_to_id,
+        ticket.creator_id,
+        ticket.create_time,
+        ticket.id,
+    )
     if DatabaseManager.execute(sql, args):
         return True
     return False
 
 
-def delete_ticket(ticket_id:Optional[str])->bool:
+def delete_ticket(ticket_id: Optional[str]) -> bool:
     sql = "DELETE FROM ticket WHERE id=%s"
-    args = (ticket_id)
+    args = ticket_id
     if DatabaseManager.execute(sql, args):
         return True
     return False
 
-    
+
 # 根据条件获取tickets
 # 例如 search_criteria:str , status:int ,start_date:str  , end_date:str
 # 其中 search_criteria 为 title, content, assigned_to_id 的模糊搜索
@@ -54,7 +73,13 @@ def delete_ticket(ticket_id:Optional[str])->bool:
 # 返回类型为 list[Ticket]
 # 根据条件获取 tickets
 # 根据条件获取 tickets
-def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optional[str] = None, status_filter: Optional[str] = None, start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Ticket]:
+def get_tickets_by_filter(
+    input_id: Optional[str] = None,
+    search_criteria: Optional[str] = None,
+    status_filter: Optional[str] = None,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+) -> List[Ticket]:
     # 构建 SQL 查询
     sql = "SELECT * FROM ticket WHERE 1=1"
 
@@ -63,14 +88,14 @@ def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optio
     if status_filter is not None:
         sql += " AND status = %s"
         args.append(status_filter)
-    
+
     if input_id is not None:
         sql += " AND id = %s"
         args.append(input_id)
 
     if search_criteria:
         sql += " AND (title LIKE %s OR content LIKE %s OR assigned_to_id LIKE %s)"
-        args.extend(['%' + search_criteria + '%' for _ in range(3)])
+        args.extend(["%" + search_criteria + "%" for _ in range(3)])
 
     if start_date and end_date:
         sql += " AND create_time BETWEEN %s AND %s"
@@ -90,8 +115,8 @@ def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optio
         creator_id = row[7]
         create_time = row[8]
         update_time = row[9]
-        
-        print("this_id",this_id)
+
+        print("this_id", this_id)
         # 创建 Ticket 对象并添加到列表
         ticket = Ticket(
             id=this_id,
@@ -103,10 +128,8 @@ def get_tickets_by_filter(input_id: Optional[str] = None, search_criteria: Optio
             assigned_to_id=assigned_to_id,
             creator_id=creator_id,
             create_time=create_time,
-            update_time=update_time
+            update_time=update_time,
         )
         tickets.append(ticket)
 
     return tickets
-
-

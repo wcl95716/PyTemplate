@@ -11,7 +11,5 @@ import time
 from typing import Any, Optional
 
 
-class Ticket(Record,Status,Priority,BaseModel):
-
+class Ticket(Record, Status, Priority, BaseModel):
     pass
-

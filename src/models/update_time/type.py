@@ -5,5 +5,5 @@ from pydantic import BaseModel
 
 
 class UpdateTime(BaseModel):
-    create_time:datetime
-    update_time:Optional[datetime]
+    create_time: datetime
+    update_time: Optional[datetime]

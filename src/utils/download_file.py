@@ -13,7 +13,7 @@
 #         if response.status_code == 200:
 #             # 使用BytesIO对象包装字节数据
 #             content = BytesIO(response.content)
-            
+
 #             # 使用pandas库读取Excel文件内容
 #             df = pd.read_excel(content, engine='openpyxl')
 #             return df
@@ -23,9 +23,6 @@
 #     except Exception as e:
 #         print(f"An error occurred: {str(e)}")
 #         return None
-    
-
-
 
 
 # def download_file_to_folder(file_url, folder_path='./data/files') -> str:
@@ -39,7 +36,7 @@
 #         if response.status_code == 200:
 #             # 获取文件名
 #             original_file_name = os.path.basename(file_url)
-            
+
 #             # 生成唯一的文件名
 #             file_name = str(uuid.uuid4()) + '_' + original_file_name
 

@@ -1,5 +1,4 @@
-
-# id 类  
+# id 类
 # 属性为id
 # 确保继承属性的类有一个唯一id
 
@@ -24,10 +23,10 @@
 #         self.__avatar = avatar
 #         self.__password = password
 #         pass
-    
+
 #     def get_name(self) -> str:
 #         return self.__name
-#         pass  
+#         pass
 #     def get_phone(self) -> str:
 #         return self.__phone
 #         pass
@@ -47,8 +46,7 @@
 #     def from_dict(cls, user_dict: dict[str, str]) -> "User":
 #         return cls(**user_dict)
 
-#     pass 
-
+#     pass
 
 
 from pydantic import BaseModel
@@ -56,10 +54,10 @@ from pydantic import BaseModel
 from models.id.type import ID
 
 
-class User(ID,BaseModel):
-    name:str
-    phone:str
-    email:str
-    avatar:str
-    password:str
+class User(ID, BaseModel):
+    name: str
+    phone: str
+    email: str
+    avatar: str
+    password: str
     pass
