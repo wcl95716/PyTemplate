@@ -1,12 +1,4 @@
-import pymysql
 import os
-import subprocess
-
-from typing import Any
-
-from pymysql.connections import Connection
-
-
 from utils.database import DatabaseManager
 
 

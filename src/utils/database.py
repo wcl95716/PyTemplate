@@ -1,6 +1,5 @@
 import subprocess
 import pymysql
-from pymysql.connections import Connection
 from dbutils.pooled_db import PooledDB
 from typing import Optional, Any, ClassVar
 
