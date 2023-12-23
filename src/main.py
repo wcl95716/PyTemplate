@@ -1,4 +1,6 @@
 # 导入 FastAPI 实例
+import sys
+sys.path.append("./src")
 from api.fastapi import fast_api
 
 if __name__ == "__main__":
