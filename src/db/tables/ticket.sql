@@ -14,12 +14,14 @@ CREATE TABLE IF NOT EXISTS ticket (
     create_time DATETIME,
     update_time DATETIME,
     extended_field JSON,
-    key_id VARCHAR(100),
+    uu_id VARCHAR(100),
     INDEX idx_ticket_status (status),
     INDEX idx_ticket_priority (priority),
     INDEX idx_create_time (create_time),
     INDEX idx_ticket_assigned_to_id (assigned_to_id),
-    INDEX idx_ticket_creator_id (creator_id)
+    INDEX idx_ticket_creator_id (creator_id),
+    INDEX idx_ticket_type (type),
+    INDEX idx_ticket_uuid (uu_id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 

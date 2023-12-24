@@ -28,7 +28,8 @@ class TicketAPI(FastAPI):
 
     async def get_tickets(
         self,
-        id: str = Query(None, description="Ticket ID"),
+        id: int = Query(None, description="Ticket ID"),
+        uu_id: str = Query(None, description="Ticket UUID"),
         search_criteria: str = Query(None, description="Search criteria"),
         status_filter: str = Query(None, description="Status filter"),
         start_date: str = Query(None, description="Start date"),
@@ -37,7 +38,7 @@ class TicketAPI(FastAPI):
         """_summary_
 
         Args:\n
-            id (str, optional): _description_. Defaults to Query( None, description="Ticket ID").\n
+            id (int, optional): _description_. Defaults to Query( None, description="Ticket ID").\n
             search_criteria (str, optional): _description_. Defaults to Query( None , description="Search criteria").\n
             status_filter (str, optional): _description_. Defaults to Query(None, description="Status filter").\n
             start_date (str, optional): _description_. Defaults to Query(None, description="Start date").\n
@@ -48,7 +49,7 @@ class TicketAPI(FastAPI):
         """
         # 调用相应的方法获取数据
         tickets: List[Ticket] = service.get_tickets_by_filter(
-            id, search_criteria, status_filter, start_date, end_date
+            id, uu_id, search_criteria, status_filter, start_date, end_date
         )
         tickets_data: list[dict[str, Any]] = [ticket.model_dump() for ticket in tickets]
 

@@ -1,4 +1,5 @@
 
+from typing import Any
 import requests
 import datetime
 from enum import Enum
@@ -39,11 +40,11 @@ class ChatActionFunctionFactory:
     pass
 
     @staticmethod
-    def add_ticket_init_chat(ticket_record: dict = None , group_message:list[tuple] = None, sender_name:str = None) -> dict:
+    def add_ticket_init_chat(ticket_record: dict[str, Any], group_message: list[tuple[Any, ...]], sender_name: str) -> None:
         url = 'http://47.116.201.99:8001/test/add_chat_record'
         ticket_id = ticket_record["ticket_id"]
         
-            # 生成随机的消息ID、工单ID、发送者、消息内容和消息时间
+        # 生成随机的消息ID、工单ID、发送者、消息内容和消息时间
         message_id = ""
         sender = '系统消息'  
         content = "你好，有什么可以帮你的?可以在此留言"
@@ -58,12 +59,12 @@ class ChatActionFunctionFactory:
             "content": content,
             "message_time": message_time,
             "message_type": message_type,
-            "chat_profile":1001,
+            "chat_profile": 1001,
             "avatar_url": "http://47.116.201.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg",
         }
         response = requests.post(url, json=chatMessage)
         if group_message is None:
-            return 
+            return
         num_messages = len(group_message)
         # 设置要取的最后十条消息的数量
         num_to_keep = 5
@@ -86,7 +87,7 @@ class ChatActionFunctionFactory:
                     "content": content,
                     "message_time": message_time,
                     "message_type": message_type,
-                    "chat_profile":1000,
+                    "chat_profile": 1000,
                     "avatar_url": "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png"
                 }
                 response = requests.post(url, json=chatMessage)
@@ -98,41 +99,11 @@ class ChatActionFunctionFactory:
         
 
     @staticmethod
-    def get_work_order_link(ticket_id: str ,customer_id ) -> str:
+    def get_work_order_link(ticket_id: int, customer_id: str) -> str:
         original_string = customer_id
         encoded_string = quote(original_string, encoding='utf-8')
         return f"@{customer_id}" +'{ENTER}' + f"工单id: {ticket_id}  工单消息通知  {ChatActionFunctionFactory.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
     
-    @staticmethod
-    def work_order_create(group_id, message: tuple = None,group_messages:list[tuple] = None ) -> tuple[str]:
-        # 编写创建工单的操作逻辑
-        local_logger.logger.info("work_order_create begin ")
-        if message is None:
-            return None
-        # return f"@{message[0]} 工单已创建 https://www.baidu.com"
-        ticket_data = {
-            "title":group_id+ " " +  message[0] + " " + message[1],
-            "created_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "status": 0,
-            "priority": 0,
-            "creator": group_id +"/"+ message[0],
-            "assigned_to": "",
-            "ticket_type": "",
-            "closed_time": "",
-            "source": {
-                "group_id": group_id,
-                "customer_id": message[0],
-            }
-        }
-        
-        ticket_response = ChatActionFunctionFactory.add_ticket_to_website(ticket_data)
-        ChatActionFunctionFactory.add_ticket_init_chat(ticket_response,group_messages , message[0])
-        local_logger.logger.info("work_order_create ticket_response : %s", ticket_response)
-        if ticket_response is None:
-            return None
-        
-        ticket_id = ticket_response["ticket_id"]
-        return (group_id, ChatActionFunctionFactory.get_work_order_link(ticket_id , message[0]))
     
     # 工单更新逻辑
     @staticmethod

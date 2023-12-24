@@ -23,7 +23,7 @@ def insert_ticket(ticket: Ticket) -> None:
     # 构建参数元组
     args = tuple(attrs.values())
     DatabaseManager.execute(sql, args)
-
+    
     pass
 
 
@@ -63,7 +63,8 @@ def delete_ticket(ticket_id: Optional[str]) -> bool:
 # 根据条件获取 tickets
 # 根据条件获取 tickets
 def get_tickets_by_filter(
-    input_id: Optional[str] = None,
+    input_id: Optional[int] = None,
+    input_uuid:Optional[str] = None,
     search_criteria: Optional[str] = None,
     status_filter: Optional[str] = None,
     start_date: Optional[str] = None,
@@ -81,6 +82,10 @@ def get_tickets_by_filter(
     if input_id is not None:
         sql += " AND id = %s"
         args.append(input_id)
+        
+    if input_uuid is not None:
+        sql += " AND uuid = %s"
+        args.append(input_uuid)
 
     if search_criteria:
         sql += " AND (title LIKE %s OR content LIKE %s OR assigned_to_id LIKE %s)"
