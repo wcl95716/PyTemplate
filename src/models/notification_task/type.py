@@ -23,7 +23,7 @@ class NotificationEnum(Enum):
 class NotificationTask(Record, ID, Status, Priority, BaseModel):
     notification_type: NotificationEnum
     destination: Optional[dict[str, str] ]
-    company_id: Optional[CompanyEnum] = None
+    company_id: CompanyEnum
     # id: Optional[int]  # Updated type annotation
     class Config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值

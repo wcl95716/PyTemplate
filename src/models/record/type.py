@@ -1,3 +1,5 @@
+import sys
+sys.path.append("./src")
 from enum import Enum
 from pydantic import BaseModel
 from models.id.type import ID
@@ -15,10 +17,13 @@ class RecordEnum(Enum):
 
 
 class Record(ID, UpdateTime, BaseModel):
-    type: int
+    type: RecordEnum
     content: str
     title: str
     creator_id: str
     assigned_to_id: str
+    
+    class Config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值
 
     pass

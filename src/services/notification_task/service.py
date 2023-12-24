@@ -1,5 +1,7 @@
 # 导入 FastAPI 实例
 import json
+import sys
+sys.path.append("./src")
 
 from models.notification_task.type import NotificationTask
 from utils.database import DatabaseManager
