@@ -131,6 +131,7 @@ def create_table_image(
 
     # Save the figure as an image
     plt.savefig(full_path, dpi=dpi)
+    plt.close(fig=fig)
 
     # Return the full path of the file
     return os.path.abspath(full_path)

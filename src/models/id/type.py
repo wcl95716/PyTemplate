@@ -7,5 +7,5 @@ from pydantic import BaseModel
 
 
 class ID(BaseModel):
-    id: Optional[int]
+    id: Optional[int] = None
     pass
