@@ -1,0 +1,9 @@
+uiautomation
+schedule
+pandas
+pytest
+schedule
+poai
+pywinauto
+PySide6
+porobot
