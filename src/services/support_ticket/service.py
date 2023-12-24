@@ -11,28 +11,21 @@ from typing import Any, Dict, List, Optional, Union
 
 from utils.database import DatabaseManager
 
+table_name = "ticket"
 
-def insert_ticket(
-    status: int,
-    priority: int,
-    type: int,
-    title: str,
-    content: str,
-    assigned_to_id: str,
-    creator_id: str,
-    create_time: datetime,
-) -> None:
-    sql = "INSERT INTO ticket (status, priority, type, title, content, assigned_to_id, creator_id, create_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    args = (
-        status,
-        priority,
-        type,
-        title,
-        content,
-        assigned_to_id,
-        creator_id,
-        create_time,
-    )
+def insert_ticket(ticket: Ticket) -> None:
+    # 获取对象的所有属性及其值
+    attrs = vars(ticket)
+    
+    # 特别处理 'destination' 字段，将其转换为 JSON 字符串
+    # 构建列名和占位符
+    columns = ', '.join(attrs.keys())
+    placeholders = ', '.join(['%s'] * len(attrs))
+
+    # 构建SQL语句
+    sql = f"INSERT INTO {table_name}  ({columns}) VALUES ({placeholders})"
+    # 构建参数元组
+    args = tuple(attrs.values())
     DatabaseManager.execute(sql, args)
 
     pass

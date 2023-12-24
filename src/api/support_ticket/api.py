@@ -87,15 +87,6 @@ class TicketAPI(FastAPI):
     async def create_ticket(
         self, ticket: Ticket = Body(description="Ticket object")
     ) -> Response:
-        service.insert_ticket(
-            status=ticket.status,  # Add the missing "status" argument
-            priority=ticket.priority,
-            type=ticket.type,
-            title=ticket.title,
-            content=ticket.content,
-            assigned_to_id=ticket.assigned_to_id,
-            creator_id=ticket.creator_id,
-            create_time=ticket.create_time,
-        )
+        service.insert_ticket(ticket )
         return Response(status_code=201)
         pass
