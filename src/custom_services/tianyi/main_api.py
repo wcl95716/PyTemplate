@@ -1,9 +1,12 @@
 
 import datetime
 import sys
+sys.path.append("./src")
+
+from models.priority.type import PriorityEnum
 
 from models.company.type import CompanyEnum
-sys.path.append("./src")
+
 
 from typing import Any, Optional
 
@@ -29,8 +32,8 @@ def get_notification_task(car_group_name:str, wx_group_name:str ,car_status_cont
         destination={"group_name": wx_group_name},
         title=car_group_name,
         content=car_status_content,
-        priority=1,
-        status=1,
+        priority=PriorityEnum.NORMAL.value,
+        status=StatusEnum.NEW.value,
         type=RecordEnum.TEXT.value,
         creator_id="",
         assigned_to_id=wx_group_name,
@@ -130,6 +133,8 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
     return result_task
     pass 
 
+
+
 def run(vehicle_url: str, rule_url: str) -> None:
     vehicle_df = get_file_from_url(vehicle_url)
     rule_df = get_file_from_url(rule_url)
@@ -145,9 +150,6 @@ def run(vehicle_url: str, rule_url: str) -> None:
         print(task)
         insert_notification(task)
     pass
-
-
-
 
     
 
