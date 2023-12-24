@@ -1,13 +1,9 @@
 from datetime import datetime
 from typing import Optional
 
-
 from models.ticket.type import Ticket
-
-
 from typing import Any, Dict, List, Optional, Union
 
-# from base_class.ticket.type import Ticket
 
 from utils.database import DatabaseManager
 

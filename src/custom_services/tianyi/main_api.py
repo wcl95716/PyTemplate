@@ -3,7 +3,7 @@ import datetime
 import sys
 sys.path.append("./src")
 
-from models.status.type import StatusEnum
+
 
 from typing import Any, Optional
 
@@ -13,6 +13,7 @@ from services.notification_task.service import insert_notification
 import requests
 from models.notification_task.type import NotificationEnum, NotificationTask
 from models.record.type import RecordEnum
+from models.status.type import StatusEnum
 
 
 from utils import table_image
@@ -107,7 +108,6 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
         assigned_to_id=wx_group_name,
         create_time=datetime.datetime.now(),
         update_time=datetime.datetime.now(),
-        id=None
     ) 
     if len(car_status) > 0:
         result_task.append(car_status_task)
@@ -125,31 +125,29 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
         assigned_to_id=wx_group_name,
         create_time=datetime.datetime.now(),
         update_time=datetime.datetime.now(),
-        id=None
     )
     
     if len(camera_status) > 0:
         result_task.append(camera_status_task)
         
         
-    # file_path = table_image.create_table_image(group, title=str(car_group_name),file_name=car_group_name+".png")
-    # file_url = upload_file(file_path)
-    # # file_task
-    # file_task = NotificationTask(
-    #     notification_type=NotificationEnum.WECHAT.value,
-    #     destination={"group_name": wx_group_name},
-    #     title=car_group_name,
-    #     content=file_url,
-    #     priority=1,
-    #     status=1,
-    #     type=RecordEnum.IMAGE.value,
-    #     creator_id="",
-    #     assigned_to_id=wx_group_name,
-    #     create_time=datetime.datetime.now(),
-    #     update_time=datetime.datetime.now(),
-    #     id=None
-    # )
-    # result_task.append(file_task)
+    file_path = table_image.create_table_image(group, title=str(car_group_name),file_name=car_group_name+".png")
+    file_url = upload_file(file_path)
+    # file_task
+    file_task = NotificationTask(
+        notification_type=NotificationEnum.WECHAT.value,
+        destination={"group_name": wx_group_name},
+        title=car_group_name,
+        content=file_url,
+        priority=1,
+        status=1,
+        type=RecordEnum.IMAGE.value,
+        creator_id="",
+        assigned_to_id=wx_group_name,
+        create_time=datetime.datetime.now(),
+        update_time=datetime.datetime.now(),
+    )
+    result_task.append(file_task)
         
     return result_task
     pass 

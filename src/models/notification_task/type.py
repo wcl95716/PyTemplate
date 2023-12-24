@@ -4,6 +4,7 @@
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
+from models.company.type import CompanyEnum
 from models.id.type import ID
 from models.priority.type import Priority
 from models.record.type import Record
@@ -22,8 +23,8 @@ class NotificationEnum(Enum):
 class NotificationTask(Record, ID, Status, Priority, BaseModel):
     notification_type: NotificationEnum
     destination: Optional[dict[str, str] ]
+    company_id: Optional[CompanyEnum] = None
     # id: Optional[int]  # Updated type annotation
-    
     class Config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
     
