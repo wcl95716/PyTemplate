@@ -12,4 +12,7 @@ class PriorityEnum(Enum):
 
 
 class Priority(BaseModel):
-    priority: int
+    priority: PriorityEnum
+
+    class Config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值

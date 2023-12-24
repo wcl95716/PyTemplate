@@ -1,4 +1,8 @@
-from models.chat_record.type import ChatRecord
+# 导入 FastAPI 实例
+import json
+import sys
+sys.path.append("./src")
+
 from models.notification_task.type import NotificationTask
 from utils.database import DatabaseManager
 
@@ -8,6 +12,10 @@ table_name = "notification_task"
 def insert_notification(task: NotificationTask) -> bool:
     # 获取对象的所有属性及其值
     attrs = vars(task)
+    
+    # 特别处理 'destination' 字段，将其转换为 JSON 字符串
+    if isinstance(attrs.get('destination'), dict):
+        attrs['destination'] = json.dumps(attrs['destination'])
 
     # 构建列名和占位符
     columns = ', '.join(attrs.keys())

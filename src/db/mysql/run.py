@@ -1,4 +1,8 @@
 import os
+# 导入 FastAPI 实例
+import sys
+sys.path.append("./src")
+
 from utils.database import DatabaseManager
 
 

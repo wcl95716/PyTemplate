@@ -20,4 +20,5 @@ class Record(ID, UpdateTime, BaseModel):
     title: str
     creator_id: str
     assigned_to_id: str
+
     pass

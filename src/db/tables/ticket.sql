@@ -1,5 +1,5 @@
 -- 删除表（如果它已经存在）
-DROP TABLE IF EXISTS chat_records;
+DROP TABLE IF EXISTS ticket;
 
 -- 创建表格
 CREATE TABLE IF NOT EXISTS ticket (

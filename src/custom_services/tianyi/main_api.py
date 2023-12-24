@@ -1,8 +1,14 @@
 
 import datetime
 import sys
-from typing import Any, Optional
 sys.path.append("./src")
+
+from models.status.type import StatusEnum
+
+from typing import Any, Optional
+
+from services.notification_task.service import insert_notification
+
 
 import requests
 from models.notification_task.type import NotificationEnum, NotificationTask
@@ -78,26 +84,6 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
     
     result_task:list[NotificationTask] = []
     wx_group_name:str = str(rule_line["微信服务群名称"])
-    file_path = table_image.create_table_image(group, title=str(car_group_name),file_name=car_group_name+".png")
-    file_url = upload_file(file_path)
-    
-    # file_task
-    file_task = NotificationTask(
-        notification_type=NotificationEnum.WECHAT.value,
-        destination={"group_name": wx_group_name},
-        title=car_group_name,
-        content=file_url,
-        priority=1,
-        status=1,
-        type=RecordEnum.IMAGE.value,
-        creator_id="",
-        assigned_to_id=wx_group_name,
-        create_time=datetime.datetime.now(),
-        update_time=datetime.datetime.now(),
-        id=None
-    )
-    
-    result_task.append(file_task)
     
     car_status = []
     camera_status = []
@@ -110,7 +96,7 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
             
     car_status_content = "车辆组织: " + car_group_name + '{ctrl}{ENTER}'  + "车牌号码: " + ",".join(car_status)+'{ctrl}{ENTER}' + rule_line["车辆状态（离线/定位）"]
     car_status_task = NotificationTask(
-        notification_type=NotificationEnum.WECHAT.value,
+        notification_type=NotificationEnum.WECHAT,
         destination={"group_name": wx_group_name},
         title=car_group_name,
         content=car_status_content,
@@ -128,12 +114,12 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
     
     camera_status_content = "车辆组织: " + car_group_name + '{ctrl}{ENTER}'  + "车牌号码: " + ",".join(camera_status)+ '{ctrl}{ENTER}' + rule_line["摄像头状态"]
     camera_status_task = NotificationTask(
-        notification_type=NotificationEnum.WECHAT.value,
+        notification_type=NotificationEnum.WECHAT,
         destination={"group_name": wx_group_name},
         title=car_group_name,
         content=camera_status_content,
         priority=1,
-        status=1,
+        status=StatusEnum.NEW.value,
         type=RecordEnum.TEXT.value,
         creator_id="",
         assigned_to_id=wx_group_name,
@@ -144,6 +130,26 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
     
     if len(camera_status) > 0:
         result_task.append(camera_status_task)
+        
+        
+    # file_path = table_image.create_table_image(group, title=str(car_group_name),file_name=car_group_name+".png")
+    # file_url = upload_file(file_path)
+    # # file_task
+    # file_task = NotificationTask(
+    #     notification_type=NotificationEnum.WECHAT.value,
+    #     destination={"group_name": wx_group_name},
+    #     title=car_group_name,
+    #     content=file_url,
+    #     priority=1,
+    #     status=1,
+    #     type=RecordEnum.IMAGE.value,
+    #     creator_id="",
+    #     assigned_to_id=wx_group_name,
+    #     create_time=datetime.datetime.now(),
+    #     update_time=datetime.datetime.now(),
+    #     id=None
+    # )
+    # result_task.append(file_task)
         
     return result_task
     pass 
@@ -160,9 +166,8 @@ def run(vehicle_url: str, rule_url: str) -> None:
         tasks.extend(get_group_task(str(car_group_name), rule_df, group) )
         
     for task in tasks:
-        
         print(task)
-    
+        insert_notification(task)
     pass
 
 
