@@ -22,7 +22,7 @@ black your_project_directory
 
 
 ```
-curl -X POST -F "file=@/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/16211702261434_.pic.jpg" http://47.116.201.99:8001/test/upload_file
+curl -X POST -F "file=@/Users/panda/Desktop/github/PyTemplate/data/c4cca99f1c2743bcb016ea80e3f61e87_12.66.xlsx" http://47.116.201.99:8001/test/upload_file
 ```
 
 
