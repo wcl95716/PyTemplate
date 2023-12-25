@@ -1,13 +1,17 @@
+import sys
+sys.path.append("./src")
+from services.support_ticket.service import get_ticket_by_webapi, insert_ticket_to_webapi
+
 
 import json
 from typing import Any, Optional
-import requests
-import datetime
 from enum import Enum
+from models.record.type import RecordEnum
 from models.ticket.type import Ticket
-
+import requests
 from utils import local_logger
 from urllib.parse import quote
+from datetime import datetime
 
 class ChatActionsEnum(Enum):
     WORK_ORDER_CREATE = r""
@@ -21,46 +25,19 @@ class UtilsHelper:
     
     page_url = "http://47.116.201.99:4000/user_chat_page"
     ticket_url = "http://47.116.201.99:4000/test/"
-    
+    # web_api = "http://47.103.45.149:25432/ticket"
+    web_api = "http://127.0.0.1:25432/ticket"
     @staticmethod
-    def get_tickets_by_filter(input_uuid:str) -> Optional[Ticket]:
+    def get_tickets_by_filter(input_uuid:Optional[str]) -> Optional[Ticket]:
+        ticket = get_ticket_by_webapi(UtilsHelper.web_api, input_uuid)
         
-        url = 'http://47.103.45.149:25432/ticket'
-        params = {
-            'uu_id': input_uuid
-        }
-        headers = {
-            'accept': 'application/json'
-        }
-
-        response = requests.get(url, params=params, headers=headers)
-
-        print("response.json() ",response.json())  # 打印响应的正文内容
-        data = json.loads(response.json())
-        
-        ticket = Ticket(**data)
-        
-        print("ticket class",ticket)
         return ticket
         pass
         
     @staticmethod
-    def add_ticket_to_website(ticket_record: Ticket) -> None:
-        url = 'http://47.103.45.149:25432/ticket'
-        response = requests.post(url, json=ticket_record.model_dump_json())
-        # 检查响应状态码
-        if response.status_code == 200:
-            # 如果响应状态码为200，表示成功添加工单
-            ticket_info = response.json()
-            # print("Success:", ticket_info)
-            
-            local_logger.logger.info("add_ticket_to_website ticket_info : %s", ticket_info)
-            return None
-        else:
-            # 如果响应状态码不是200，表示添加工单时出现错误
-            error_info = response.json()
-            local_logger.logger.info ("Error:", error_info)
-            return None
+    def add_ticket_to_website(ticket_record: Ticket) -> bool:
+        url = UtilsHelper.web_api # 应考虑从配置文件中读取
+        return insert_ticket_to_webapi(url, ticket_record)
     
     @staticmethod
     def add_ticket_init_chat(ticket_record: Ticket, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
@@ -72,7 +49,7 @@ class UtilsHelper:
         sender = '系统消息'  
         content = "你好，有什么可以帮你的?可以在此留言"
 
-        message_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        message_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         message_type = 0
 
         chatMessage = {
@@ -101,7 +78,7 @@ class UtilsHelper:
                     continue  
                     
                 content = message[1]
-                message_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 message_type = 0
                 chatMessage = {
                     "message_id": message_id,
@@ -119,13 +96,33 @@ class UtilsHelper:
             local_logger.logger.info("add_ticket_init_chat error : %s", str(e))
             pass
             
-        
-
+    
     @staticmethod
-    def get_work_order_link(ticket_id: int, customer_id: str) -> str:
+    def get_work_order_link(ticket_id: Optional[int], customer_id: str) -> Optional[str]:
+        if ticket_id is None:
+            return None
         original_string = customer_id
         encoded_string = quote(original_string, encoding='utf-8')
         return f"@{customer_id}" +'{ENTER}' + f"工单id: {ticket_id}  工单消息通知  {UtilsHelper.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
     
     
 
+# 测试 add_ticket_to_website
+def test() ->None:
+    ticket:Ticket = Ticket(
+        type= RecordEnum.TEXT,
+        content="",
+        title= "123123123",
+        creator_id = "adsasdasdasd",
+        assigned_to_id=""
+    )
+    # print("ticket ",ticket.dict())
+    # UtilsHelper.add_ticket_to_website(ticket)
+    # asd =  UtilsHelper.get_tickets_by_filter(input_uuid="5f135dca-4361-46eb-858c-8ab4971b3847")
+    # print("asd ",asd)
+    pass
+
+
+if __name__ == '__main__':
+    test()
+    pass

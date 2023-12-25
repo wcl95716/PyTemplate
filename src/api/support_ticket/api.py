@@ -52,7 +52,6 @@ class TicketAPI(FastAPI):
             id, uu_id, search_criteria, status_filter, start_date, end_date
         )
         tickets_data: list[dict[str, Any]] = [ticket.model_dump() for ticket in tickets]
-
         def serialize_datetime(obj: datetime) -> str:
             if isinstance(obj, datetime):
                 return obj.strftime("%Y-%m-%d %H:%M:%S")
@@ -88,6 +87,7 @@ class TicketAPI(FastAPI):
     async def create_ticket(
         self, ticket: Ticket = Body(description="Ticket object")
     ) -> Response:
+        print("ticket ", ticket)
         service.insert_ticket(ticket )
         return Response(status_code=201)
         pass

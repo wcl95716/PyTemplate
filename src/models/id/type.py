@@ -9,12 +9,12 @@ from pydantic import BaseModel
 
 class ID(BaseModel):
     id: Optional[int] = None
-    uu_id: str
+    uu_id: Optional[str] = None
     
     def __init__(self, **data: Any):
         # Set uu_id from data if present, otherwise generate a new UUID
         if data.get('uu_id') is None:
-            print("uu_id is None ",data)
+            # print("uu_id is None ",data)
             data['uu_id'] = str(uuid.uuid4())
         super().__init__(**data)
     pass
