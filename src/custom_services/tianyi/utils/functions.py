@@ -19,10 +19,6 @@ def work_order_create(group_id:str, message: Optional[tuple[str,str,str]],group_
         return None
 
     ticket:Ticket = Ticket(
-        priority= PriorityEnum.NORMAL,
-        status= StatusEnum.NEW,
-        create_time= datetime.now(),
-        update_time= datetime.now(),
         type= RecordEnum.TEXT,
         content="",
         title= group_id+ " " +  message[0],
