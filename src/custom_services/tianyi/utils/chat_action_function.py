@@ -1,6 +1,6 @@
 
 import json
-from typing import Any
+from typing import Any, Optional
 import requests
 import datetime
 from enum import Enum
@@ -23,7 +23,7 @@ class UtilsHelper:
     ticket_url = "http://47.116.201.99:4000/test/"
     
     @staticmethod
-    def get_tickets_by_filter(input_uuid:str) -> Ticket:
+    def get_tickets_by_filter(input_uuid:str) -> Optional[Ticket]:
         
         url = 'http://47.103.45.149:25432/ticket'
         params = {

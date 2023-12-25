@@ -27,10 +27,10 @@ def work_order_create(group_id:str, message: Optional[tuple[str,str,str]],group_
     )
     
     UtilsHelper.add_ticket_to_website(ticket)
-    result_ticket = get_tickets_by_filter(input_uuid= ticket.uu_id)
-    if len(result_ticket) == 0:
+    result_ticket = UtilsHelper.get_tickets_by_filter(input_uuid= ticket.uu_id)
+    if result_ticket is None:
         return None
-    ticket_response = result_ticket[0]
+    ticket_response = result_ticket
     ticket_id = ticket_response.id
     UtilsHelper.add_ticket_init_chat(ticket_response, group_messages , message[0])
     if ticket_id is not None:

@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 class ID(BaseModel):
     id: Optional[int] = None
-    uu_id: Optional[str] = None
+    uu_id: str
     
     def __init__(self, **data: Any):
         # Set uu_id from data if present, otherwise generate a new UUID
