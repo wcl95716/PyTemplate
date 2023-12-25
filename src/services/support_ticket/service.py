@@ -97,33 +97,9 @@ def get_tickets_by_filter(
 
     # 执行查询
     tickets = []
-    result = DatabaseManager.query(sql, args)
+    result = DatabaseManager.query_to_dict(sql, args)
     for row in result:
-        this_id = row[0]
-        status = row[1]
-        priority = row[2]
-        type = row[3]
-        title = row[4]
-        content = row[5]
-        assigned_to_id = row[6]
-        creator_id = row[7]
-        create_time = row[8]
-        update_time = row[9]
-
-        print("this_id", this_id)
-        # 创建 Ticket 对象并添加到列表
-        ticket = Ticket(
-            id=this_id,
-            status=status,
-            priority=priority,
-            type=type,
-            title=title,
-            content=content,
-            assigned_to_id=assigned_to_id,
-            creator_id=creator_id,
-            create_time=create_time,
-            update_time=update_time,
-        )
+        ticket = Ticket(**row)
         tickets.append(ticket)
 
     return tickets

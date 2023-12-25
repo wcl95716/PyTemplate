@@ -13,6 +13,8 @@ class ID(BaseModel):
     
     def __init__(self, **data: Any):
         # Set uu_id from data if present, otherwise generate a new UUID
-        data['uu_id'] = str(uuid.uuid4())
+        if data.get('uu_id') is None:
+            print("uu_id is None ",data)
+            data['uu_id'] = str(uuid.uuid4())
         super().__init__(**data)
     pass
