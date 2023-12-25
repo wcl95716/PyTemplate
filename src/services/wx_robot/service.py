@@ -32,10 +32,10 @@ def get_chat_group_list () -> list[str]:
 # type: ignore 
 def send_message(who:str, message: str) -> None:
     # 获取会话列表
-    wx.GetSessionList()
-    wx.ChatWith(who , RollTimes = 1)  # 打开`who`聊天窗口
+    wx.GetSessionList() # type: ignore 
+    wx.ChatWith(who , RollTimes = 1) # type: ignore  # 打开`who`聊天窗口
     # for i in range(10):
-    wx.SendMsg(message, who)  # 向`who`发送消息：你好~
+    wx.SendMsg(message, who) # type: ignore   # 向`who`发送消息：你好~
     pass 
 
 
@@ -55,8 +55,9 @@ def send_file_from_url(who:str , file_url:str) -> None:
 
 
 def get_chat_messages(who:str) -> List[Tuple[str, str, str]]:
-    messages: List[Tuple[str, str, str]] =  wx.ChatWith(who, RollTimes=1)  # type: ignore # 打开`who`聊天窗口
-    return  wx.GetAllMessage # 获取所有消息
+    wx.ChatWith(who, RollTimes=1)  # type: ignore # 打开`who`聊天窗口
+    messages: List[Tuple[str, str, str]] =   wx.GetAllMessage() # type: ignore  # 获取所有消息
+    return messages # 获取所有消息
     pass 
 
 
@@ -86,14 +87,10 @@ def chat_by_keywords(who:str, keywords:dict[str, Any]) -> None:
         # 优化这个代码
         for key in keywords:
             if key in receive_msg:
-                print("key: ",key)
-                # str, Optional[tuple[str,str,str]],list[tuple[str,str,str]]
-                print("keywords[key] ",keywords[key])
                 tem = keywords[key](who, wx.GetAllMessage[-1],wx.GetAllMessage)
                 print("tem",tem)
                 if tem is not None:
-                    PyOfficeRobot.chat.send_message(who=who, message=tem[1])
-                exit(1)
+                    PyOfficeRobot.chat.send_message(who=who, message=tem[2])
                 break
 
     except:
