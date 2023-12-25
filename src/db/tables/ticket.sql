@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS ticket (
     create_time DATETIME,
     update_time DATETIME,
     extended_field JSON,
-    uu_id VARCHAR(100),
+    uu_id CHAR(36) ,
     INDEX idx_ticket_status (status),
     INDEX idx_ticket_priority (priority),
     INDEX idx_create_time (create_time),
@@ -23,6 +23,17 @@ CREATE TABLE IF NOT EXISTS ticket (
     INDEX idx_ticket_type (type),
     INDEX idx_ticket_uuid (uu_id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+DELIMITER //
+CREATE TRIGGER before_ticket_insert
+BEFORE INSERT ON ticket
+FOR EACH ROW
+BEGIN
+   IF NEW.uu_id IS NULL OR NEW.uu_id = '' THEN
+       SET NEW.uu_id = UUID();
+   END IF;
+END; //
+DELIMITER ;
 
 
 -- 插入数据
