@@ -50,6 +50,7 @@ def groups_check() -> None:
     robot_keywords_config = {
         f"@{robot_name}": work_order_create,
     }
+    group_list = []
     group_list = get_group_list_from_excel()
     group_list.append("测试3群")
     
@@ -58,4 +59,9 @@ def groups_check() -> None:
         time.sleep(1)
     
     
+    pass
+
+
+if __name__ == "__main__":
+    groups_check()
     pass
