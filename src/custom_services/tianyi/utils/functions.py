@@ -10,7 +10,6 @@ from models.record.type import RecordEnum
 from models.status.type import StatusEnum
 
 from models.ticket.type import Ticket
-from services.support_ticket.service import get_tickets_by_filter, insert_ticket
 
 
 

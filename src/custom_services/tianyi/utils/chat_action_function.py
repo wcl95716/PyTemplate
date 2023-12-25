@@ -1,4 +1,5 @@
 
+import json
 from typing import Any
 import requests
 import datetime
@@ -21,6 +22,25 @@ class UtilsHelper:
     page_url = "http://47.116.201.99:4000/user_chat_page"
     ticket_url = "http://47.116.201.99:4000/test/"
     
+    @staticmethod
+    def get_tickets_by_filter(input_uuid:str) -> Ticket:
+        
+        url = 'http://47.103.45.149:25432/ticket'
+        params = {
+            'id': '1'
+        }
+        headers = {
+            'accept': 'application/json'
+        }
+
+        response = requests.get(url, params=params, headers=headers)
+
+        print(response.json())  # 打印响应的正文内容
+        data = json.loads(response.json())
+        ticket = Ticket(**data)
+        return ticket
+        pass
+        
     @staticmethod
     def add_ticket_to_website(ticket_record: Ticket) -> None:
         url = 'http://47.103.45.149:25432/ticket'
