@@ -26,6 +26,7 @@ import pandas as pd
 from utils.download_file import download_excel_and_read
 
 
+# 生成任务
 def get_notification_task(car_group_name:str, wx_group_name:str ,car_status_content:str  ) -> NotificationTask:
     car_status_task = NotificationTask(
         notification_type=NotificationEnum.WECHAT,
@@ -44,6 +45,7 @@ def get_notification_task(car_group_name:str, wx_group_name:str ,car_status_cont
     return car_status_task
     pass 
 
+# 从url中获取文件
 def get_file_from_url(excel_url:str) -> pd.DataFrame:
     # 读取Excel文件
     df:pd.DataFrame = download_excel_and_read(excel_url)
@@ -54,6 +56,7 @@ def get_file_from_url(excel_url:str) -> pd.DataFrame:
     return df
 
 
+# 从规则表中获取车辆组织对应的行
 def get_wxgroup_name(group_name:str, rule_df: pd.DataFrame ) ->  Optional[pd.Series] : # type: ignore 
     # 获取符合条件的DataFrame
     matching_rows = rule_df[rule_df['车辆组织'] == group_name]
@@ -68,6 +71,7 @@ def get_wxgroup_name(group_name:str, rule_df: pd.DataFrame ) ->  Optional[pd.Ser
     return None
     pass 
 
+# 上传文件
 def upload_file(file_path:str) -> Optional[str]:
     url = 'http://47.116.201.99:8001/test/upload_file'
     files = {'file': open(file_path, 'rb')}
@@ -91,7 +95,7 @@ def upload_file(file_path:str) -> Optional[str]:
         return None
     
 
-
+# 生成车辆组织的任务
 def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFrame ) -> list[NotificationTask]:
     
     rule_line = get_wxgroup_name(str(car_group_name),rule_df)
@@ -134,8 +138,8 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
     pass 
 
 
-
-def run(vehicle_url: str, rule_url: str) -> None:
+# 生成任务
+def task_creat(vehicle_url: str, rule_url: str) -> None:
     vehicle_df = get_file_from_url(vehicle_url)
     rule_df = get_file_from_url(rule_url)
     
@@ -157,5 +161,5 @@ if __name__=='__main__':
     vehicle_url= "http://47.116.201.99:8001/test/uploads/d1ce1148370e4ab28c8dc14594d935a1_c4cca99f1c2743bcb016ea80e3f61e87_12.66.xlsx"
     excel_file_path= "http://47.116.201.99:8001/test/uploads/80fcd33050464a439d65e71bdaa54a64_-12-11.xlsx"
     # get_vehicles_from_url(vehicle_url)
-    run(vehicle_url,excel_file_path)
+    task_creat(vehicle_url,excel_file_path)
     pass
