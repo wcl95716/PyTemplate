@@ -27,7 +27,7 @@ class UtilsHelper:
         
         url = 'http://47.103.45.149:25432/ticket'
         params = {
-            'id': '1'
+            'uu_id': input_uuid
         }
         headers = {
             'accept': 'application/json'
