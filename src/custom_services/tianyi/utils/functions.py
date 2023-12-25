@@ -40,4 +40,3 @@ def work_order_create(group_id:str, message: Optional[tuple[str,str,str]],group_
         return None
     
     
-    

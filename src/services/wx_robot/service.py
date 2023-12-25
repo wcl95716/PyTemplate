@@ -16,7 +16,7 @@ from external.PyOfficeRobot import PyOfficeRobot
 wx: WeChat = WeChat() # type: ignore 
 
 
-def get_group_list () -> list[str]:
+def get_chat_group_list () -> list[str]:
     RollTimes = 1
     def roll_to(RollTimes:int = 0 ) -> int:
         for i in range(RollTimes):
@@ -72,14 +72,14 @@ def get_robot_name() -> str:
     return robot_name
     pass
 
-def chat_by_keywords(who:str , keywords:dict[str,Callable[[Tuple[str, str, str]], str]]) -> None:
+def chat_by_keywords(who:str, keywords:dict[str,Callable[[Tuple[str, str, str]], str]]) -> None:
     wx.GetSessionList() # type: ignore  # 获取会话列表
     wx.ChatWith(who) # type: ignore  # 打开`who`聊天窗口 
     try:
         friend_name, receive_msg = wx.GetAllMessage[-1][0], wx.GetAllMessage[-1][1]  # 获取朋友的名字、发送的信息
         # 优化这个代码
         for key in keywords:
-            if key in receive_msg:
+            if key in receive_msg :
                 send_message(who=who, message=keywords[key](receive_msg))
                 break
 
