@@ -32,14 +32,14 @@ def get_notification_task(car_group_name:str, wx_group_name:str ,car_status_cont
         destination={"group_name": wx_group_name},
         title=car_group_name,
         content=car_status_content,
-        priority=PriorityEnum.NORMAL.value,
-        status=StatusEnum.NEW.value,
-        type=RecordEnum.TEXT.value,
+        priority=PriorityEnum.NORMAL,
+        status=StatusEnum.NEW,
+        type=RecordEnum.TEXT,
         creator_id="",
         assigned_to_id=wx_group_name,
         create_time=datetime.datetime.now(),
         update_time=datetime.datetime.now(),
-        company_id = CompanyEnum.TIAN_YI.value,
+        company_id = CompanyEnum.TIAN_YI,
     ) 
     return car_status_task
     pass 
