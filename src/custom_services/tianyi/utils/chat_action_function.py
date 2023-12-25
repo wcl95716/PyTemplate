@@ -35,16 +35,19 @@ class UtilsHelper:
 
         response = requests.get(url, params=params, headers=headers)
 
-        print(response.json())  # 打印响应的正文内容
+        print("response.json() ",response.json())  # 打印响应的正文内容
         data = json.loads(response.json())
+        
         ticket = Ticket(**data)
+        
+        print("ticket class",ticket)
         return ticket
         pass
         
     @staticmethod
     def add_ticket_to_website(ticket_record: Ticket) -> None:
         url = 'http://47.103.45.149:25432/ticket'
-        response = requests.post(url, json=ticket_record)
+        response = requests.post(url, json=ticket_record.model_dump_json())
         # 检查响应状态码
         if response.status_code == 200:
             # 如果响应状态码为200，表示成功添加工单

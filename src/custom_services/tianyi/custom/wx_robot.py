@@ -37,6 +37,7 @@ def process_one_group_tasks(process_group:str,group_list:list[str],robot_keyword
         if process_group.startswith(group) == False:
             continue
         chat_by_keywords(who=group, keywords=robot_keywords_config)
+        break
         pass
     pass
 
@@ -50,10 +51,10 @@ def groups_check() -> None:
     robot_name = get_robot_name()
 
     robot_keywords_config = {
-        f"@{robot_name}": work_order_create,
+        f"{robot_name}": work_order_create,
     }
     group_list = []
-    group_list = get_group_list_from_excel()
+    # group_list = get_group_list_from_excel()
     group_list.append("测试3群")
     
     while True:

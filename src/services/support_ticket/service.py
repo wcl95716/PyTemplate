@@ -84,7 +84,7 @@ def get_tickets_by_filter(
         args.append(input_id)
         
     if input_uuid is not None:
-        sql += " AND uuid = %s"
+        sql += " AND uu_id = %s"
         args.append(input_uuid)
 
     if search_criteria:

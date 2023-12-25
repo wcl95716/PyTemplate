@@ -1,13 +1,14 @@
 import datetime
 import os
 import schedule
-from external.PyOfficeRobot.PR.Dumogu.WeChatType import WeChat
+from external.PyOfficeRobot import PyOfficeRobot
+from external.PyOfficeRobot.PyOfficeRobot.core.WeChatType import WeChat
 
 
 from utils import local_logger
 from utils.download_file import download_file_to_folder
-from typing import Callable, List, Tuple
-from external.PyOfficeRobot.PR.Dumogu.WeChatType import WeChat
+from typing import Any, Callable, List, Tuple
+
 
 
 
@@ -30,10 +31,11 @@ def get_chat_group_list () -> list[str]:
 
 # type: ignore 
 def send_message(who:str, message: str) -> None:
-    wx.GetSessionList()    # type: ignore
-    wx.ChatWith(who,RollTimes=1)  # type: ignore # 打开`who`聊天窗口
+    # 获取会话列表
+    wx.GetSessionList()
+    wx.ChatWith(who , RollTimes = 1)  # 打开`who`聊天窗口
     # for i in range(10):
-    wx.SendMsg(message, who)  # type: ignore # 向`who`发送消息：你好~
+    wx.SendMsg(message, who)  # 向`who`发送消息：你好~
     pass 
 
 
@@ -54,16 +56,20 @@ def send_file_from_url(who:str , file_url:str) -> None:
 
 def get_chat_messages(who:str) -> List[Tuple[str, str, str]]:
     messages: List[Tuple[str, str, str]] =  wx.ChatWith(who, RollTimes=1)  # type: ignore # 打开`who`聊天窗口
-    return messages # 获取所有消息
+    return  wx.GetAllMessage # 获取所有消息
     pass 
 
 
 def get_robot_name() -> str:
     print("update_robot_name")
     send_name = "文件传输助手"
+    
     send_message(who = send_name,  message="测试")
+    # PyOfficeRobot.chat.send_message(who=send_name, message="测试")
     
     chat_message  = get_chat_messages(who=send_name)
+    print("chat_message "  ,chat_message)
+    
     last_message =  chat_message[-1]
     print(f"last_message={last_message}")
     robot_name: str = last_message[0]
@@ -71,15 +77,23 @@ def get_robot_name() -> str:
     return robot_name
     pass
 
-def chat_by_keywords(who:str, keywords:dict[str,Callable[[Tuple[str, str, str]], str]]) -> None:
+def chat_by_keywords(who:str, keywords:dict[str, Any]) -> None:
     wx.GetSessionList() # type: ignore  # 获取会话列表
     wx.ChatWith(who) # type: ignore  # 打开`who`聊天窗口 
     try:
         friend_name, receive_msg = wx.GetAllMessage[-1][0], wx.GetAllMessage[-1][1]  # 获取朋友的名字、发送的信息
+        print("receive_msg ",receive_msg)
         # 优化这个代码
         for key in keywords:
-            if key in receive_msg :
-                send_message(who=who, message=keywords[key](receive_msg))
+            if key in receive_msg:
+                print("key: ",key)
+                # str, Optional[tuple[str,str,str]],list[tuple[str,str,str]]
+                print("keywords[key] ",keywords[key])
+                tem = keywords[key](who, wx.GetAllMessage[-1],wx.GetAllMessage)
+                print("tem",tem)
+                if tem is not None:
+                    PyOfficeRobot.chat.send_message(who=who, message=tem[1])
+                exit(1)
                 break
 
     except:
