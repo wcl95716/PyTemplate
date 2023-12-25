@@ -25,8 +25,8 @@ class UtilsHelper:
     
     page_url = "http://47.116.201.99:4000/user_chat_page"
     ticket_url = "http://47.116.201.99:4000/test/"
-    # web_api = "http://47.103.45.149:25432/ticket"
-    web_api = "http://127.0.0.1:25432/ticket"
+    web_api = "http://47.103.45.149:25432/ticket"
+    # web_api = "http://127.0.0.1:25432/ticket"
     @staticmethod
     def get_tickets_by_filter(input_uuid:Optional[str]) -> Optional[Ticket]:
         ticket = get_ticket_by_webapi(UtilsHelper.web_api, input_uuid)
