@@ -75,13 +75,13 @@ class TicketAPI(FastAPI):
 
         for id in id_list:
             service.delete_ticket(id)
-        return Response(status_code=204)
+        return Response(status_code=200)
 
     async def update_tickets(
         self, ticket: Ticket = Body(description="Ticket object")
     ) -> Response:
         service.update_ticket(Ticket(**ticket.dict()))
-        return Response(status_code=204)
+        return Response(status_code=200)
 
     # 创建工单
     async def create_ticket(
@@ -89,5 +89,5 @@ class TicketAPI(FastAPI):
     ) -> Response:
         print("ticket ", ticket)
         service.insert_ticket(ticket )
-        return Response(status_code=201)
+        return Response(status_code=200)
         pass
