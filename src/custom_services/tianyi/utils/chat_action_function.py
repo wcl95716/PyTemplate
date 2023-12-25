@@ -20,10 +20,29 @@ class UtilsHelper:
     
     page_url = "http://47.116.201.99:4000/user_chat_page"
     ticket_url = "http://47.116.201.99:4000/test/"
+    
+    @staticmethod
+    def add_ticket_to_website(ticket_record: Ticket) -> None:
+        url = 'http://47.103.45.149:25432/ticket'
+        response = requests.post(url, json=ticket_record)
+        # 检查响应状态码
+        if response.status_code == 200:
+            # 如果响应状态码为200，表示成功添加工单
+            ticket_info = response.json()
+            # print("Success:", ticket_info)
+            
+            local_logger.logger.info("add_ticket_to_website ticket_info : %s", ticket_info)
+            return None
+        else:
+            # 如果响应状态码不是200，表示添加工单时出现错误
+            error_info = response.json()
+            local_logger.logger.info ("Error:", error_info)
+            return None
+    
     @staticmethod
     def add_ticket_init_chat(ticket_record: Ticket, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
         url = f'{UtilsHelper.ticket_url}add_chat_record'
-        ticket_id = Ticket.id
+        ticket_id = ticket_record.id
         
         # 生成随机的消息ID、工单ID、发送者、消息内容和消息时间
         message_id = ""

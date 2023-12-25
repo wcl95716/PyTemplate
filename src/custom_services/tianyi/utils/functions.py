@@ -27,7 +27,7 @@ def work_order_create(group_id:str, message: Optional[tuple[str,str,str]],group_
         assigned_to_id=""
     )
     
-    insert_ticket(ticket)
+    UtilsHelper.add_ticket_to_website(ticket)
     result_ticket = get_tickets_by_filter(input_uuid= ticket.uu_id)
     if len(result_ticket) == 0:
         return None
