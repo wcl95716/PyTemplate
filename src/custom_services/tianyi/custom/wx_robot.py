@@ -1,7 +1,9 @@
-
+import sys
+sys.path.append("./src")
 
 # 读取群聊列表
 # 从excel中读取群聊列表
+
 import time
 from typing import Any
 import pandas as pd

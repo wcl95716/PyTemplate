@@ -8,7 +8,6 @@ from utils import local_logger
 from utils.download_file import download_file_to_folder
 from typing import Callable, List, Tuple
 from external.PyOfficeRobot.PR.Dumogu.WeChatType import WeChat
-from external.PyOfficeRobot import PyOfficeRobot 
 
 
 
