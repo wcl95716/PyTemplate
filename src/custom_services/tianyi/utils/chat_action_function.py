@@ -1,6 +1,6 @@
 import sys
 
-from services.support_ticket.local_api import get_ticket_by_webapi, insert_ticket_to_webapi
+from services.support_ticket.local_service import get_ticket_by_webapi, insert_ticket_to_webapi
 sys.path.append("./src")
 
 import json
