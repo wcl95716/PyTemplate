@@ -1,7 +1,7 @@
 import sys
-sys.path.append("./src")
 
-from services.support_ticket.local_service import get_ticket_by_webapi, insert_ticket_to_webapi
+from api.support_ticket.client_api import TicketClient
+sys.path.append("./src")
 
 import json
 from typing import Any, Optional
@@ -29,15 +29,19 @@ class UtilsHelper:
     web_api = "http://127.0.0.1:25432"
     @staticmethod
     def get_tickets_by_filter(input_uuid:Optional[str]) -> Optional[Ticket]:
-        ticket = get_ticket_by_webapi(UtilsHelper.web_api, input_uuid)
-        
-        return ticket
+        ticket_client = TicketClient(UtilsHelper.web_api)
+        res = ticket_client.get_tickets(uu_id=input_uuid)
+        if len(res) == 0:
+            return None
+        return res[0]
         pass
         
     @staticmethod
     def add_ticket_to_website(ticket_record: Ticket) -> bool:
-        url = UtilsHelper.web_api # 应考虑从配置文件中读取
-        return insert_ticket_to_webapi(url, ticket_record)
+
+        ticket_client = TicketClient(UtilsHelper.web_api)
+        res = ticket_client.create_ticket(ticket_record)
+        return res == 200
     
     @staticmethod
     def add_ticket_init_chat(ticket_record: Ticket, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
