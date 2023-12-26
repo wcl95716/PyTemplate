@@ -128,12 +128,12 @@ def get_group_task(car_group_name:str, rule_df: pd.DataFrame, group: pd.DataFram
         
     
     # 3 生成表格任务
-    file_path = table_image.create_table_image(group, title=str(car_group_name),file_name=car_group_name+".png")
-    file_url = upload_file(file_path)
-    # file_task
-    if file_url:
-        file_task = get_notification_task(car_group_name, wx_group_name, file_url)
-        result_task.append(file_task)
+    # file_path = table_image.create_table_image(group, title=str(car_group_name),file_name=car_group_name+".png")
+    # file_url = upload_file(file_path)
+    # # file_task
+    # if file_url:
+    #     file_task = get_notification_task(car_group_name, wx_group_name, file_url)
+    #     result_task.append(file_task)
     return result_task
     pass 
 

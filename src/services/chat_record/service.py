@@ -5,7 +5,7 @@ from models.ticket.type import Ticket
 
 # src/db/tables/chat_record.sql
 # 根据这个表创建增删改查的接口
-# CREATE TABLE IF NOT EXISTS chat_records (
+# CREATE TABLE IF NOT EXISTS chat_record (
 #     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 #     type INT NOT NULL,
 #     content TEXT NOT NULL,
@@ -39,7 +39,7 @@ def insert_chat_record(chat_record: ChatRecord) -> bool:
 
 
 def get_chat_records_by_creator_id(creator_id: str) -> list[ChatRecord]:
-    sql = "SELECT * FROM chat_records WHERE creator_id=%s"
+    sql = "SELECT * FROM chat_record WHERE creator_id=%s"
     args = creator_id
     result = DatabaseManager.query_to_dict(sql, args)
     # print("adsasdasd ",result)
