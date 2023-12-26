@@ -1,7 +1,7 @@
 import sys
+sys.path.append("./src")
 
 from services.support_ticket.local_service import get_ticket_by_webapi, insert_ticket_to_webapi
-sys.path.append("./src")
 
 import json
 from typing import Any, Optional
@@ -25,8 +25,8 @@ class UtilsHelper:
     
     page_url = "http://47.116.201.99:4000/user_chat_page"
     ticket_url = "http://47.116.201.99:4000/test/"
-    web_api = "http://47.103.45.149:25432/ticket"
-    # web_api = "http://127.0.0.1:25432/ticket"
+    # web_api = "http://47.103.45.149:25432/ticket"
+    web_api = "http://127.0.0.1:25432"
     @staticmethod
     def get_tickets_by_filter(input_uuid:Optional[str]) -> Optional[Ticket]:
         ticket = get_ticket_by_webapi(UtilsHelper.web_api, input_uuid)
@@ -112,14 +112,14 @@ def test() ->None:
     ticket:Ticket = Ticket(
         type= RecordEnum.TEXT,
         content="",
-        title= "123123123",
+        title= "6666666666",
         creator_id = "adsasdasdasd",
         assigned_to_id=""
     )
     # print("ticket ",ticket.dict())
     # UtilsHelper.add_ticket_to_website(ticket)
-    # asd =  UtilsHelper.get_tickets_by_filter(input_uuid="5f135dca-4361-46eb-858c-8ab4971b3847")
-    # print("asd ",asd)
+    asd =  UtilsHelper.get_tickets_by_filter(input_uuid="810a034c-f425-4eb7-985c-3b80f5f76548")
+    print("asd ",asd)
     pass
 
 
