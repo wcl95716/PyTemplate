@@ -90,7 +90,7 @@ def chat_by_keywords(who:str, keywords:dict[str, Any]) -> None:
                 tem = keywords[key](who, wx.GetAllMessage[-1],wx.GetAllMessage)
                 print("tem",tem)
                 if tem is not None:
-                    PyOfficeRobot.chat.send_message(who=who, message=tem[2])
+                    PyOfficeRobot.chat.send_message(who=who, message=tem[2])  # type: ignore
                 break
 
     except:
