@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
 
-from api.chat_record.api import CharRecordAPI
+from api.common.chat_record.api import CharRecordAPI
 
-from api.support_ticket.api import TicketAPI
+from api.common.support_ticket.api import TicketAPI
 
 
 fast_api = FastAPI()

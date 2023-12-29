@@ -1,6 +1,6 @@
 import sys
 
-from api.support_ticket.client_api import TicketClient
+from api.common.support_ticket.client_api import TicketClient
 sys.path.append("./src")
 
 import json
