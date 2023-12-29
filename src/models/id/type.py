@@ -4,11 +4,11 @@
 
 from typing import Any, Optional
 import uuid
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ID(BaseModel):
-    id: Optional[int] = None
+    id: Optional[int] =  Field(None, description="自动生成的ID")
     uu_id: Optional[str] = None
     
     def __init__(self, **data: Any):

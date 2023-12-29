@@ -2,6 +2,7 @@ from datetime import datetime
 
 
 from pydantic import BaseModel
+from models.company.type import Company
 from models.priority.type import Priority
 from models.record.type import Record
 

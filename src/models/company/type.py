@@ -11,12 +11,12 @@ from models.id.type import ID
 
 # 创建公司枚举类
 class CompanyEnum(Enum):
-    COMPANY = 1
+    NONE = 1
     TIAN_YI = 2
     pass
 
-class Company(ID,BaseModel):
-    company_id: CompanyEnum
+class Company(BaseModel):
+    company_id: Optional[CompanyEnum] = CompanyEnum.NONE
     company_name: Optional[str] = None
     
     class Config:
