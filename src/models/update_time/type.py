@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 
 
 class UpdateTime(BaseModel):
-    create_time: Optional[datetime] =  Field(None, description="自动生成的ID")
-    update_time: Optional[datetime] =  Field(None, description="自动生成的ID")
+    create_time: Optional[datetime] = Field(None, description="自动生成的ID")
+    update_time: Optional[datetime] = Field(None, description="日期")
 
     def __init__(self, **data: Any):
         super().__init__(**data)

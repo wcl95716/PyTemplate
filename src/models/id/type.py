@@ -8,8 +8,8 @@ from pydantic import BaseModel, Field
 
 
 class ID(BaseModel):
-    id: Optional[int] =  Field(None, description="自动生成的ID")
-    uu_id: Optional[str] = None
+    id: Optional[int] =  Field(None, description="数据库自动生成的ID")
+    uu_id: Optional[str] = Field(None, description="uuid 类初始化自动生成")
     
     def __init__(self, **data: Any):
         # Set uu_id from data if present, otherwise generate a new UUID

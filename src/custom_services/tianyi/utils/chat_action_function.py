@@ -118,7 +118,7 @@ def test() ->None:
         content="",
         title= "6666666666",
         creator_id = "adsasdasdasd",
-        assigned_to_id=""
+        assigned_to_id="",
     )
     # print("ticket ",ticket.dict())
     # UtilsHelper.add_ticket_to_website(ticket)
