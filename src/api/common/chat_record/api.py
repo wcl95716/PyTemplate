@@ -19,7 +19,15 @@ class CharRecordAPI(FastAPI):
         self.add_api_route(
             "", self.get_record_by_creator_id, methods=["GET"], summary="获取一个用户的聊天记录"
         )
+        self.add_api_route(
+            "", self.add_chat_record_wrapper, methods=["POST"], summary="添加一条聊天记录"
+        )
         pass
+
+    async def add_chat_record_wrapper(self, chat_record: ChatRecord) -> Response:
+        success: bool = service.add_chat_record(chat_record)
+
+        return Response(status_code=200) if success else Response(status_code=500)
 
     async def get_record_by_creator_id(self, creat_id: str) -> Response:
         result: list[ChatRecord] = service.get_chat_records_by_creator_id(creat_id)
@@ -33,3 +41,4 @@ class CharRecordAPI(FastAPI):
             content=json.dumps(result_json_list, default=serialize_datetime),
             media_type="application/json",
         )
+        

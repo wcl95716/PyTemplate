@@ -22,15 +22,14 @@ from models.ticket.type import Ticket
 
 
 # 增加一条记录
-def insert_chat_record(chat_record: ChatRecord) -> bool:
-    sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id, create_time) VALUES (%s, %s, %s, %s, %s, %s)"
+def add_chat_record(chat_record: ChatRecord) -> bool:
+    sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
     args = (
         chat_record.type,
         chat_record.content,
         chat_record.title,
         chat_record.creator_id,
         chat_record.assigned_to_id,
-        chat_record.create_time,
     )
     if DatabaseManager.execute(sql, args):
         return True

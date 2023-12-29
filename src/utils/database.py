@@ -22,6 +22,7 @@ class DatabaseManager:
             password=password,
             database=db,
             charset="utf8mb4",
+            init_command="SET time_zone='Asia/Shanghai'",
         )
 
     @classmethod
