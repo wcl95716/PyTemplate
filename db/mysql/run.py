@@ -7,7 +7,7 @@ from utils.database import DatabaseManager
 
 
 def main() -> None:
-    sql_folder = "src/db/tables"
+    sql_folder = "db/tables"
 
     # 创建数据库（如果不存在）
     # DatabaseManager.create_database_if_not_exists(database_name)
