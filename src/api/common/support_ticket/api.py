@@ -3,7 +3,7 @@ This module provides the API endpoints for support tickets.
 """
 from datetime import datetime
 import json
-from services.support_ticket import service
+from services.common.support_ticket import service
 
 from unittest.mock import Base
 

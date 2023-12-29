@@ -15,7 +15,7 @@ from models.record.type import RecordEnum
 from models.status.type import StatusEnum
 from models.notification_task.type import NotificationEnum, NotificationTask
 
-from services.notification_task.service import insert_notification
+from services.common.notification_task.service import insert_notification
 
 
 from utils import table_image

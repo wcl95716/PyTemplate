@@ -7,7 +7,7 @@ from models.chat_record.type import ChatRecord
 
 from fastapi import FastAPI, Response
 
-from services.chat_record import service
+from services.common.chat_record import service
 import json
 from fastapi import FastAPI, Response
 from models.chat_record.type import ChatRecord
