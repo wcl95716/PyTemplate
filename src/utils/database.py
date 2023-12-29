@@ -1,4 +1,6 @@
+import json
 import subprocess
+from pydantic import BaseModel
 import pymysql
 from dbutils.pooled_db import PooledDB
 from typing import Optional, Any, ClassVar
@@ -114,6 +116,27 @@ class DatabaseManager:
             # 捕获并打印错误信息
             print(f"Error executing SQL file: {e}")
             print(e.stderr.decode("utf-8"))
+    
+    @classmethod 
+    def build_insert_sql_components(cls, obj:BaseModel,) -> tuple[str, str, tuple[Any, ...]]:
+        attrs = vars(obj)
+
+        # 特殊处理，比如将字典转换为 JSON 字符串
+        for key, value in attrs.items():
+            if isinstance(value, dict):
+                attrs[key] = json.dumps(value)
+
+        # 构建列名和占位符
+        columns = ', '.join(attrs.keys())
+        placeholders = ', '.join(['%s'] * len(attrs))
+
+        # 构建 SQL 语句
+        # sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+        
+        # 构建参数元组
+        args = tuple(attrs.values())
+
+        return columns, placeholders, args
 
 
 # 初始化单例

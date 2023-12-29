@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS chat_record (
     create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     uu_id CHAR(36) ,
+    company_id INT,
+    company_name VARCHAR(100),
     INDEX idx_creator_id (creator_id),
     INDEX idx_assigned_to_id (assigned_to_id),
     INDEX idx_create_time (create_time),

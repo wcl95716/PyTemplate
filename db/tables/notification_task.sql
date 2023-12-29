@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS notification_task;
 -- 创建表格
 CREATE TABLE IF NOT EXISTS notification_task (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    company_id VARCHAR(255) NOT NULL,
+    company_id INT NOT NULL,
     notification_type VARCHAR(255) NOT NULL,
     destination JSON,  -- assuming JSON format or similar
     title VARCHAR(255) NOT NULL,

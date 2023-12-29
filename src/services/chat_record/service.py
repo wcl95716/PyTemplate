@@ -3,34 +3,29 @@ from utils.database import DatabaseManager
 
 from models.ticket.type import Ticket
 
-# src/db/tables/chat_record.sql
-# 根据这个表创建增删改查的接口
-# CREATE TABLE IF NOT EXISTS chat_record (
-#     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-#     type INT NOT NULL,
-#     content TEXT NOT NULL,
-#     title VARCHAR(255),
-#     creator_id VARCHAR(255) NOT NULL,
-#     assigned_to_id VARCHAR(255),
-#     create_time TIMESTAMP NOT NULL,
-#     update_time TIMESTAMP,
-#     INDEX idx_creator_id (creator_id),
-#     INDEX idx_assigned_to_id (assigned_to_id),
-#     INDEX idx_create_time (create_time),
-#     INDEX idx_type (type)
-# ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+# def insert_ticket(ticket: Ticket) -> None:
+#     # 获取对象的所有属性及其值
+#     attrs = vars(ticket)
+    
+#     # 特别处理 'destination' 字段，将其转换为 JSON 字符串
+#     # 构建列名和占位符
+#     columns = ', '.join(attrs.keys())
+#     placeholders = ', '.join(['%s'] * len(attrs))
+
+#     # 构建SQL语句
+#     sql = f"INSERT INTO {table_name}  ({columns}) VALUES ({placeholders})"
+#     # 构建参数元组
+#     args = tuple(attrs.values())
+#     DatabaseManager.execute(sql, args)
+    
+#     pass
 
 # 增加一条记录
 def add_chat_record(chat_record: ChatRecord) -> bool:
-    sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
-    args = (
-        chat_record.type,
-        chat_record.content,
-        chat_record.title,
-        chat_record.creator_id,
-        chat_record.assigned_to_id,
-    )
+    columns, placeholders, args = DatabaseManager.build_insert_sql_components(chat_record)
+    # sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
+    sql = f"INSERT INTO chat_record ({columns}) VALUES ({placeholders})"
     if DatabaseManager.execute(sql, args):
         return True
     return False

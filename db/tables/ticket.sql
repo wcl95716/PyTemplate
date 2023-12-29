@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS ticket (
     update_time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     extended_field JSON,
     uu_id CHAR(36) ,
+    company_id INT,
+    company_name VARCHAR(100),
     INDEX idx_ticket_status (status),
     INDEX idx_ticket_priority (priority),
     INDEX idx_create_time (create_time),
