@@ -1,9 +1,14 @@
-from fastapi import FastAPI
+from typing import Any, Optional, Union
+import uuid
+from fastapi import Depends, FastAPI, Query
+from pydantic import BaseModel, Field
 
 
 from api.common.chat_record.api import CharRecordAPI
 
 from api.common.support_ticket.api import TicketAPI
+
+from api.common.user.api import UserAPI
 
 
 fast_api = FastAPI()
@@ -14,11 +19,32 @@ fast_api.include_router(
     CharRecordAPI().router, prefix="/chat_record", tags=["Chat Record Operations"]
 )
 
+fast_api.include_router(
+    UserAPI().router, prefix="/user", tags=[" User Operations"]
+)
+
+
+
+
 
 @fast_api.get("/")
 def read_root() -> dict[str, str]:
     return {"message": "Hello, World!"}
 
+# 创建一个基本模型来定义输入参数
+class QueryParams(BaseModel):
+    param1: str = Query(..., description="Description for param1")
+    param2: int = Query(..., description="Description for param2")
+
+# 使用模型来定义 GET 请求的路由
+@fast_api.get("/items")
+async def get_items(query_params: QueryParams =  Depends()) -> dict[str, Union[str, int]]:
+    # param1 = query_params.param1
+    # param2 = query_params.param2
+
+    # 在这里使用 param1 和 param2 来执行操作，例如从数据库中检索数据
+
+    return {"param1": "param1", "param2": 2}
 
 
 # @api_bp.route('/msg_cb', methods=['POST'])

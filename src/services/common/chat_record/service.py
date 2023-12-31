@@ -3,24 +3,6 @@ from utils.database import DatabaseManager
 
 from models.ticket.type import Ticket
 
-
-# def insert_ticket(ticket: Ticket) -> None:
-#     # 获取对象的所有属性及其值
-#     attrs = vars(ticket)
-    
-#     # 特别处理 'destination' 字段，将其转换为 JSON 字符串
-#     # 构建列名和占位符
-#     columns = ', '.join(attrs.keys())
-#     placeholders = ', '.join(['%s'] * len(attrs))
-
-#     # 构建SQL语句
-#     sql = f"INSERT INTO {table_name}  ({columns}) VALUES ({placeholders})"
-#     # 构建参数元组
-#     args = tuple(attrs.values())
-#     DatabaseManager.execute(sql, args)
-    
-#     pass
-
 # 增加一条记录
 def add_chat_record(chat_record: ChatRecord) -> bool:
     columns, placeholders, args = DatabaseManager.build_insert_sql_components(chat_record)

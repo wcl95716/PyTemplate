@@ -4,8 +4,11 @@ DROP TABLE IF EXISTS ticket;
 -- 创建表格
 CREATE TABLE IF NOT EXISTS ticket (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    uu_id CHAR(36) ,
     status INT,
     priority INT,
+    company_id INT,
+    company_name VARCHAR(100),
     type INT,
     title TEXT,
     content TEXT,
@@ -14,9 +17,6 @@ CREATE TABLE IF NOT EXISTS ticket (
     create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     extended_field JSON,
-    uu_id CHAR(36) ,
-    company_id INT,
-    company_name VARCHAR(100),
     INDEX idx_ticket_status (status),
     INDEX idx_ticket_priority (priority),
     INDEX idx_create_time (create_time),
