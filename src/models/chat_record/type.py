@@ -1,9 +1,9 @@
 import time
 
-from pydantic import BaseModel
+from sqlmodel import SQLModel, Field 
 
 from models.record.type import Record
 
 
-class ChatRecord(Record, BaseModel):
+class ChatRecord(Record, SQLModel, table = True):
     pass

@@ -3,7 +3,7 @@ import sys
 sys.path.append("./src")
 from models.company.type import Company
 from enum import Enum
-from pydantic import BaseModel
+from sqlmodel import SQLModel, Field 
 from models.id.type import ID
 from models.update_time.type import UpdateTime
 from enum import Enum
@@ -18,7 +18,7 @@ class RecordEnum(Enum):
     pass
 
 
-class Record(ID, Company, UpdateTime, BaseModel):
+class Record(ID, Company, UpdateTime, SQLModel):
     type: RecordEnum
     content: str
     title: str

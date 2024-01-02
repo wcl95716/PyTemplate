@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import Any, Optional
 
-from pydantic import BaseModel, Field
+from sqlmodel import SQLModel, Field 
 
 
-class UpdateTime(BaseModel):
+class UpdateTime(SQLModel):
     create_time: Optional[datetime] = Field(datetime.now(), description="自动生成的ID")
     update_time: Optional[datetime] = Field(datetime.now(), description="日期")
 

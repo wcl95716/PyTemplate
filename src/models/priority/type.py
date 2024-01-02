@@ -1,6 +1,6 @@
 from enum import Enum
 import random
-from pydantic import BaseModel
+from sqlmodel import SQLModel, Field 
 
 
 class PriorityEnum(Enum):
@@ -11,7 +11,7 @@ class PriorityEnum(Enum):
     NOT_NEEDED = 4
 
 
-class Priority(BaseModel):
+class Priority(SQLModel):
     priority: PriorityEnum = PriorityEnum.NORMAL
 
     class Config:

@@ -1,6 +1,6 @@
 from typing import Optional
 # from pydantic import BaseModel, Field
-from sqlmodel import SQLModel, Field , create_engine
+from sqlmodel import SQLModel, Field 
 from models.company.type import Company
 
 from models.id.type import ID
@@ -9,7 +9,7 @@ from models.status.type import Status
 
 
 # ID, Priority, Status ,Company , 
-class User(SQLModel,table=True):
+class User(ID, Priority, Status ,Company , SQLModel,table=True):
     name: str
     phone: str =  Field(None, description="手机号 必须",primary_key=True )
     email: Optional[str] = Field(None, description="email 可以为空")

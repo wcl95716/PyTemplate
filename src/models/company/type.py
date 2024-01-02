@@ -1,7 +1,7 @@
 # id 类
 # 属性为id
 # 确保继承属性的类有一个唯一id
-
+from sqlmodel import SQLModel, Field 
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
@@ -15,8 +15,8 @@ class CompanyEnum(Enum):
     TIAN_YI = 2
     pass
 
-class Company(BaseModel):
-    company_id: Optional[CompanyEnum] = CompanyEnum.NONE
+class Company(SQLModel):
+    company_id: Optional[CompanyEnum] = Field(CompanyEnum.NONE, description="公司id")
     company_name: Optional[str] = None
     
     class Config:

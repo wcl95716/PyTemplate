@@ -3,7 +3,7 @@ sys.path.append("./src")
 
 from enum import Enum
 from typing import Literal
-from pydantic import BaseModel
+from sqlmodel import SQLModel, Field 
 
 
 class StatusEnum(Enum):
@@ -13,7 +13,7 @@ class StatusEnum(Enum):
     CLOSED = 3
 
 
-class Status(BaseModel):
+class Status(SQLModel):
     status: StatusEnum = StatusEnum.NEW
     class Config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值

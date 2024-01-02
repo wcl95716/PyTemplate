@@ -2,15 +2,14 @@
 
 
 from enum import Enum
-from typing import Optional
-from pydantic import BaseModel
+from typing import Optional, Union
+from sqlalchemy import JSON
+from sqlmodel import SQLModel, Field 
 from models.company.type import CompanyEnum
 from models.id.type import ID
 from models.priority.type import Priority
 from models.record.type import Record
 from models.status.type import Status
-from models.ticket.type import Ticket
-
 
 import json  # Add missing import statement
 
@@ -20,9 +19,11 @@ class NotificationEnum(Enum):
     EMAIL = 3
     
 
-class NotificationTask(Record, ID, Status, Priority, BaseModel):
+from typing import Any  # Add missing import statement
+
+class NotificationTask(Record, ID, Status, Priority, SQLModel, table = True):
     notification_type: NotificationEnum
-    destination: Optional[dict[str, str] ]
+    destination: Optional[str] = None  # Fix missing type parameters for dict
     company_id: CompanyEnum
     # id: Optional[int]  # Updated type annotation
     class Config:
