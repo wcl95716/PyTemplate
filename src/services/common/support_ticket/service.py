@@ -10,23 +10,22 @@ from utils import local_logger
 
 
 from utils.database import DatabaseManager
+from utils.database_crud import DatabaseCRUD
 
 table_name = "ticket"
 
 def insert_ticket(ticket: Ticket) -> None:
-    # 获取对象的所有属性及其值
-    attrs = vars(ticket)
     
-    # 特别处理 'destination' 字段，将其转换为 JSON 字符串
-    # 构建列名和占位符
-    columns = ', '.join(attrs.keys())
-    placeholders = ', '.join(['%s'] * len(attrs))
-
+    columns, placeholders, args = DatabaseManager.build_insert_sql_components(ticket)
     # 构建SQL语句
     sql = f"INSERT INTO {table_name}  ({columns}) VALUES ({placeholders})"
     # 构建参数元组
-    args = tuple(attrs.values())
-    DatabaseManager.execute(sql, args)
+    print(sql)
+    print(args)
+    # res = DatabaseManager.execute(sql, args)
+    new_ticket:Ticket = Ticket(**ticket.model_dump())
+    DatabaseCRUD.create(new_ticket)
+    # print(res)
     
     pass
 

@@ -1,5 +1,7 @@
 import sys
 
+from sqlalchemy import Integer
+
 sys.path.append("./src")
 from models.company.type import Company
 from enum import Enum
@@ -18,8 +20,8 @@ class RecordEnum(Enum):
     pass
 
 
-class Record(ID, Company, UpdateTime, SQLModel):
-    type: RecordEnum = Field(RecordEnum.TEXT, description="记录类型"    ,index=True)
+class Record(ID, Company, UpdateTime, SQLModel,extend_existing=True):
+    type: RecordEnum = Field(RecordEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
     content: str 
     title: str
     creator_id: str = Field(..., description="创建者ID",index=True)

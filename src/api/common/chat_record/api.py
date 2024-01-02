@@ -10,7 +10,6 @@ from fastapi import FastAPI, Response
 from services.common.chat_record import service
 import json
 from fastapi import FastAPI, Response
-from models.chat_record.type import ChatRecord
 
 
 class CharRecordAPI(FastAPI):

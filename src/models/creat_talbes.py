@@ -13,13 +13,6 @@ import importlib.util
 import glob
 from typing import Any
 
-# from models.ticket.type import Ticket
-# from models.chat_record.type import ChatRecord
-# from models.company.type import Company
-# from models.notification_task.type import NotificationTask
-# from models.user.type import User
-
-
 def import_all_modules_from_pattern(pattern: str) -> None:
     for module_path in glob.glob(pattern, recursive=True):
         # Convert file path to pathlib.Path object

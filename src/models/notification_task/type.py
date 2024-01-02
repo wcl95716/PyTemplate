@@ -3,7 +3,7 @@
 
 from enum import Enum
 from typing import Optional, Union
-from sqlalchemy import JSON
+from sqlalchemy import JSON, Integer
 from sqlmodel import SQLModel, Field 
 from models.company.type import CompanyEnum
 from models.id.type import ID
@@ -21,8 +21,8 @@ class NotificationEnum(Enum):
 
 from typing import Any  # Add missing import statement
 
-class NotificationTask(Record, ID, Status, Priority, SQLModel, table = True):
-    notification_type: NotificationEnum = Field(NotificationEnum.WECHAT, description="通知类型" ,index=True)
+class NotificationTask(Record, ID, Status, Priority, SQLModel, table = True,extend_existing=True):
+    notification_type: NotificationEnum = Field(NotificationEnum.WECHAT, description="通知类型" ,index=True ,sa_type=Integer)
     destination: Optional[str] = None  # Fix missing type parameters for dict
     company_id: CompanyEnum
     # id: Optional[int]  # Updated type annotation

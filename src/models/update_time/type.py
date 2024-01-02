@@ -4,7 +4,7 @@ from typing import Any, Optional
 from sqlmodel import SQLModel, Field 
 
 
-class UpdateTime(SQLModel):
+class UpdateTime(SQLModel,extend_existing=True):
     create_time: Optional[datetime] = Field(datetime.now(), description="自动生成的ID")
     update_time: Optional[datetime] = Field(datetime.now(), description="日期")
 

@@ -7,7 +7,7 @@ import uuid
 from sqlmodel import SQLModel, Field 
 
 
-class ID(SQLModel):
+class ID(SQLModel,extend_existing=True):
     id: Optional[int] =  Field(None, description="数据库自动生成的ID",primary_key=True)
     uu_id: Optional[str] = Field(None, description="uuid 类初始化自动生成" , index=True)
     

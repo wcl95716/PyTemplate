@@ -2,7 +2,6 @@ from datetime import datetime
 
 from typing import Any
 
-from models.chat_record.type import ChatRecord
 
 
 from fastapi import Depends, FastAPI, Response

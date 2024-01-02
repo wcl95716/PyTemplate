@@ -9,7 +9,7 @@ from models.status.type import Status
 
 
 # ID, Priority, Status ,Company , 
-class User(ID, Priority, Status ,Company , SQLModel,table=True):
+class User(ID, Priority, Status ,Company , SQLModel,table=True,extend_existing=True):
     name: str = Field(..., description="姓名 必须",index=True)
     phone: str =  Field(None, description="手机号 必须" , index=True)
     email: Optional[str] = Field(None, description="email 可以为空",index=True)

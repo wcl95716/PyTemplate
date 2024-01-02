@@ -1,6 +1,7 @@
 # id 类
 # 属性为id
 # 确保继承属性的类有一个唯一id
+from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 from enum import Enum
 from typing import Optional
@@ -15,8 +16,8 @@ class CompanyEnum(Enum):
     TIAN_YI = 2
     pass
 
-class Company(SQLModel):
-    company_id: Optional[CompanyEnum] = Field(CompanyEnum.NONE, description="公司id")
+class Company(SQLModel,extend_existing=True):
+    company_id: Optional[CompanyEnum] = Field(CompanyEnum.NONE, description="公司id", index=True,sa_type=Integer)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
     class Config:
