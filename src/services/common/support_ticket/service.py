@@ -15,37 +15,27 @@ from utils.database_crud import DatabaseCRUD
 table_name = "ticket"
 
 def insert_ticket(ticket: Ticket) -> None:
-    
-    columns, placeholders, args = DatabaseManager.build_insert_sql_components(ticket)
-    # 构建SQL语句
-    sql = f"INSERT INTO {table_name}  ({columns}) VALUES ({placeholders})"
-    # 构建参数元组
-    print(sql)
-    print(args)
-    # res = DatabaseManager.execute(sql, args)
-    new_ticket:Ticket = Ticket(**ticket.model_dump())
-    DatabaseCRUD.create(new_ticket)
-    # print(res)
-    
+    DatabaseCRUD.create(ticket)
     pass
 
 
 def update_ticket(ticket: Ticket) -> bool:
-    sql = "UPDATE ticket SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
-    args = (
-        ticket.status,
-        ticket.priority,
-        ticket.type,
-        ticket.title,
-        ticket.content,
-        ticket.assigned_to_id,
-        ticket.creator_id,
-        ticket.create_time,
-        ticket.id,
-    )
-    if DatabaseManager.execute(sql, args):
-        return True
-    return False
+    # sql = "UPDATE ticket SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
+    # args = (
+    #     ticket.status,
+    #     ticket.priority,
+    #     ticket.type,
+    #     ticket.title,
+    #     ticket.content,
+    #     ticket.assigned_to_id,
+    #     ticket.creator_id,
+    #     ticket.create_time,
+    #     ticket.id,
+    # )
+    # if DatabaseManager.execute(sql, args):
+    #     return True
+    # return False
+    return DatabaseCRUD.update(ticket)
 
 
 def delete_ticket(ticket_id: Optional[str]) -> bool:

@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 from sqlmodel import SQLModel, Field 
-from models.company.type import Company
+from models.company.type import CompanyInfo
 from models.priority.type import Priority
 from models.record.type import Record
 

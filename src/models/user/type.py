@@ -1,15 +1,15 @@
 from typing import Optional
 # from pydantic import BaseModel, Field
 from sqlmodel import SQLModel, Field 
-from models.company.type import Company
+from models.company.type import CompanyInfo
 
 from models.id.type import ID
 from models.priority.type import Priority
 from models.status.type import Status
 
 
-# ID, Priority, Status ,Company , 
-class User(ID, Priority, Status ,Company , SQLModel,table=True,extend_existing=True):
+# ID, Priority, Status ,CompanyInfo , 
+class User(ID, Priority, Status ,CompanyInfo , SQLModel,table=True,extend_existing=True):
     name: str = Field(..., description="姓名 必须",index=True)
     phone: str =  Field(None, description="手机号 必须" , index=True)
     email: Optional[str] = Field(None, description="email 可以为空",index=True)
