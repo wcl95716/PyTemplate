@@ -17,7 +17,7 @@ class CompanyEnum(Enum):
 
 class Company(SQLModel):
     company_id: Optional[CompanyEnum] = Field(CompanyEnum.NONE, description="公司id")
-    company_name: Optional[str] = None
+    company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
     class Config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值

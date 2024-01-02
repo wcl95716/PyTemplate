@@ -10,9 +10,9 @@ from models.status.type import Status
 
 # ID, Priority, Status ,Company , 
 class User(ID, Priority, Status ,Company , SQLModel,table=True):
-    name: str
-    phone: str =  Field(None, description="手机号 必须",primary_key=True )
-    email: Optional[str] = Field(None, description="email 可以为空")
+    name: str = Field(..., description="姓名 必须",index=True)
+    phone: str =  Field(None, description="手机号 必须" , index=True)
+    email: Optional[str] = Field(None, description="email 可以为空",index=True)
     avatar: Optional[str] = Field(None, description="头像 可以为空")
     displayPassword: Optional[str] = Field("12345678", description="密码 初始密码为12345678")
     password:  Optional[str] = Field(None, description="数据库进行的加密 密码")

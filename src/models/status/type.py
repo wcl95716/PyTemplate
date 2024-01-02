@@ -14,6 +14,6 @@ class StatusEnum(Enum):
 
 
 class Status(SQLModel):
-    status: StatusEnum = StatusEnum.NEW
+    status: StatusEnum = Field(StatusEnum.NEW, description="状态" ,index=True)
     class Config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
