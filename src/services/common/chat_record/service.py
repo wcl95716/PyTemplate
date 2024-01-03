@@ -1,7 +1,7 @@
-from models.chat_record.type import ChatRecord
+from models.tables.chat_record.type import ChatRecord
 from utils.database import DatabaseManager
 
-from models.ticket.type import Ticket
+from models.tables.ticket.type import Ticket
 
 # 增加一条记录
 def add_chat_record(chat_record: ChatRecord) -> bool:

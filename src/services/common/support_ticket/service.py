@@ -4,7 +4,7 @@ from typing import Optional
 
 import requests
 
-from models.ticket.type import Ticket
+from models.tables.ticket.type import Ticket
 from typing import Any, Dict, List, Optional, Union
 from utils import local_logger
 

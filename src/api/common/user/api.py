@@ -5,7 +5,7 @@ from typing import Any
 
 
 from fastapi import Depends, FastAPI, Response
-from models.user.type import User
+from models.tables.user.type import User
 
 from services.common.user import service
 

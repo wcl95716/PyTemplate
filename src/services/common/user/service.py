@@ -5,7 +5,7 @@
 # 实现user 的增删改查 
 
 
-from models.user.type import User
+from models.tables.user.type import User
 from utils.database import DatabaseManager
 
 

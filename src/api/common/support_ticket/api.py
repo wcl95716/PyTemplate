@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Body, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
 
-from models.ticket.type import Ticket
+from models.tables.ticket.type import Ticket
 
 
 
@@ -85,7 +85,7 @@ class TicketAPI(FastAPI):
 
     # 创建工单
     async def create_ticket(
-        self, ticket: Ticket = Body(description="Ticket object")
+        self, ticket: Ticket = Body(description="Ticket object" )
     ) -> Response:
         service.insert_ticket(ticket )
         return Response(status_code=200)

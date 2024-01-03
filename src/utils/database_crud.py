@@ -53,7 +53,7 @@ class DatabaseCRUD:
             with Session(cls.engine) as session:
                 session.add(new_instance)
                 session.commit()
-                session.refresh(new_instance)
+                # session.refresh(new_instance)
                 return True
         except Exception as e:
             print(f"Error occurred: {e}")
