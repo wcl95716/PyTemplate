@@ -1,10 +1,11 @@
 import sys
+sys.path.append("./src")
 
 from models.common.id.type import ID
 from models.common.update_time.type import UpdateTime
-sys.path.append("./src")
 
-from typing import Any, Optional, Type, TypeVar, Dict, Generic, cast
+
+from typing import Any, List, Optional, Type, TypeVar, Dict, Generic, cast
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy.engine.base import Engine
 from dbutils.pooled_db import PooledDB
@@ -16,18 +17,16 @@ import glob
 import pathlib
 import importlib.util
 
-# T = TypeVar("T", bound=SQLModel)
-
-T = TypeVar("T", bound=ID)
 
 from typing import Type, TypeVar, Generic, Optional
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy.engine.base import Engine
+from sqlalchemy import Select, select
+from typing import TypeVar, List, Optional
 
 
 
-
-
+T = TypeVar("T", bound=ID)
 class DatabaseCRUD:
     _instance: Optional['DatabaseCRUD'] = None
     engine: Optional[Engine] = None
@@ -101,12 +100,27 @@ class DatabaseCRUD:
             print(f"Error occurred: {e}")
             return False
         
+    @classmethod
+    def read_by_id(cls, id: int, T: Type[T]) -> Optional[T]:
+        try:
+            with Session(cls.engine) as session:
+                instance = session.get(T, id)
+                return instance
+        except  Exception as e:
+            print(f"Error occurred: {e}")
+            return None
+        pass
+
+    # @classmethod
+    # def read_all(cls, T: Type[T]) -> Optional[List[T]]:
+    #     try:
+    #         with Session(cls.engine) as session:
+    #             instances = session.query(T).all()
+    #             return instances
+    #     except Exception as e:
+    #         print(f"Error occurred: {e}")
+    #         return None
     
-        
-        
-        
-
-
 # 初始化 DatabaseCRUD
 DatabaseCRUD.initialize("mysql+mysqlconnector://root:12345678@localhost:3308/panda_code_database")
 

@@ -16,7 +16,9 @@ from typing import Any, List, Optional
 from models.tables.ticket.type import Ticket
 
 
-
+def serialize_datetime(obj: datetime) -> str:
+    if isinstance(obj, datetime):
+        return obj.strftime("%Y-%m-%d %H:%M:%S")
 class TicketAPI(FastAPI):
     def __init__(self) -> None:
         super().__init__()
@@ -24,6 +26,7 @@ class TicketAPI(FastAPI):
         self.add_api_route("", self.delete_tickets, methods=["DELETE"], summary="删除工单")
         self.add_api_route("", self.update_tickets, methods=["PUT"], summary="更新工单")
         self.add_api_route("", self.create_ticket, methods=["POST"], summary="创建工单")
+        self.add_api_route("/get_ticket", self.get_ticket_by_id, methods=["GET"], summary="根据ID获取工单")
         pass
 
     async def get_tickets(
@@ -52,9 +55,7 @@ class TicketAPI(FastAPI):
             id, uu_id, search_criteria, status_filter, start_date, end_date
         )
         tickets_data: list[dict[str, Any]] = [ticket.model_dump() for ticket in tickets]
-        def serialize_datetime(obj: datetime) -> str:
-            if isinstance(obj, datetime):
-                return obj.strftime("%Y-%m-%d %H:%M:%S")
+
 
         return Response(
             content=json.dumps(tickets_data, default=serialize_datetime),
@@ -62,7 +63,7 @@ class TicketAPI(FastAPI):
         )
 
     async def delete_tickets(
-        self, id_list: list[str] = Body(None, description="Ticket ID list")
+        self, id_list: list[int] = Body(None, description="Ticket ID list")
     ) -> Response:
         """_summary_
 
@@ -91,4 +92,11 @@ class TicketAPI(FastAPI):
     ) -> Response:
         service.insert_ticket(ticket )
         return Response(status_code=200)
+        pass
+    
+    async def get_ticket_by_id(self , id:int = Query(1, description="Ticket ID")) -> Response:
+        ticket:Optional[Ticket] = service.get_ticket_by_id(id)
+        if ticket is None:
+            return Response(status_code=404)
+        return Response(content=json.dumps(ticket.model_dump(), default=serialize_datetime), media_type="application/json")
         pass

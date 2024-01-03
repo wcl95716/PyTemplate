@@ -38,13 +38,16 @@ def update_ticket(ticket: Ticket) -> bool:
     return DatabaseCRUD.update(ticket)
 
 
-def delete_ticket(ticket_id: Optional[str]) -> bool:
+def delete_ticket(ticket_id: Optional[int]) -> bool:
     sql = "DELETE FROM ticket WHERE id=%s"
     args = ticket_id
     if DatabaseManager.execute(sql, args):
         return True
     return False
 
+
+def get_ticket_by_id(ticket_id: int) -> Optional[Ticket]:
+    return DatabaseCRUD.read_by_id(ticket_id, Ticket)
 
 # 根据条件获取tickets
 # 例如 search_criteria:str , status:int ,start_date:str  , end_date:str
@@ -96,5 +99,7 @@ def get_tickets_by_filter(
         tickets.append(ticket)
 
     return tickets
+
+
 
 
