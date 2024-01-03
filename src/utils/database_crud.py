@@ -1,6 +1,7 @@
 import sys
 
 from models.common.id.type import ID
+from models.common.update_time.type import UpdateTime
 sys.path.append("./src")
 
 from typing import Any, Optional, Type, TypeVar, Dict, Generic, cast
@@ -69,6 +70,8 @@ class DatabaseCRUD:
                 if existing_record:
                     # 更新字段值
                     for key, value in new_instance.model_dump().items():
+                        if key == "create_time" or key == "update_time":
+                            continue
                         setattr(existing_record, key, value)
                     
                     # 提交更改到数据库

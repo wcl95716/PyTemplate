@@ -17,7 +17,7 @@ class Ticket(ID ,Record, Status, Priority, SQLModel, table = True,extend_existin
     
     class Config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 # "id": 1,
                 # "uu_id": "string",
@@ -30,6 +30,16 @@ class Ticket(ID ,Record, Status, Priority, SQLModel, table = True,extend_existin
                 "priority": 1,
                 # "create_time": "2021-07-31T09:51:42.000Z",
                 # "update_time": "2021-07-31T09:51:42.000Z",
+            },
+            "update":{
+                    "priority": 2,
+                    "status": 0,
+                    "type": 1,
+                    "content": "string",
+                    "title": "string",
+                    "creator_id": "4444",
+                    "assigned_to_id": "string",
+                    "id": 1,
             }
         }
     pass
