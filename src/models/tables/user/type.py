@@ -1,11 +1,11 @@
 from typing import Optional
 # from pydantic import BaseModel, Field
 from sqlmodel import SQLModel, Field 
-from models.company.type import CompanyInfo
+from models.common.company_info.type import CompanyInfo
 
-from models.id.type import ID
-from models.priority.type import Priority
-from models.status.type import Status
+from models.common.id.type import ID
+from models.common.priority.type import Priority
+from models.common.status.type import Status
 
 
 # ID, Priority, Status ,CompanyInfo , 

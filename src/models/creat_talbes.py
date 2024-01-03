@@ -32,7 +32,7 @@ def import_all_modules_from_pattern(pattern: str) -> None:
             spec.loader.exec_module(module)  # type: ignore
 
 # Use the function to import all modules from a specified pattern
-import_all_modules_from_pattern('./src/models/*/type.py')
+import_all_modules_from_pattern('./src/models/tables/*/type.py')
 
 
 

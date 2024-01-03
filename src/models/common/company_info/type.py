@@ -7,7 +7,6 @@ from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
 
-from models.id.type import ID
 
 
 # 创建公司枚举类
@@ -24,7 +23,3 @@ class CompanyInfo(SQLModel,extend_existing=True):
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
     pass
 
-class Company(ID,CompanyInfo,SQLModel,table = True):
-    class Config:
-        use_enum_values = True  # 配置 Pydantic 使用枚举的值
-    pass

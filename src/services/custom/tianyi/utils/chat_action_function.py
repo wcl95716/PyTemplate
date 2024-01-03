@@ -6,8 +6,6 @@ sys.path.append("./src")
 import json
 from typing import Any, Optional
 from enum import Enum
-from models.record.type import RecordEnum
-from models.ticket.type import Ticket
 import requests
 from utils import local_logger
 from urllib.parse import quote
