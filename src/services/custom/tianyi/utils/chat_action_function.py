@@ -1,6 +1,8 @@
 import sys
 
 from api.common.support_ticket.client_api import TicketClient
+from models.common.record.type import RecordEnum
+from models.tables.ticket.type import Ticket
 sys.path.append("./src")
 
 import json
@@ -26,9 +28,9 @@ class UtilsHelper:
     # web_api = "http://47.103.45.149:25432/ticket"
     web_api = "http://127.0.0.1:25432"
     @staticmethod
-    def get_tickets_by_filter(input_uuid:Optional[str]) -> Optional[Ticket]:
+    def get_tickets_by_filter(input_uuid: Optional[str]) -> Optional[Ticket]:
         ticket_client = TicketClient(UtilsHelper.web_api)
-        res = ticket_client.get_tickets(uu_id=input_uuid)
+        res: list[Ticket] = ticket_client.get_tickets(uu_id=input_uuid)
         if len(res) == 0:
             return None
         return res[0]

@@ -1,4 +1,6 @@
 import sys
+
+from models.common.id.type import ID
 sys.path.append("./src")
 
 from typing import Any, Optional, Type, TypeVar, Dict, Generic, cast
@@ -13,8 +15,9 @@ import glob
 import pathlib
 import importlib.util
 
+# T = TypeVar("T", bound=SQLModel)
 
-T = TypeVar("T", bound=SQLModel)
+T = TypeVar("T", bound=ID)
 
 from typing import Type, TypeVar, Generic, Optional
 from sqlmodel import SQLModel, Session, create_engine
@@ -24,16 +27,17 @@ from sqlalchemy.engine.base import Engine
 
 
 
-class DatabaseCRUD(Generic[T]):
+class DatabaseCRUD:
     _instance: Optional['DatabaseCRUD'] = None
     engine: Optional[Engine] = None
     # models: Dict[str, Type[SQLModel]] = {}
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args:Any, **kwargs:Any) -> "DatabaseCRUD":
         if cls._instance is None:
             cls._instance = super(DatabaseCRUD, cls).__new__(cls)
         return cls._instance
-
+    
+    
     @classmethod
     def initialize(cls, database_url: str) -> None:
         cls.engine = create_engine(database_url)
@@ -44,12 +48,6 @@ class DatabaseCRUD(Generic[T]):
 
     @classmethod
     def create(cls, model_instance: T) -> bool:
-        # data = model_instance.dict() if hasattr(model_instance, 'dict') else model_instance.__dict__
-        
-        # # 使用显式类型转换
-        # new_instance = cls.models[model_instance.__class__.__name__](**data)
-        # new_instance = cast(T, new_instance)
-        
         try:
             new_instance = model_instance.__class__(**model_instance.model_dump())
             with Session(cls.engine) as session:
@@ -82,6 +80,28 @@ class DatabaseCRUD(Generic[T]):
         except Exception as e:
             print(f"Error occurred: {e}")
             return False
+    
+    @classmethod
+    def delete(cls, model_instance: T) -> bool:
+        try:
+            new_instance = model_instance.__class__(**model_instance.model_dump())
+            with Session(cls.engine) as session:
+                existing_record = session.get(new_instance.__class__, model_instance.id)
+                if existing_record:
+                    session.delete(existing_record)
+                    session.commit()
+                    return True
+                else:
+                    print("Record not found for delete.")
+                    return False
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return False
+        
+    
+        
+        
+        
 
 
 # 初始化 DatabaseCRUD

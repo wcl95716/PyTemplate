@@ -5,6 +5,8 @@ from datetime import datetime
 from typing import Optional
 import uuid
 from custom.tianyi.utils.chat_action_function import UtilsHelper
+from models.common.record.type import RecordEnum
+from models.tables.ticket.type import Ticket
 
 
 
