@@ -21,3 +21,17 @@ class User(ID, Priority, Status ,CompanyInfo , SQLModel,table=True,extend_existi
     pass
 
 
+
+# 创建一个用于过滤的模型
+# 包含一些可选的参数
+class UserFilterParams(ID,CompanyInfo,SQLModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    
+    class Config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值
+    pass
+
+
+

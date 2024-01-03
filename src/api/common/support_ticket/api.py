@@ -3,6 +3,8 @@ This module provides the API endpoints for support tickets.
 """
 from datetime import datetime
 import json
+
+from fastapi.encoders import jsonable_encoder
 from services.common.support_ticket import service
 
 from unittest.mock import Base
@@ -98,5 +100,5 @@ class TicketAPI(FastAPI):
         ticket:Optional[Ticket] = service.get_ticket_by_id(id)
         if ticket is None:
             return Response(status_code=404)
-        return Response(content=json.dumps(ticket.model_dump(), default=serialize_datetime), media_type="application/json")
+        return Response(content=json.dumps(ticket.model_dump()), media_type="application/json")
         pass

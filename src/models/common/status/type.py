@@ -13,7 +13,7 @@ class StatusEnum(Enum):
     CLOSED = 3
 
 
-class Status(SQLModel,extend_existing=True):
+class Status(SQLModel):
     # 使它生成的表中 为int类型
     status: StatusEnum = Field(StatusEnum.NEW, description="状态",index=True,sa_type=Integer)
     

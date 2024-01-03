@@ -96,6 +96,7 @@ def get_tickets_by_filter(
     result = DatabaseManager.query_to_dict(sql, args)
     for row in result:
         ticket = Ticket(**row)
+        print(ticket)
         tickets.append(ticket)
 
     return tickets

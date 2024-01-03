@@ -5,7 +5,8 @@
 # 实现user 的增删改查 
 
 
-from models.tables.user.type import User
+from typing import Optional
+from models.tables.user.type import User, UserFilterParams
 from utils.database import DatabaseManager
 
 
@@ -21,10 +22,53 @@ def  add_user(user: User) -> bool:
     
 # 获取用户 
 # 添加过滤条件
-
+# 手机号 , 邮箱 , 用户名 , 用户类型 , 用户状态 , 创建时间 , 更新时间
 def get_users_by_filter(
+        user_filter:UserFilterParams
+    ) -> list[User]:
+    sql = "SELECT * FROM user WHERE 1=1"
+    args = []
+    print("user_filter: ",user_filter)
+    # name 为模糊搜索
+    if user_filter.name:
+        sql += " AND name LIKE %s"
+        args.append(f"%{user_filter.name}%")
+        
+    # phone 为模糊搜索
+    if user_filter.phone:
+        sql += " AND phone LIKE %s"
+        args.append(f"%{user_filter.phone}%")
+        
+    # email 为模糊搜索
+    if user_filter.email:
+        sql += " AND email LIKE %s"
+        args.append(f"%{user_filter.email}%")
     
-    ) -> None:
+    # company_id 精确搜索
+    if user_filter.company_id:
+        sql += " AND company_id = %s"  # Convert to string
+        args.append(str(user_filter.company_id.value))  # Convert to string
+        
+    # company_name 模糊搜索
+    if user_filter.company_name:
+        sql += " AND company_name LIKE %s"
+        args.append(f"%{user_filter.company_name}%")
+        
+    # id 精确搜索
+    if user_filter.id:
+        sql += " AND id = %s"  # Convert to string
+        args.append(str(user_filter.id))  # Convert to string
+        
+    print(sql)
+    print(args)
+    # 执行查询
+    res =  DatabaseManager.query_to_dict(sql, args)
+    print(res)
+    users:list[User] = []
+    for row in res:
+        print(row)
+        user = User(**row)
+        users.append(user)
     
-    
+    return users
     pass
