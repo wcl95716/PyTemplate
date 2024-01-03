@@ -17,4 +17,5 @@ class ID(SQLModel):
             # print("uu_id is None ",data)
             data['uu_id'] = str(uuid.uuid4())
         super().__init__(**data)
+        
     pass

@@ -84,8 +84,10 @@ class TicketAPI(FastAPI):
         return Response(status_code=200)
 
     # 创建工单
+    # 我需要排除掉一些字段，比如ID，创建时间，更新时间
+    
     async def create_ticket(
-        self, ticket: Ticket = Body(description="Ticket object" )
+        self, ticket: Ticket = Body(description="Ticket object", example=Ticket.Config.schema_extra["example"] )
     ) -> Response:
         service.insert_ticket(ticket )
         return Response(status_code=200)
