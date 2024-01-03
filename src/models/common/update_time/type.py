@@ -17,7 +17,6 @@ class UpdateTime(SQLModel,extend_existing=True):
 
     def __init__(self, **data: Any):
         super().__init__(**data)
-        print("UpdateTime __init__" , self.create_time , self.update_time , type(self.create_time) , type(self.update_time))
         # 切换成北京时间
         if self.create_time is not None:
             self.create_time = self.create_time + timedelta(hours=8)
