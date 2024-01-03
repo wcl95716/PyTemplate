@@ -15,7 +15,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Body, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
 
-from models.tables.ticket.type import Ticket
+from models.tables.ticket.type import Ticket, TicketBase
 
 
 def serialize_datetime(obj: datetime) -> str:
@@ -53,7 +53,7 @@ class TicketAPI(FastAPI):
             Response: _description_
         """
         # 调用相应的方法获取数据
-        tickets: List[Ticket] = service.get_tickets_by_filter(
+        tickets: List[TicketBase] = service.get_tickets_by_filter(
             id, uu_id, search_criteria, status_filter, start_date, end_date
         )
         tickets_data: list[dict[str, Any]] = [ticket.model_dump() for ticket in tickets]

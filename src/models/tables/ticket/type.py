@@ -28,8 +28,6 @@ class TicketBase(ID ,Record, SQLModel ):
                 "assigned_to_id": "string",
                 "status": 1,
                 "priority": 1,
-                # "create_time": "2021-07-31T09:51:42.000Z",
-                # "update_time": "2021-07-31T09:51:42.000Z",
             },
             "update":{
                     "priority": 2,
