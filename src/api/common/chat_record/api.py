@@ -2,7 +2,7 @@ from datetime import datetime
 
 from typing import Any
 
-from models.tables.chat_record.type import ChatRecord
+from models.tables.chat_record.type import ChatRecord, ChatRecordBase
 
 
 from fastapi import FastAPI, Response
@@ -23,7 +23,7 @@ class CharRecordAPI(FastAPI):
         )
         pass
 
-    async def add_chat_record_wrapper(self, chat_record: ChatRecord) -> Response:
+    async def add_chat_record_wrapper(self, chat_record: ChatRecordBase) -> Response:
         success: bool = service.add_chat_record(chat_record)
 
         return Response(status_code=200) if success else Response(status_code=500)
@@ -31,7 +31,6 @@ class CharRecordAPI(FastAPI):
     async def get_record_by_creator_id(self, creat_id: str) -> Response:
         result: list[ChatRecord] = service.get_chat_records_by_creator_id(creat_id)
         result_json_list: list[dict[str, Any]] = [item.model_dump() for item in result]
-
         def serialize_datetime(obj: datetime) -> str:
             if isinstance(obj, datetime):
                 return obj.strftime("%Y-%m-%d %H:%M:%S")

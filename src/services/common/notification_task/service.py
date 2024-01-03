@@ -3,13 +3,13 @@ import json
 import sys
 sys.path.append("./src")
 
-from models.notification_task.type import NotificationTask
+from models.tables.notification_task.type import NotificationTaskBase
 from utils.database import DatabaseManager
 
 table_name = "notification_task"
 
 # 增加一条记录
-def insert_notification(task: NotificationTask) -> bool:
+def insert_notification(task: NotificationTaskBase) -> bool:
     # 获取对象的所有属性及其值
     attrs = vars(task)
     
@@ -30,20 +30,3 @@ def insert_notification(task: NotificationTask) -> bool:
         return True
     return False
     pass
-
-
-# def get_tasks(id:str ) -> list[NotificationTask]:
-#     sql = "SELECT * FROM {table_name}  WHERE creator_id=%s"
-#     args = creator_id
-#     result = DatabaseManager.query_to_dict(sql, args)
-#     # print("adsasdasd ",result)
-#     records = []
-#     if result is None:
-#         return []
-#     for row in result:
-#         # print(row)
-#         record = ChatRecord(**row)
-#         records.append(record)
-#         pass
-#     return records
-#     pass

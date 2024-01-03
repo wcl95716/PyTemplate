@@ -1,10 +1,10 @@
-from models.tables.chat_record.type import ChatRecord
+from models.tables.chat_record.type import ChatRecord, ChatRecordBase
 from utils.database import DatabaseManager
 
 from models.tables.ticket.type import Ticket
 
 # 增加一条记录
-def add_chat_record(chat_record: ChatRecord) -> bool:
+def add_chat_record(chat_record: ChatRecordBase) -> bool:
     columns, placeholders, args = DatabaseManager.build_insert_sql_components(chat_record)
     # sql = "INSERT INTO chatrecord (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
     sql = f"INSERT INTO chatrecord ({columns}) VALUES ({placeholders})"
@@ -14,7 +14,7 @@ def add_chat_record(chat_record: ChatRecord) -> bool:
     pass
 
 
-def get_chat_records_by_creator_id(creator_id: str) -> list[ChatRecord]:
+def get_chat_records_by_creator_id(creator_id: str) -> list[ChatRecordBase]:
     sql = "SELECT * FROM chatrecord WHERE creator_id=%s"
     args = creator_id
     result = DatabaseManager.query_to_dict(sql, args)
@@ -24,7 +24,7 @@ def get_chat_records_by_creator_id(creator_id: str) -> list[ChatRecord]:
         return []
     for row in result:
         # print(row)
-        record = ChatRecord(**row)
+        record = ChatRecordBase(**row)
         records.append(record)
         pass
     return records
