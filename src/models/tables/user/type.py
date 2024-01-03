@@ -16,7 +16,7 @@ class User(ID, Priority, Status ,CompanyInfo , SQLModel,table=True,extend_existi
     avatar: Optional[str] = Field(None, description="头像 可以为空")
     displayPassword: Optional[str] = Field("12345678", description="密码 初始密码为12345678")
     password:  Optional[str] = Field(None, description="数据库进行的加密 密码")
-    class Config:
+    class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
     pass
 
@@ -29,7 +29,7 @@ class UserFilterParams(ID,CompanyInfo,SQLModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     
-    class Config:
+    class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
     pass
 

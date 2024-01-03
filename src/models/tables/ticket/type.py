@@ -13,9 +13,9 @@ from models.common.record.type import Record
 from models.common.status.type import Status
 
 
-class Ticket(ID ,Record, Status, Priority, SQLModel, table = True,extend_existing=True   ):
+class TicketBase(ID ,Record, Status, Priority, SQLModel ):
     
-    class Config:
+    class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
         json_schema_extra = {
             "example": {
@@ -42,4 +42,8 @@ class Ticket(ID ,Record, Status, Priority, SQLModel, table = True,extend_existin
                     "id": 1,
             }
         }
+    pass
+
+
+class Ticket(TicketBase, table = True,extend_existing=True):
     pass

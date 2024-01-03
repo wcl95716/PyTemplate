@@ -25,7 +25,7 @@ class NotificationTask( ID , Record, Status, Priority, SQLModel, table = True):
     notification_type: NotificationEnum = Field(NotificationEnum.WECHAT, description="通知类型" ,index=True ,sa_type=Integer)
     destination: Optional[str] = None  # Fix missing type parameters for dict
     # id: Optional[int]  # Updated type annotation
-    class Config:
+    class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
     
     def to_db_dict(self) -> dict[str,str]:  # Add return type annotation

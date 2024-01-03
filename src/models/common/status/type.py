@@ -17,5 +17,5 @@ class Status(SQLModel):
     # 使它生成的表中 为int类型
     status: StatusEnum = Field(StatusEnum.NEW, description="状态",index=True,sa_type=Integer)
     
-    class Config:
+    class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值

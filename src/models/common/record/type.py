@@ -28,7 +28,7 @@ class Record(UpdateTime, SQLModel,extend_existing=True):
     creator_id: str = Field(..., description="创建者ID",index=True)
     assigned_to_id: str = Field(..., description="被指派者ID",index=True)
     
-    class Config:
+    class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
 
     pass

@@ -16,7 +16,7 @@ class MyEnum(Enum):
     
 class StatusModel(SQLModel):
     enum_field: MyEnum = Field(MyEnum.FIRST, description="状态",index=True,sa_type=Integer)
-    class Config:
+    class config:
         use_enum_values = True 
         
 # class StatusModel(SQLModel):

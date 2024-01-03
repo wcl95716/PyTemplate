@@ -4,7 +4,7 @@ from typing import Optional
 
 import requests
 
-from models.tables.ticket.type import Ticket
+from models.tables.ticket.type import Ticket, TicketBase
 from typing import Any, Dict, List, Optional, Union
 from utils import local_logger
 
@@ -65,7 +65,7 @@ def get_tickets_by_filter(
     status_filter: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-) -> List[Ticket]:
+) -> List[TicketBase]:
     # 构建 SQL 查询
     sql = "SELECT * FROM ticket WHERE 1=1"
 
@@ -95,7 +95,7 @@ def get_tickets_by_filter(
     tickets = []
     result = DatabaseManager.query_to_dict(sql, args)
     for row in result:
-        ticket = Ticket(**row)
+        ticket = TicketBase(**row)
         print(ticket)
         tickets.append(ticket)
 
