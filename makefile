@@ -20,6 +20,7 @@ install:
 	pip install --ignore-installed -r requirements.txt
 
 env:
+	conda env remove --name myenv
 	conda create --name myenv python=3.11.5
 	conda activate myenv
 
