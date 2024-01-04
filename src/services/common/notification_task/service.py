@@ -52,9 +52,9 @@ def query_notification_task_by_filter_params(filter_params: NotificationTaskFilt
         sql += " AND title LIKE %s"
         args.append(filter_params.title)
     
-    if filter_params.type is not None:
+    if filter_params.record_type is not None:
         sql += " AND type = %s"
-        args.append(str(filter_params.type.value))
+        args.append(str(filter_params.record_type.value))
         
     if filter_params.content is not None:
         sql += " AND content LIKE %s"

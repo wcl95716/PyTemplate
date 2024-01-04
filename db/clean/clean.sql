@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS chatrecord;
 DROP TABLE IF EXISTS notificationtask;
 
-DROP TABLE IF EXISTS ticket;
+DROP TABLE IF EXISTS workorder;
 
 DROP TABLE IF EXISTS user;
 

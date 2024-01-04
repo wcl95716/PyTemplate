@@ -16,8 +16,16 @@ from enum import Enum
 from sqlmodel import SQLModel, Field 
 from enum import Enum
 
-
 class RecordEnum(Enum):
+    """
+    RecordEnum 用于表示不同类型的记录。
+    
+    - TEXT: 1 代表文本记录。
+    - IMAGE: 2 代表图像记录。
+    - VIDEO: 3 代表视频记录。
+    - AUDIO: 4 代表音频记录。
+    - FILE: 5 代表文件记录。
+    """
     TEXT = 1
     IMAGE = 2
     VIDEO = 3
@@ -26,22 +34,16 @@ class RecordEnum(Enum):
     pass
 
 
-
-
-class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
-    type: RecordEnum = Field(RecordEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
-    content: str 
-    title: str
-    creator_id: str = Field(..., description="创建者ID",index=True)
-    assigned_to_id: str = Field(..., description="被指派者ID",index=True)
-    
-    class config:
-        use_enum_values = True  # 配置 Pydantic 使用枚举的值
-
-    pass
-
-
 class RecordFilterEnum(str,Enum):
+    """
+    RecordEnum 用于表示不同类型的记录。
+    
+    - TEXT: 1 代表文本记录。
+    - IMAGE: 2 代表图像记录。
+    - VIDEO: 3 代表视频记录。
+    - AUDIO: 4 代表音频记录。
+    - FILE: 5 代表文件记录。
+    """
     TEXT = 1
     IMAGE = 2
     VIDEO = 3
@@ -50,8 +52,23 @@ class RecordFilterEnum(str,Enum):
     pass 
 
 
+
+class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
+    record_type: RecordEnum = Field(RecordEnum.TEXT,index=True,sa_type=Integer)
+    content: str 
+    title: str
+    creator_id: str = Field(..., description="创建者ID",index=True)
+    assigned_to_id: Optional[str] = Field(..., description="被指派者ID",index=True)
+    
+    class config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值
+
+    pass
+
+
+
 class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,SQLModel):
-    type: Optional[RecordFilterEnum] = Field(RecordFilterEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
+    record_type: Optional[RecordFilterEnum] = Field(RecordFilterEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
     creator_id: Optional[str] = Field( None, description="创建者ID",index=True)
