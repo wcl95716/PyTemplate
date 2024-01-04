@@ -21,7 +21,7 @@ class NotificationEnum(Enum):
 
 from typing import Any  # Add missing import statement
 
-class NotificationTaskBase( ID , Record, Status, Priority, SQLModel):
+class NotificationTaskBase( ID , Record, SQLModel):
     notification_type: NotificationEnum = Field(NotificationEnum.WECHAT, description="通知类型" ,index=True ,sa_type=Integer)
     destination: Optional[str] = None  # Fix missing type parameters for dict
     # id: Optional[int]  # Updated type annotation

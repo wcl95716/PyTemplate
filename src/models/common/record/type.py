@@ -1,4 +1,5 @@
 import sys
+from models.common.company_info.type import CompanyInfo
 from models.common.priority.type import Priority
 
 from models.common.status.type import Status
@@ -24,7 +25,7 @@ class RecordEnum(Enum):
     pass
 
 
-class Record(UpdateTime, Status, Priority ,SQLModel):
+class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
     type: RecordEnum = Field(RecordEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
     content: str 
     title: str
