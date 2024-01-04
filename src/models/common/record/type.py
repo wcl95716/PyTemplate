@@ -1,9 +1,9 @@
 import sys
 from typing import Optional
-from models.common.company_info.type import CompanyInfo
-from models.common.priority.type import Priority
+from models.common.company_info.type import CompanyInfo, CompanyInfoFilter
+from models.common.priority.type import Priority, PriorityFilter
 
-from models.common.status.type import Status
+from models.common.status.type import Status, StatusFilter
 sys.path.append("./src")
 
 from sqlalchemy import Integer
@@ -17,13 +17,15 @@ from sqlmodel import SQLModel, Field
 from enum import Enum
 
 
-class RecordEnum(str,Enum):
+class RecordEnum(Enum):
     TEXT = 1
     IMAGE = 2
     VIDEO = 3
     AUDIO = 4
     FILE = 5
     pass
+
+
 
 
 class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
@@ -39,8 +41,17 @@ class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
     pass
 
 
-class RecordFilter(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
-    type: Optional[RecordEnum] = Field(RecordEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
+class RecordFilterEnum(str,Enum):
+    TEXT = 1
+    IMAGE = 2
+    VIDEO = 3
+    AUDIO = 4
+    FILE = 5
+    pass 
+
+
+class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,SQLModel):
+    type: Optional[RecordFilterEnum] = Field(RecordFilterEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
     creator_id: Optional[str] = Field( None, description="创建者ID",index=True)

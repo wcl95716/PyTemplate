@@ -122,7 +122,8 @@ class DatabaseManager:
     def build_insert_sql_components(cls, obj:BaseModel,) -> tuple[str, str, tuple[Any, ...]]:
         attrs = vars(obj)
         #  去掉 _sa_instance_state 属性
-        attrs.pop("_sa_instance_state")
+        if attrs.get("_sa_instance_state"):
+            attrs.pop("_sa_instance_state")
         # 特殊处理，比如将字典转换为 JSON 字符串
         for key, value in attrs.items():
             if isinstance(value, dict):

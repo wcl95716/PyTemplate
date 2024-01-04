@@ -1,7 +1,7 @@
 from typing import Optional
 # from pydantic import BaseModel, Field
 from sqlmodel import SQLModel, Field 
-from models.common.company_info.type import CompanyInfo
+from models.common.company_info.type import CompanyInfo, CompanyInfoFilter
 
 from models.common.id.type import ID
 from models.common.priority.type import Priority
@@ -36,7 +36,7 @@ class User(UserBase,table=True,extend_existing=True):
 
 # 创建一个用于过滤的模型
 # 包含一些可选的参数
-class UserFilterParams(ID,CompanyInfo,SQLModel):
+class UserFilterParams(ID,CompanyInfoFilter,SQLModel):
     name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None

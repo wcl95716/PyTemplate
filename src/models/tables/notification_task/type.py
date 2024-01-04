@@ -15,7 +15,7 @@ from enum import Enum
 from models.common.status.type import Status  # Add missing import statement
 from models.common.id.type import ID  # Add missing import statement
 
-class NotificationEnum(str,Enum):
+class NotificationEnum(Enum):
     WECHAT = 1
     WEBSITE = 2
     EMAIL = 3
@@ -52,11 +52,17 @@ class NotificationTask( NotificationTaskBase, table = True):
     
 # 添加过滤模型
 
+class NotificationFilterEnum(str,Enum):
+    WECHAT = 1
+    WEBSITE = 2
+    EMAIL = 3
+    
+    
 class NotificationTaskFilterParams(ID,RecordFilter,SQLModel):
     start_date: Optional[str] = None  # Updated type annotation
     end_date: Optional[str] = None  # Updated type annotation
     
-    notification_type: NotificationEnum = Field(NotificationEnum.WECHAT, description="通知类型" ,index=True ,sa_type=Integer)
+    notification_type: NotificationFilterEnum = Field(NotificationFilterEnum.WECHAT, description="通知类型" ,index=True ,sa_type=Integer)
     
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值

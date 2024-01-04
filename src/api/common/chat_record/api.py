@@ -24,8 +24,9 @@ class CharRecordAPI(FastAPI):
         pass
 
     async def add_chat_record_wrapper(self, 
-                chat_record: ChatRecord = Body(...,examples=[ChatRecordBase.config.schema_extra["example"] ,ChatRecordBase.config.schema_extra["example2"]  ], description="聊天记录")
+                chat_record: ChatRecord = Body(..., description="聊天记录")
                                       ) -> Response:
+        print("add_chat_record_wrapper", chat_record)
         success: bool = service.add_chat_record(chat_record)
 
         return Response(status_code=200) if success else Response(status_code=500)

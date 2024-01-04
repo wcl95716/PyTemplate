@@ -23,8 +23,11 @@ class UserAPI(FastAPI):
         pass
     
     async def add_user(self, user: User) -> Response:
-        service.add_user(user)
-        return Response(status_code=200)
+        
+        if service.add_user(user):
+            return Response(status_code=200)
+        else:
+            return Response(status_code=500)
         pass
     
     async def get_users_by_filter(self,

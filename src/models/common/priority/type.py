@@ -4,7 +4,7 @@ from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 
 
-class PriorityEnum(str,Enum):
+class PriorityEnum(Enum):
     HIGHEST = 0
     URGENT = 1
     NORMAL = 2
@@ -14,6 +14,21 @@ class PriorityEnum(str,Enum):
 
 class Priority(SQLModel,extend_existing=True):
     priority: PriorityEnum = Field(PriorityEnum.NORMAL, description="优先级" ,index=True,sa_type=Integer )
+
+    class config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值
+        
+
+class PriorityFilterEnum(str,Enum):
+    HIGHEST = 0
+    URGENT = 1
+    NORMAL = 2
+    NOT_URGENT = 3
+    NOT_NEEDED = 4
+
+    
+class PriorityFilter(SQLModel):
+    priority: PriorityFilterEnum = Field(PriorityEnum.NORMAL, description="优先级" ,index=True,sa_type=Integer)
 
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值

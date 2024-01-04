@@ -12,9 +12,17 @@ from utils.database import DatabaseManager
 
 # 添加
 def  add_user(user: User) -> bool:
+    
+    find_user = get_users_by_filter( UserFilterParams(phone=user.phone) )
+    print("find_user: ",len(find_user))
+    if len(find_user) > 0:
+        return False
+    
     columns, placeholders, args = DatabaseManager.build_insert_sql_components(user)
     # sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
     sql = f"INSERT INTO user ({columns}) VALUES ({placeholders})"
+    print(columns, placeholders, args)
+    
     if DatabaseManager.execute(sql, args):
         return True
     return False
@@ -59,14 +67,12 @@ def get_users_by_filter(
         sql += " AND id = %s"  # Convert to string
         args.append(str(user_filter.id))  # Convert to string
         
-    print(sql)
-    print(args)
     # 执行查询
     res =  DatabaseManager.query_to_dict(sql, args)
-    print(res)
+
     users:list[User] = []
     for row in res:
-        print(row)
+        # print(row)
         user = User(**row)
         users.append(user)
     

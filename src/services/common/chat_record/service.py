@@ -2,15 +2,12 @@ from models.tables.chat_record.type import ChatRecord, ChatRecordBase
 from utils.database import DatabaseManager
 
 from models.tables.ticket.type import Ticket
+from utils.database_crud import DatabaseCRUD
 
 # 增加一条记录
-def add_chat_record(chat_record: ChatRecordBase) -> bool:
-    columns, placeholders, args = DatabaseManager.build_insert_sql_components(chat_record)
-    # sql = "INSERT INTO chatrecord (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
-    sql = f"INSERT INTO chatrecord ({columns}) VALUES ({placeholders})"
-    if DatabaseManager.execute(sql, args):
-        return True
-    return False
+def add_chat_record(chat_record: ChatRecord) -> bool:
+
+    return DatabaseCRUD.create(chat_record)
     pass
 
 

@@ -22,7 +22,7 @@ class NotificationTaskAPI(FastAPI):
     def __init__(self) -> None:
         super().__init__()
         self.add_api_route("", self.create, methods=["POST"], summary="创建通知任务")
-        self.add_api_route("", self.get_by_filter, methods=["GET"], summary="根据条件获取通知任务")
+        self.add_api_route("/get", self.get_by_filter, methods=["POST"], summary="根据条件获取通知任务")
         pass
     
     async def create(self , task:NotificationTask = Body(..., description="任务")) -> Response:
