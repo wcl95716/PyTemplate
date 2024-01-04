@@ -8,7 +8,7 @@ class WorkOrderClient:
     def __init__(self, base_url: str) -> None:
         self.base_url: str = base_url
 
-    def get_tickets(self, 
+    def get_work_orders(self, 
                     id: Optional[int] = None,
                     uu_id: Optional[str] = None,
                     search_criteria: Optional[str] = None,
@@ -30,16 +30,16 @@ class WorkOrderClient:
         result: List[WorkOrder] = [WorkOrder(**item) for item in response.json()]
         return result
 
-    def delete_tickets(self, id_list: List[str]) -> int:
+    def delete_work_orders(self, id_list: List[str]) -> int:
         response = requests.delete(f"{self.base_url}/work_order", json={"id_list": id_list})
         return response.status_code
 
-    def update_tickets(self, ticket_data: WorkOrder) -> int:
-        data = json.loads(ticket_data.model_dump_json())  # 假设这返回一个字典
+    def update_work_orders(self, work_order_data: WorkOrder) -> int:
+        data = json.loads(work_order_data.model_dump_json())  # 假设这返回一个字典
         response = requests.put(f"{self.base_url}/work_order", json=data)
         return response.status_code
 
-    def create_ticket(self, ticket_data: WorkOrder) -> int:
-        data = json.loads(ticket_data.model_dump_json())  # 假设这返回一个字典
+    def create_work_order(self, work_order_data: WorkOrder) -> int:
+        data = json.loads(work_order_data.model_dump_json())  # 假设这返回一个字典
         response = requests.post(f"{self.base_url}/work_order", json=data)
         return response.status_code

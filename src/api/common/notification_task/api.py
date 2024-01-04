@@ -1,5 +1,5 @@
 """
-This module provides the API endpoints for support tickets.
+This module provides the API endpoints for support work_orders.
 """
 from datetime import datetime
 import json

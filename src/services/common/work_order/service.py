@@ -12,53 +12,38 @@ from utils import local_logger
 from utils.database import DatabaseManager
 from utils.database_crud import DatabaseCRUD
 
-table_name = "work_order"
+table_name = "workorder"
 
-def insert_ticket(work_order: WorkOrder) -> None:
+def insert_work_order(work_order: WorkOrder) -> None:
     DatabaseCRUD.create(work_order)
     pass
 
 
-def update_ticket(work_order: WorkOrder) -> bool:
-    # sql = "UPDATE work_order SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
-    # args = (
-    #     work_order.status,
-    #     work_order.priority,
-    #     work_order.type,
-    #     work_order.title,
-    #     work_order.content,
-    #     work_order.assigned_to_id,
-    #     work_order.creator_id,
-    #     work_order.create_time,
-    #     work_order.id,
-    # )
-    # if DatabaseManager.execute(sql, args):
-    #     return True
-    # return False
+def update_work_order(work_order: WorkOrder) -> bool:
     return DatabaseCRUD.update(work_order)
 
 
-def delete_ticket(ticket_id: Optional[int]) -> bool:
-    sql = "DELETE FROM work_order WHERE id=%s"
-    args = ticket_id
+def delete_work_order(work_order_id: Optional[int]) -> bool:
+    sql = f"DELETE FROM {table_name} WHERE id=%s"
+    args = work_order_id
     if DatabaseManager.execute(sql, args):
         return True
     return False
 
 
-def get_ticket_by_id(ticket_id: int) -> Optional[WorkOrder]:
-    return DatabaseCRUD.read_by_id(ticket_id, WorkOrder)
+def get_work_order_by_id(work_order_id: int) -> Optional[WorkOrder]:
+    return DatabaseCRUD.read_by_id(work_order_id, WorkOrder)
 
-# 根据条件获取tickets
+# 根据条件获取work_orders
 # 例如 search_criteria:str , status:int ,start_date:str  , end_date:str
 # 其中 search_criteria 为 title, content, assigned_to_id 的模糊搜索
 # status 为工单状态
 # start_date 为开始日期
 # end_date 为结束日期
 # 返回类型为 list[WorkOrder]
-# 根据条件获取 tickets
-# 根据条件获取 tickets
-def get_tickets_by_filter(
+# 根据条件获取 work_orders
+# 根据条件获取 work_orders
+def get_work_orders_by_filter(
     input_id: Optional[int] = None,
     input_uuid:Optional[str] = None,
     search_criteria: Optional[str] = None,
@@ -67,7 +52,7 @@ def get_tickets_by_filter(
     end_date: Optional[str] = None,
 ) -> List[WorkOrderBase]:
     # 构建 SQL 查询
-    sql = "SELECT * FROM work_order WHERE 1=1"
+    sql = f"SELECT * FROM {table_name} WHERE 1=1"
 
     args: List[Union[int, str]] = []
 
@@ -92,13 +77,13 @@ def get_tickets_by_filter(
         args.extend([start_date, end_date])
 
     # 执行查询
-    tickets = []
+    work_orders = []
     result = DatabaseManager.query_to_dict(sql, args)
     for row in result:
         work_order = WorkOrderBase(**row)
-        tickets.append(work_order)
+        work_orders.append(work_order)
 
-    return tickets
+    return work_orders
 
 
 

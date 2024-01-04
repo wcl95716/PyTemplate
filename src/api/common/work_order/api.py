@@ -1,5 +1,5 @@
 """
-This module provides the API endpoints for support tickets.
+This module provides the API endpoints for support work_orders.
 """
 from datetime import datetime
 import json
@@ -24,14 +24,14 @@ def serialize_datetime(obj: datetime) -> str:
 class WorkOrderAPI(FastAPI):
     def __init__(self) -> None:
         super().__init__()
-        self.add_api_route("", self.get_tickets, methods=["GET"], summary="获取工单")
-        self.add_api_route("", self.delete_tickets, methods=["DELETE"], summary="删除工单")
-        self.add_api_route("", self.update_tickets, methods=["PUT"], summary="更新工单")
-        self.add_api_route("", self.create_ticket, methods=["POST"], summary="创建工单")
-        self.add_api_route("/get_ticket", self.get_ticket_by_id, methods=["GET"], summary="根据ID获取工单")
+        self.add_api_route("", self.get_work_orders, methods=["GET"], summary="获取工单")
+        self.add_api_route("", self.delete_work_orders, methods=["DELETE"], summary="删除工单")
+        self.add_api_route("", self.update_work_orders, methods=["PUT"], summary="更新工单")
+        self.add_api_route("", self.create_work_order, methods=["POST"], summary="创建工单")
+        self.add_api_route("/get_work_order", self.get_work_order_by_id, methods=["GET"], summary="根据ID获取工单")
         pass
 
-    async def get_tickets(
+    async def get_work_orders(
         self,
         id: int = Query(None, description="WorkOrder ID"),
         uu_id: str = Query(None, description="WorkOrder UUID"),
@@ -53,18 +53,18 @@ class WorkOrderAPI(FastAPI):
             Response: _description_
         """
         # 调用相应的方法获取数据
-        tickets: List[WorkOrderBase] = service.get_tickets_by_filter(
+        work_orders: List[WorkOrderBase] = service.get_work_orders_by_filter(
             id, uu_id, search_criteria, status_filter, start_date, end_date
         )
-        tickets_data: list[dict[str, Any]] = [work_order.model_dump() for work_order in tickets]
+        work_orders_data: list[dict[str, Any]] = [work_order.model_dump() for work_order in work_orders]
 
 
         return Response(
-            content=json.dumps(tickets_data, default=serialize_datetime),
+            content=json.dumps(work_orders_data, default=serialize_datetime),
             media_type="application/json",
         )
 
-    async def delete_tickets(
+    async def delete_work_orders(
         self, id_list: list[int] = Body(None, description="WorkOrder ID list")
     ) -> Response:
         """_summary_
@@ -77,27 +77,27 @@ class WorkOrderAPI(FastAPI):
         """
 
         for id in id_list:
-            service.delete_ticket(id)
+            service.delete_work_order(id)
         return Response(status_code=200)
 
-    async def update_tickets(
+    async def update_work_orders(
         self, work_order: WorkOrder = Body(description="WorkOrder object",example=WorkOrder.config.json_schema_extra["update"])
     ) -> Response:
-        service.update_ticket(WorkOrder(**work_order.model_dump()))
+        service.update_work_order(WorkOrder(**work_order.model_dump()))
         return Response(status_code=200)
 
     # 创建工单
     # 我需要排除掉一些字段，比如ID，创建时间，更新时间
     
-    async def create_ticket(
+    async def create_work_order(
         self, work_order: WorkOrder = Body(description="WorkOrder object", example=WorkOrder.config.json_schema_extra["example"] )
     ) -> Response:
-        service.insert_ticket(work_order )
+        service.insert_work_order(work_order )
         return Response(status_code=200)
         pass
     
-    async def get_ticket_by_id(self , id:int = Query(1, description="WorkOrder ID")) -> Response:
-        work_order:Optional[WorkOrder] = service.get_ticket_by_id(id)
+    async def get_work_order_by_id(self , id:int = Query(1, description="WorkOrder ID")) -> Response:
+        work_order:Optional[WorkOrder] = service.get_work_order_by_id(id)
         if work_order is None:
             return Response(status_code=404)
         return Response(content=json.dumps(work_order.model_dump()), media_type="application/json")

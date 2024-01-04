@@ -150,9 +150,9 @@ def create_table_image(
 #     '问题描述': ['nan', 'nan', 'nan', 'nan', 'AV03,AV04遮挡', 'nan', 'nan', '通通道全黑屏', 'AV03摄像头需要擦拭', 'nan', 'nan', 'nan', 'nan', 'nan']
 # }
 if __name__ == "__main__":
-    # df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/微信服务群规则-测试.xlsx", engine='openpyxl',nrows=20)
+    # df = pd.read_excel("/Users/panda/Desktop/github.nosync/work_ordering-website/backend/data/微信服务群规则-测试.xlsx", engine='openpyxl',nrows=20)
     df = pd.read_excel(
-        "/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/部标监控日志12.6.xlsx",
+        "/Users/panda/Desktop/github.nosync/work_ordering-website/backend/data/部标监控日志12.6.xlsx",
         engine="openpyxl",
         nrows=20,
     )

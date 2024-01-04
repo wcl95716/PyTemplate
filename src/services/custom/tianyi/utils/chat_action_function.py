@@ -24,29 +24,29 @@ class ChatActionsEnum(Enum):
 class UtilsHelper:
     
     page_url = "http://47.116.201.99:4000/user_chat_page"
-    ticket_url = "http://47.116.201.99:4000/test/"
+    work_order_url = "http://47.116.201.99:4000/test/"
     # web_api = "http://47.103.45.149:25432/work_order"
     web_api = "http://127.0.0.1:25432"
     @staticmethod
-    def get_tickets_by_filter(input_uuid: Optional[str]) -> Optional[WorkOrder]:
-        ticket_client = WorkOrderClient(UtilsHelper.web_api)
-        res: list[WorkOrder] = ticket_client.get_tickets(uu_id=input_uuid)
+    def get_work_orders_by_filter(input_uuid: Optional[str]) -> Optional[WorkOrder]:
+        work_order_client = WorkOrderClient(UtilsHelper.web_api)
+        res: list[WorkOrder] = work_order_client.get_work_orders(uu_id=input_uuid)
         if len(res) == 0:
             return None
         return res[0]
         pass
         
     @staticmethod
-    def add_ticket_to_website(ticket_record: WorkOrder) -> bool:
+    def add_work_order_to_website(work_order_record: WorkOrder) -> bool:
 
-        ticket_client = WorkOrderClient(UtilsHelper.web_api)
-        res = ticket_client.create_ticket(ticket_record)
+        work_order_client = WorkOrderClient(UtilsHelper.web_api)
+        res = work_order_client.create_work_order(work_order_record)
         return res == 200
     
     @staticmethod
-    def add_ticket_init_chat(ticket_record: WorkOrder, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
-        url = f'{UtilsHelper.ticket_url}add_chat_record'
-        ticket_id = ticket_record.id
+    def add_work_order_init_chat(work_order_record: WorkOrder, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
+        url = f'{UtilsHelper.work_order_url}add_chat_record'
+        work_order_id = work_order_record.id
         
         # 生成随机的消息ID、工单ID、发送者、消息内容和消息时间
         message_id = ""
@@ -58,7 +58,7 @@ class UtilsHelper:
 
         chatMessage = {
             "message_id": message_id,
-            "ticket_id": ticket_id,
+            "work_order_id": work_order_id,
             "sender": sender,
             "content": content,
             "message_time": message_time,
@@ -86,7 +86,7 @@ class UtilsHelper:
                 message_type = 0
                 chatMessage = {
                     "message_id": message_id,
-                    "ticket_id": ticket_id,
+                    "work_order_id": work_order_id,
                     "sender": sender,
                     "content": content,
                     "message_time": message_time,
@@ -97,21 +97,21 @@ class UtilsHelper:
                 response = requests.post(url, json=chatMessage)
                 pass
         except Exception as e:
-            local_logger.logger.info("add_ticket_init_chat error : %s", str(e))
+            local_logger.logger.info("add_work_order_init_chat error : %s", str(e))
             pass
             
     
     @staticmethod
-    def get_work_order_link(ticket_id: Optional[int], customer_id: str) -> Optional[str]:
-        if ticket_id is None:
+    def get_work_order_link(work_order_id: Optional[int], customer_id: str) -> Optional[str]:
+        if work_order_id is None:
             return None
         original_string = customer_id
         encoded_string = quote(original_string, encoding='utf-8')
-        return f"@{customer_id}" +'{ENTER}' + f"工单id: {ticket_id}  工单消息通知  {UtilsHelper.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
+        return f"@{customer_id}" +'{ENTER}' + f"工单id: {work_order_id}  工单消息通知  {UtilsHelper.page_url}?work_order_id={work_order_id}&customer_id={encoded_string}"
     
     
 
-# 测试 add_ticket_to_website
+# 测试 add_work_order_to_website
 def test() ->None:
     work_order:WorkOrder = WorkOrder(
         type= RecordEnum.TEXT,
@@ -121,8 +121,8 @@ def test() ->None:
         assigned_to_id="",
     )
     # print("work_order ",work_order.dict())
-    # UtilsHelper.add_ticket_to_website(work_order)
-    asd =  UtilsHelper.get_tickets_by_filter(input_uuid="810a034c-f425-4eb7-985c-3b80f5f76548")
+    # UtilsHelper.add_work_order_to_website(work_order)
+    asd =  UtilsHelper.get_work_orders_by_filter(input_uuid="810a034c-f425-4eb7-985c-3b80f5f76548")
     print("asd ",asd)
     pass
 
