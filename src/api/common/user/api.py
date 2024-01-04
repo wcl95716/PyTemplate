@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from typing import Any
+import json
 
 
 
@@ -33,6 +34,9 @@ class UserAPI(FastAPI):
         print("user_filter: ",user_filter)
         users: list[User] = service.get_users_by_filter(user_filter)
         users_data: list[dict[str, Any]] = [user.model_dump() for user in users]
-        return Response(content=users_data, status_code=200)
+        print("users_data: ",users_data)
+        return Response(
+            content=json.dumps(users_data), 
+            status_code=200)
         pass
     

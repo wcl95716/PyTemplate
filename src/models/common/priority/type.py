@@ -4,7 +4,7 @@ from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 
 
-class PriorityEnum(Enum):
+class PriorityEnum(str,Enum):
     HIGHEST = 0
     URGENT = 1
     NORMAL = 2

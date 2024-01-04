@@ -10,6 +10,8 @@ from api.common.support_ticket.api import TicketAPI
 
 from api.common.user.api import UserAPI
 
+from api.common.notification_task.api import NotificationTaskAPI
+
 
 fast_api = FastAPI()
 fast_api.include_router(
@@ -21,6 +23,10 @@ fast_api.include_router(
 
 fast_api.include_router(
     UserAPI().router, prefix="/user", tags=[" User Operations"]
+)
+
+fast_api.include_router(
+    NotificationTaskAPI().router, prefix="/notification_task", tags=[" Notification Task Operations"]
 )
 
 

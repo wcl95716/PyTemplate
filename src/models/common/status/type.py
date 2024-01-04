@@ -6,7 +6,7 @@ from typing import Literal
 from sqlmodel import SQLModel, Field 
 from sqlalchemy import Column, Integer
 
-class StatusEnum(Enum):
+class StatusEnum(str,Enum):
     NEW = 0
     IN_PROGRESS = 1
     COMPLETED = 2

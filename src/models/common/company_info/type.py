@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 
 # 创建公司枚举类
-class CompanyEnum(Enum):
+class CompanyEnum(str,Enum):
     NONE = 1
     TIAN_YI = 2
     pass
