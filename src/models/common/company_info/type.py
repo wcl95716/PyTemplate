@@ -5,7 +5,7 @@ from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field as PydanticField
 
 
 
@@ -42,7 +42,7 @@ class CompanyInfoFilterEnum(str,Enum):
 
 
 class CompanyInfo(SQLModel,extend_existing=True):
-    company_id: Optional[CompanyEnum] = Field(CompanyEnum.NONE, index=True,sa_type=Integer)
+    company_id: CompanyEnum = Field(CompanyEnum.NONE,index=True,sa_type=Integer)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
     class config:
@@ -52,7 +52,7 @@ class CompanyInfo(SQLModel,extend_existing=True):
 
 
 class CompanyInfoFilter(SQLModel):
-    company_id: Optional[CompanyInfoFilterEnum] = Field(CompanyInfoFilterEnum.NONE, index=True,sa_type=Integer)
+    company_id: Optional[CompanyInfoFilterEnum ]= Field(None)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
     class config:

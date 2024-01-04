@@ -33,7 +33,7 @@ class WorkOrderAPI(FastAPI):
 
     async def get_work_orders(
         self,
-        id: int = Query(None, description="WorkOrder ID"),
+        id: int = Query(None, description="WorkOrder ID" , example=[1,2,3]),
         uu_id: str = Query(None, description="WorkOrder UUID"),
         search_criteria: str = Query(None, description="Search criteria"),
         status_filter: str = Query(None, description="Status filter"),

@@ -1,10 +1,11 @@
 import sys
-from typing import Optional
+sys.path.append("./src")
+from typing import Any, Optional
 from models.common.company_info.type import CompanyInfo, CompanyInfoFilter
 from models.common.priority.type import Priority, PriorityFilter
 
 from models.common.status.type import Status, StatusFilter
-sys.path.append("./src")
+
 
 from sqlalchemy import Integer
 from models.common.id.type import ID
@@ -14,6 +15,7 @@ from models.common.update_time.type import UpdateTime
 
 from enum import Enum
 from sqlmodel import SQLModel, Field 
+from pydantic import BaseModel, Field as PydanticField
 from enum import Enum
 
 class RecordEnum(Enum):
@@ -67,8 +69,8 @@ class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
 
 
 
-class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,SQLModel):
-    record_type: Optional[RecordFilterEnum] = Field(RecordFilterEnum.TEXT, description="记录类型" ,index=True,sa_type=Integer)
+class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,BaseModel):
+    record_type: Optional[RecordFilterEnum] = PydanticField(None, description=RecordFilterEnum.__doc__,examples=[{"TEXT":1,"IMAGE":2,"VIDEO":3,"AUDIO":4,"FILE":5}] )
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
     creator_id: Optional[str] = Field( None, description="创建者ID",index=True)
@@ -78,3 +80,41 @@ class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,SQLModel):
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
 
     pass
+
+    def build_sql_query(self) -> tuple[str,list[Any]]:
+        sql = ""
+        args = []
+        if self.assigned_to_id is not None:
+            sql += " AND assigned_to_id = %s"
+            args.append(self.assigned_to_id)
+        
+        if self.creator_id is not None:
+            sql += " AND creator_id = %s"
+            args.append(self.creator_id)
+        
+            
+        if self.priority is not None:
+            sql += " AND priority = %s"
+            args.append(str(self.priority.value))
+
+        if self.status is not None:
+            sql += " AND status = %s"
+            args.append(str(self.status.value))
+            
+        
+        # 模糊搜索
+        if self.title is not None:
+            sql += " AND title LIKE %s"
+            args.append(self.title)
+        
+        if self.record_type is not None:
+            sql += " AND type = %s"
+            args.append(str(self.record_type.value))
+            
+        if self.content is not None:
+            sql += " AND content LIKE %s"
+            args.append(self.content)
+        
+        
+        return sql , args
+        

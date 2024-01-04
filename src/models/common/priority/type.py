@@ -1,5 +1,6 @@
 from enum import Enum
 import random
+from typing import Optional
 from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 
@@ -52,7 +53,7 @@ class Priority(SQLModel,extend_existing=True):
 
     
 class PriorityFilter(SQLModel):
-    priority: PriorityFilterEnum = Field(PriorityFilterEnum.NORMAL ,index=True,sa_type=Integer)
+    priority: Optional[PriorityFilterEnum]= Field(None ,index=True,sa_type=Integer)
 
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
