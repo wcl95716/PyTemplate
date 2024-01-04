@@ -27,10 +27,10 @@ init_mysql:
 	scripts/setup-database.sh
 
 init_db:
-	python src/db/mysql/run.py
+	python db/mysql/run.py
 
 clean_db:
-	python src/db/mysql/clean_tables.py
+	python db/mysql/clean_tables.py
 
 push:
 	git add .
