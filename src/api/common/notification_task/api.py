@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Body, Depends, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
 
-from models.tables.ticket.type import Ticket, TicketBase
+from models.tables.work_order.type import WorkOrder, WorkOrderBase
 
 class NotificationTaskAPI(FastAPI):
     def __init__(self) -> None:

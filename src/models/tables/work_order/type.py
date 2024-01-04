@@ -13,7 +13,7 @@ from models.common.record.type import Record
 from models.common.status.type import Status
 
 
-class TicketBase(ID ,Record, SQLModel ):
+class WorkOrderBase(ID ,Record, SQLModel ):
     
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
@@ -43,5 +43,5 @@ class TicketBase(ID ,Record, SQLModel ):
     pass
 
 
-class Ticket(TicketBase, table = True,extend_existing=True):
+class WorkOrder(WorkOrderBase, table = True,extend_existing=True):
     pass

@@ -1,7 +1,7 @@
 from models.tables.chat_record.type import ChatRecord, ChatRecordBase
 from utils.database import DatabaseManager
 
-from models.tables.ticket.type import Ticket
+from models.tables.work_order.type import WorkOrder
 from utils.database_crud import DatabaseCRUD
 
 # 增加一条记录

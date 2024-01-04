@@ -4,7 +4,7 @@ from typing import Optional
 
 import requests
 
-from models.tables.ticket.type import Ticket, TicketBase
+from models.tables.work_order.type import WorkOrder, WorkOrderBase
 from typing import Any, Dict, List, Optional, Union
 from utils import local_logger
 
@@ -12,42 +12,42 @@ from utils import local_logger
 from utils.database import DatabaseManager
 from utils.database_crud import DatabaseCRUD
 
-table_name = "ticket"
+table_name = "work_order"
 
-def insert_ticket(ticket: Ticket) -> None:
-    DatabaseCRUD.create(ticket)
+def insert_ticket(work_order: WorkOrder) -> None:
+    DatabaseCRUD.create(work_order)
     pass
 
 
-def update_ticket(ticket: Ticket) -> bool:
-    # sql = "UPDATE ticket SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
+def update_ticket(work_order: WorkOrder) -> bool:
+    # sql = "UPDATE work_order SET status=%s, priority=%s, type=%s, title=%s, content=%s, assigned_to_id=%s, creator_id=%s, create_time=%s WHERE id=%s"
     # args = (
-    #     ticket.status,
-    #     ticket.priority,
-    #     ticket.type,
-    #     ticket.title,
-    #     ticket.content,
-    #     ticket.assigned_to_id,
-    #     ticket.creator_id,
-    #     ticket.create_time,
-    #     ticket.id,
+    #     work_order.status,
+    #     work_order.priority,
+    #     work_order.type,
+    #     work_order.title,
+    #     work_order.content,
+    #     work_order.assigned_to_id,
+    #     work_order.creator_id,
+    #     work_order.create_time,
+    #     work_order.id,
     # )
     # if DatabaseManager.execute(sql, args):
     #     return True
     # return False
-    return DatabaseCRUD.update(ticket)
+    return DatabaseCRUD.update(work_order)
 
 
 def delete_ticket(ticket_id: Optional[int]) -> bool:
-    sql = "DELETE FROM ticket WHERE id=%s"
+    sql = "DELETE FROM work_order WHERE id=%s"
     args = ticket_id
     if DatabaseManager.execute(sql, args):
         return True
     return False
 
 
-def get_ticket_by_id(ticket_id: int) -> Optional[Ticket]:
-    return DatabaseCRUD.read_by_id(ticket_id, Ticket)
+def get_ticket_by_id(ticket_id: int) -> Optional[WorkOrder]:
+    return DatabaseCRUD.read_by_id(ticket_id, WorkOrder)
 
 # 根据条件获取tickets
 # 例如 search_criteria:str , status:int ,start_date:str  , end_date:str
@@ -55,7 +55,7 @@ def get_ticket_by_id(ticket_id: int) -> Optional[Ticket]:
 # status 为工单状态
 # start_date 为开始日期
 # end_date 为结束日期
-# 返回类型为 list[Ticket]
+# 返回类型为 list[WorkOrder]
 # 根据条件获取 tickets
 # 根据条件获取 tickets
 def get_tickets_by_filter(
@@ -65,9 +65,9 @@ def get_tickets_by_filter(
     status_filter: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-) -> List[TicketBase]:
+) -> List[WorkOrderBase]:
     # 构建 SQL 查询
-    sql = "SELECT * FROM ticket WHERE 1=1"
+    sql = "SELECT * FROM work_order WHERE 1=1"
 
     args: List[Union[int, str]] = []
 
@@ -95,8 +95,8 @@ def get_tickets_by_filter(
     tickets = []
     result = DatabaseManager.query_to_dict(sql, args)
     for row in result:
-        ticket = TicketBase(**row)
-        tickets.append(ticket)
+        work_order = WorkOrderBase(**row)
+        tickets.append(work_order)
 
     return tickets
 

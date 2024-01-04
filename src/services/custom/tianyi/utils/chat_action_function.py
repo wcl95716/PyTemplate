@@ -1,8 +1,8 @@
 import sys
 
-from api.common.support_ticket.client_api import TicketClient
+from api.common.work_order.client_api import WorkOrderClient
 from models.common.record.type import RecordEnum
-from models.tables.ticket.type import Ticket
+from models.tables.work_order.type import WorkOrder
 sys.path.append("./src")
 
 import json
@@ -25,26 +25,26 @@ class UtilsHelper:
     
     page_url = "http://47.116.201.99:4000/user_chat_page"
     ticket_url = "http://47.116.201.99:4000/test/"
-    # web_api = "http://47.103.45.149:25432/ticket"
+    # web_api = "http://47.103.45.149:25432/work_order"
     web_api = "http://127.0.0.1:25432"
     @staticmethod
-    def get_tickets_by_filter(input_uuid: Optional[str]) -> Optional[Ticket]:
-        ticket_client = TicketClient(UtilsHelper.web_api)
-        res: list[Ticket] = ticket_client.get_tickets(uu_id=input_uuid)
+    def get_tickets_by_filter(input_uuid: Optional[str]) -> Optional[WorkOrder]:
+        ticket_client = WorkOrderClient(UtilsHelper.web_api)
+        res: list[WorkOrder] = ticket_client.get_tickets(uu_id=input_uuid)
         if len(res) == 0:
             return None
         return res[0]
         pass
         
     @staticmethod
-    def add_ticket_to_website(ticket_record: Ticket) -> bool:
+    def add_ticket_to_website(ticket_record: WorkOrder) -> bool:
 
-        ticket_client = TicketClient(UtilsHelper.web_api)
+        ticket_client = WorkOrderClient(UtilsHelper.web_api)
         res = ticket_client.create_ticket(ticket_record)
         return res == 200
     
     @staticmethod
-    def add_ticket_init_chat(ticket_record: Ticket, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
+    def add_ticket_init_chat(ticket_record: WorkOrder, group_message: list[tuple[Any, ...]], sender_name: str) -> None:
         url = f'{UtilsHelper.ticket_url}add_chat_record'
         ticket_id = ticket_record.id
         
@@ -113,15 +113,15 @@ class UtilsHelper:
 
 # 测试 add_ticket_to_website
 def test() ->None:
-    ticket:Ticket = Ticket(
+    work_order:WorkOrder = WorkOrder(
         type= RecordEnum.TEXT,
         content="",
         title= "6666666666",
         creator_id = "adsasdasdasd",
         assigned_to_id="",
     )
-    # print("ticket ",ticket.dict())
-    # UtilsHelper.add_ticket_to_website(ticket)
+    # print("work_order ",work_order.dict())
+    # UtilsHelper.add_ticket_to_website(work_order)
     asd =  UtilsHelper.get_tickets_by_filter(input_uuid="810a034c-f425-4eb7-985c-3b80f5f76548")
     print("asd ",asd)
     pass

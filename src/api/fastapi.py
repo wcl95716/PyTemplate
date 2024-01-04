@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from api.common.chat_record.api import CharRecordAPI
 
-from api.common.support_ticket.api import TicketAPI
+from api.common.work_order.api import WorkOrderAPI
 
 from api.common.user.api import UserAPI
 
@@ -15,7 +15,7 @@ from api.common.notification_task.api import NotificationTaskAPI
 
 fast_api = FastAPI()
 fast_api.include_router(
-    TicketAPI().router, prefix="/ticket", tags=["Ticket Operations"]
+    WorkOrderAPI().router, prefix="/work_order", tags=["WorkOrder Operations"]
 )
 fast_api.include_router(
     CharRecordAPI().router, prefix="/chat_record", tags=["Chat Record Operations"]

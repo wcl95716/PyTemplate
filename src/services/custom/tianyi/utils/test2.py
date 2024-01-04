@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 # 接口的URL
-url = "http://127.0.0.1:25432/ticket"  # 替换为实际的URL
+url = "http://127.0.0.1:25432/work_order"  # 替换为实际的URL
 
 # 构造请求体的数据
 data = {

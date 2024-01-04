@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 
 from fastapi.encoders import jsonable_encoder
-from services.common.support_ticket import service
+from services.common.work_order import service
 
 from unittest.mock import Base
 
@@ -15,13 +15,13 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Body, FastAPI, Query, HTTPException, Response
 from typing import Any, List, Optional
 
-from models.tables.ticket.type import Ticket, TicketBase
+from models.tables.work_order.type import WorkOrder, WorkOrderBase
 
 
 def serialize_datetime(obj: datetime) -> str:
     if isinstance(obj, datetime):
         return obj.strftime("%Y-%m-%d %H:%M:%S")
-class TicketAPI(FastAPI):
+class WorkOrderAPI(FastAPI):
     def __init__(self) -> None:
         super().__init__()
         self.add_api_route("", self.get_tickets, methods=["GET"], summary="获取工单")
@@ -33,8 +33,8 @@ class TicketAPI(FastAPI):
 
     async def get_tickets(
         self,
-        id: int = Query(None, description="Ticket ID"),
-        uu_id: str = Query(None, description="Ticket UUID"),
+        id: int = Query(None, description="WorkOrder ID"),
+        uu_id: str = Query(None, description="WorkOrder UUID"),
         search_criteria: str = Query(None, description="Search criteria"),
         status_filter: str = Query(None, description="Status filter"),
         start_date: str = Query(None, description="Start date"),
@@ -43,7 +43,7 @@ class TicketAPI(FastAPI):
         """_summary_
 
         Args:\n
-            id (int, optional): _description_. Defaults to Query( None, description="Ticket ID").\n
+            id (int, optional): _description_. Defaults to Query( None, description="WorkOrder ID").\n
             search_criteria (str, optional): _description_. Defaults to Query( None , description="Search criteria").\n
             status_filter (str, optional): _description_. Defaults to Query(None, description="Status filter").\n
             start_date (str, optional): _description_. Defaults to Query(None, description="Start date").\n
@@ -53,10 +53,10 @@ class TicketAPI(FastAPI):
             Response: _description_
         """
         # 调用相应的方法获取数据
-        tickets: List[TicketBase] = service.get_tickets_by_filter(
+        tickets: List[WorkOrderBase] = service.get_tickets_by_filter(
             id, uu_id, search_criteria, status_filter, start_date, end_date
         )
-        tickets_data: list[dict[str, Any]] = [ticket.model_dump() for ticket in tickets]
+        tickets_data: list[dict[str, Any]] = [work_order.model_dump() for work_order in tickets]
 
 
         return Response(
@@ -65,12 +65,12 @@ class TicketAPI(FastAPI):
         )
 
     async def delete_tickets(
-        self, id_list: list[int] = Body(None, description="Ticket ID list")
+        self, id_list: list[int] = Body(None, description="WorkOrder ID list")
     ) -> Response:
         """_summary_
 
         Args:
-            id_list (list[str], optional): _description_. Defaults to Body( None, description="Ticket ID list").
+            id_list (list[str], optional): _description_. Defaults to Body( None, description="WorkOrder ID list").
 
         Returns:
             Response: _description_
@@ -81,24 +81,24 @@ class TicketAPI(FastAPI):
         return Response(status_code=200)
 
     async def update_tickets(
-        self, ticket: Ticket = Body(description="Ticket object",example=Ticket.config.json_schema_extra["update"])
+        self, work_order: WorkOrder = Body(description="WorkOrder object",example=WorkOrder.config.json_schema_extra["update"])
     ) -> Response:
-        service.update_ticket(Ticket(**ticket.model_dump()))
+        service.update_ticket(WorkOrder(**work_order.model_dump()))
         return Response(status_code=200)
 
     # 创建工单
     # 我需要排除掉一些字段，比如ID，创建时间，更新时间
     
     async def create_ticket(
-        self, ticket: Ticket = Body(description="Ticket object", example=Ticket.config.json_schema_extra["example"] )
+        self, work_order: WorkOrder = Body(description="WorkOrder object", example=WorkOrder.config.json_schema_extra["example"] )
     ) -> Response:
-        service.insert_ticket(ticket )
+        service.insert_ticket(work_order )
         return Response(status_code=200)
         pass
     
-    async def get_ticket_by_id(self , id:int = Query(1, description="Ticket ID")) -> Response:
-        ticket:Optional[Ticket] = service.get_ticket_by_id(id)
-        if ticket is None:
+    async def get_ticket_by_id(self , id:int = Query(1, description="WorkOrder ID")) -> Response:
+        work_order:Optional[WorkOrder] = service.get_ticket_by_id(id)
+        if work_order is None:
             return Response(status_code=404)
-        return Response(content=json.dumps(ticket.model_dump()), media_type="application/json")
+        return Response(content=json.dumps(work_order.model_dump()), media_type="application/json")
         pass

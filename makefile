@@ -27,9 +27,6 @@ env:
 init_mysql:
 	scripts/setup-database.sh
 
-init_db:
-	python db/mysql/run.py
-
 clean_db:
 	python db/mysql/clean_tables.py
 

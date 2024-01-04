@@ -6,7 +6,7 @@ from typing import Optional
 import uuid
 from custom.tianyi.utils.chat_action_function import UtilsHelper
 from models.common.record.type import RecordEnum
-from models.tables.ticket.type import Ticket
+from models.tables.work_order.type import WorkOrder
 
 
 
@@ -15,7 +15,7 @@ def work_order_create(group_id:str, message: Optional[tuple[str,str,str]],group_
     if message is None:
         return None
 
-    ticket:Ticket = Ticket(
+    work_order:WorkOrder = WorkOrder(
         type= RecordEnum.TEXT,
         content="",
         title= group_id+ " " +  message[0],
@@ -23,8 +23,8 @@ def work_order_create(group_id:str, message: Optional[tuple[str,str,str]],group_
         assigned_to_id=""
     )
     
-    UtilsHelper.add_ticket_to_website(ticket)
-    result_ticket = UtilsHelper.get_tickets_by_filter(input_uuid= ticket.uu_id)
+    UtilsHelper.add_ticket_to_website(work_order)
+    result_ticket = UtilsHelper.get_tickets_by_filter(input_uuid= work_order.uu_id)
 
     if result_ticket is None:
         return None
