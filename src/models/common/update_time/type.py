@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
+from pydantic import BaseModel
 import pytz
 from sqlalchemy import func
 
@@ -45,7 +46,7 @@ class UpdateTime(SQLModel,extend_existing=True):
         return data
     
     
-class UpdateTimeFilter(FilterParams,SQLModel,extend_existing=True):
+class UpdateTimeFilter(FilterParams,BaseModel):
     # create_time: Optional[datetime] = Field(None, description="数据库自动生成",sa_column_kwargs={"nullable": False, "server_default": func.now()})
     # update_time: Optional[datetime] = Field(None, description="更新时间 数据库自动生成",sa_column_kwargs={"nullable": False, "server_default": func.now(), "onupdate": func.now()})
     start_date: Optional[str] = None  # Updated type annotation

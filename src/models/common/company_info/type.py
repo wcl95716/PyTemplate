@@ -54,7 +54,7 @@ class CompanyInfo(SQLModel,extend_existing=True):
 
 
 
-class CompanyInfoFilter(FilterParams, SQLModel):
+class CompanyInfoFilter(FilterParams,BaseModel):
     company_id: CompanyInfoFilterEnum = Field(CompanyInfoFilterEnum.NoneValue)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     

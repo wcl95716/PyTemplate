@@ -89,8 +89,8 @@ class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFil
         args = []
 
         # 添加来自其他过滤器的 SQL 片段和参数
-        for filter_cls in [UpdateTimeFilter, CompanyInfoFilter]:
-            sql_fragment, filter_args = filter_cls.build_sql_query(self)
+        for filter_cls in [UpdateTimeFilter,StatusFilter , PriorityFilter, CompanyInfoFilter]:
+            sql_fragment, filter_args = filter_cls.build_sql_query(self) # type: ignore
             sql_fragments.append(sql_fragment)
             args.extend(filter_args)
         
@@ -102,6 +102,7 @@ class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFil
             "record_type": "type = %s",
             "content": "content LIKE %s"
         }
+        
 
         # 生成 SQL 片段和参数
         for field, sql in field_to_sql.items():

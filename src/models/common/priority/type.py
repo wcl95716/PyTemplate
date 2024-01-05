@@ -1,6 +1,7 @@
 from enum import Enum
 import random
 from typing import Any, Optional
+from pydantic import BaseModel
 from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field
 
@@ -56,12 +57,12 @@ class Priority(SQLModel,extend_existing=True):
 
 
     
-class PriorityFilter(FilterParams,SQLModel):
+class PriorityFilter(FilterParams,BaseModel):
     priority: Optional[PriorityFilterEnum]= Field(None ,index=True,sa_type=Integer)
 
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
-        
+    
     def build_sql_query(self)-> tuple[str,list[Any]]:
         sql = ""
         args = []

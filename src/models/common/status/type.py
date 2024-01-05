@@ -1,5 +1,7 @@
 import sys
 
+from pydantic import BaseModel
+
 from models.common.filter_params.type import FilterParams
 sys.path.append("./src")
 
@@ -54,7 +56,7 @@ class Status(SQLModel):
 
 
 
-class StatusFilter(FilterParams,SQLModel):
+class StatusFilter(FilterParams,BaseModel):
     # 使它生成的表中 为int类型
     status: Optional[StatusFilterEnum] = Field(None,index=True,sa_type=Integer)
     
