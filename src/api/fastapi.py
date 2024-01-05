@@ -12,6 +12,8 @@ from api.common.user.api import UserAPI
 
 from api.common.notification_task.api import NotificationTaskAPI
 
+from api.common.file_store.api import FileStoreAPI
+
 
 fast_api = FastAPI()
 fast_api.include_router(
@@ -28,6 +30,11 @@ fast_api.include_router(
 fast_api.include_router(
     NotificationTaskAPI().router, prefix="/notification_task", tags=[" Notification Task Operations"]
 )
+
+fast_api.include_router(
+    FileStoreAPI().router, prefix="/file_store", tags=[" File Store Operations"]
+)
+
 
 
 
