@@ -41,3 +41,22 @@ class UpdateTime(SQLModel,extend_existing=True):
             data["update_time"] = self.update_time.strftime("%Y-%m-%d %H:%M:%S")
         
         return data
+    
+    
+class UpdateTimeFilter(SQLModel,extend_existing=True):
+    # create_time: Optional[datetime] = Field(None, description="数据库自动生成",sa_column_kwargs={"nullable": False, "server_default": func.now()})
+    # update_time: Optional[datetime] = Field(None, description="更新时间 数据库自动生成",sa_column_kwargs={"nullable": False, "server_default": func.now(), "onupdate": func.now()})
+    start_date: Optional[str] = None  # Updated type annotation
+    end_date: Optional[str] = None  # Updated type annotation
+    
+    def build_sql_query(self) -> tuple[str,list[Any]]:
+        
+        sql = ""
+        args = []
+        
+        if self.start_date and self.end_date:
+            sql += " AND create_time BETWEEN %s AND %s"
+            args.append(str(self.start_date))
+            args.append(str(self.end_date))
+            
+        return sql , args

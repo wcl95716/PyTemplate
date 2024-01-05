@@ -19,6 +19,7 @@ class CompanyEnum(Enum):
         - NONE: 0 代表无公司。
         - TIAN_YI: 1 代表天翼。
     """
+    NoneValue = None
     NONE = 0
     TIAN_YI = 1
     pass
@@ -34,7 +35,7 @@ class CompanyInfoFilterEnum(str,Enum):
         - NONE: 0 代表无公司。
         - TIAN_YI: 1 代表天翼。
     """
-    
+    NoneValue = None
     NONE = 0
     TIAN_YI = 1
     pass
@@ -52,7 +53,7 @@ class CompanyInfo(SQLModel,extend_existing=True):
 
 
 class CompanyInfoFilter(SQLModel):
-    company_id: Optional[CompanyInfoFilterEnum ]= Field(None)
+    company_id: CompanyInfoFilterEnum = Field(CompanyInfoFilterEnum.NoneValue)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
     class config:
@@ -62,8 +63,8 @@ class CompanyInfoFilter(SQLModel):
         
         sql = ""
         args = []
-        
-        if self.company_id is not None :
+
+        if self.company_id is not None  and self.company_id != CompanyInfoFilterEnum.NoneValue:
             sql += " AND company_id = %s"
             args.append(str(self.company_id))
         

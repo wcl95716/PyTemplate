@@ -10,7 +10,7 @@ from models.common.status.type import Status, StatusFilter
 from sqlalchemy import Integer
 from models.common.id.type import ID
 
-from models.common.update_time.type import UpdateTime
+from models.common.update_time.type import UpdateTime, UpdateTimeFilter
 
 
 from enum import Enum
@@ -69,7 +69,7 @@ class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
 
 
 
-class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,BaseModel):
+class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFilter ,BaseModel):
     record_type: Optional[RecordFilterEnum] = PydanticField(None, description=RecordFilterEnum.__doc__,examples=[{"TEXT":1,"IMAGE":2,"VIDEO":3,"AUDIO":4,"FILE":5}] )
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
@@ -82,8 +82,14 @@ class RecordFilter(CompanyInfoFilter, StatusFilter, PriorityFilter ,BaseModel):
     pass
 
     def build_sql_query(self) -> tuple[str,list[Any]]:
+        
+        sql1 ,args1 = CompanyInfoFilter.build_sql_query(self)
+        
         sql = ""
+        sql += sql1
+        
         args = []
+        args.extend(args1)
         if self.assigned_to_id is not None:
             sql += " AND assigned_to_id = %s"
             args.append(self.assigned_to_id)

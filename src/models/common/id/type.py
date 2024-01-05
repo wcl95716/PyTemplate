@@ -17,6 +17,11 @@ class ID(SQLModel):
             # print("uu_id is None ",data)
             data['uu_id'] = str(uuid.uuid4())
         super().__init__(**data)
+
+class IDFilter(SQLModel):
+    id: Optional[int] =  Field(None, description="数据库自动生成的ID",primary_key=True)
+    uu_id: Optional[str] = Field(None, description="uuid 类初始化自动生成" , index=True)
+    
     
     def build_sql_query(self) -> tuple[str,list[Any]]:
         

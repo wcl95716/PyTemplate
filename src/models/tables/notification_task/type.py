@@ -14,7 +14,7 @@ from models.common.priority.type import Priority
 from models.common.record.type import Record, RecordFilter
 from enum import Enum
 from models.common.status.type import Status  # Add missing import statement
-from models.common.id.type import ID  # Add missing import statement
+from models.common.id.type import ID, IDFilter  # Add missing import statement
 from typing import Any  # Add missing import statement
 
 
@@ -80,9 +80,7 @@ class NotificationTask( NotificationTaskBase, table = True):
     pass
 
 
-class NotificationTaskFilterParams(ID,RecordFilter,BaseModel):
-    start_date: Optional[str] = None  # Updated type annotation
-    end_date: Optional[str] = None  # Updated type annotation
+class NotificationTaskFilterParams(IDFilter,RecordFilter,BaseModel):
     
     # 描述
     notification_type:NotificationFilterEnum = Field(default=NotificationFilterEnum.NoneValue,description="通知类型" )
@@ -93,7 +91,7 @@ class NotificationTaskFilterParams(ID,RecordFilter,BaseModel):
 
     def build_sql_query(self) -> tuple[str,list[Any]]:
         sql1 ,args1 = RecordFilter.build_sql_query(self)
-        sql2 ,args2 = ID.build_sql_query(self)
+        sql2 ,args2 = IDFilter.build_sql_query(self)
         
         sql = ""
         args = []
@@ -108,10 +106,7 @@ class NotificationTaskFilterParams(ID,RecordFilter,BaseModel):
             sql += " AND notification_type = %s"
             args.append(str(self.notification_type.value))
         
-        if self.start_date and self.end_date:
-            sql += " AND create_time BETWEEN %s AND %s"
-            args.append(str(self.start_date))
-            args.append(str(self.end_date))
+
             
         return sql , args
         
