@@ -13,7 +13,7 @@ from models.common.status.type import Status
 
 class FileStoreBase(ID, SQLModel):
     file_name : str = Field(...,index=True)
-    file_path : str = Field(...,index=True)
+    file_path : str = Field(...,)
     file_size : int = Field(...,index=True)
     file_type : str = Field(...,index=True)
     file_hash : str = Field(...,index=True)
@@ -24,7 +24,7 @@ class FileStoreBase(ID, SQLModel):
     pass
 
 
-class FileStore(FileStoreBase):
+class FileStore(FileStoreBase,table=True):
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
         

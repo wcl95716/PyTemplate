@@ -8,7 +8,7 @@ from models.tables.file_store.type import FileStore
 from models.tables.notification_task.type import NotificationTask, NotificationTaskBase, NotificationTaskFilterParams
 
 
-from fastapi import Body, Depends, FastAPI, Query, Response
+from fastapi import Body, Depends, FastAPI, Query, Response, UploadFile
 from typing import List
 
 from services.common.file_store import service
@@ -25,9 +25,13 @@ class FileStoreAPI(FastAPI):
         self.add_api_route("/get_record_by_id", self.get_record_by_id, methods=["GET"], summary="获取")
         pass
     
-    async def create_record(self , record: FileStore = Body(..., description="创建")) -> Response:
-        success: bool = service.insert_record(record)
-        return Response(status_code=200) if success else Response(status_code=500)
+    async def create_record(self , upload_file: UploadFile ) -> Response:
+        print("asdas ")
+        record = service.upload_file(upload_file)
+        if record is None:
+            return Response(status_code=500) 
+        service.insert_record(record)
+        return Response(status_code=200)
     
     async def update_record(
         self, record: FileStore = Body(description="更新")
