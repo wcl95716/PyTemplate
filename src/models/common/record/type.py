@@ -30,6 +30,7 @@ class RecordEnum(Enum):
     - AUDIO: 4 代表音频记录。
     - FILE: 5 代表文件记录。
     """
+    NoneValue = None
     TEXT = 1
     IMAGE = 2
     VIDEO = 3
@@ -48,6 +49,7 @@ class RecordFilterEnum(str,Enum):
     - AUDIO: 4 代表音频记录。
     - FILE: 5 代表文件记录。
     """
+    NoneValue = None
     TEXT = 1
     IMAGE = 2
     VIDEO = 3
@@ -72,7 +74,7 @@ class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
 
 
 class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFilter ,FilterParams,BaseModel):
-    record_type: Optional[RecordFilterEnum] = PydanticField(None, description=RecordFilterEnum.__doc__,examples=[{"TEXT":1,"IMAGE":2,"VIDEO":3,"AUDIO":4,"FILE":5}] )
+    record_type: RecordFilterEnum = PydanticField(RecordFilterEnum.NoneValue, description=RecordFilterEnum.__doc__,examples=[{"TEXT":1,"IMAGE":2,"VIDEO":3,"AUDIO":4,"FILE":5}] )
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
     creator_id: Optional[str] = Field( None, description="创建者ID",index=True)
@@ -103,12 +105,15 @@ class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFil
             "content": "content LIKE %s"
         }
         
-
         # 生成 SQL 片段和参数
         for field, sql in field_to_sql.items():
             value = getattr(self, field)
             if value is not None:
+                # 如果是枚举 则使用 value 属性  如果value 是 None 则跳过
+                if isinstance(value, Enum) and value.value == "None":
+                    continue
                 sql_fragments.append(" AND " + sql)
+                
                 args.append(str(value.value) if hasattr(value, "value") else value)
 
         # 组合所有 SQL 片段

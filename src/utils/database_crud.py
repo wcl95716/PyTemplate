@@ -84,11 +84,11 @@ class DatabaseCRUD:
             return False
     
     @classmethod
-    def delete(cls, model_instance: T) -> bool:
+    def delete(cls,id:int ,  T: Type[T]) -> bool:
         try:
-            new_instance = model_instance.__class__(**model_instance.model_dump())
+            # new_instance = model_instance.__class__(**model_instance.model_dump())
             with Session(cls.engine) as session:
-                existing_record = session.get(new_instance.__class__, model_instance.id)
+                existing_record = session.get(T, id)
                 if existing_record:
                     session.delete(existing_record)
                     session.commit()

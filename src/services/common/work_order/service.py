@@ -23,12 +23,8 @@ def update_work_order(work_order: WorkOrder) -> bool:
     return DatabaseCRUD.update(work_order)
 
 
-def delete_work_order(work_order_id: Optional[int]) -> bool:
-    sql = f"DELETE FROM {table_name} WHERE id=%s"
-    args = work_order_id
-    if DatabaseManager.execute(sql, args):
-        return True
-    return False
+def delete_work_order(work_order_id: int) -> bool:
+    return DatabaseCRUD.delete(work_order_id, WorkOrder)
 
 
 def get_work_order_by_id(work_order_id: int) -> Optional[WorkOrder]:

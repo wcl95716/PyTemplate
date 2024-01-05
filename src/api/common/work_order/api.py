@@ -25,8 +25,8 @@ class WorkOrderAPI(FastAPI):
     def __init__(self) -> None:
         super().__init__()
         self.add_api_route("", self.get_work_orders, methods=["GET"], summary="获取工单")
-        self.add_api_route("", self.delete_work_orders, methods=["DELETE"], summary="删除工单")
-        self.add_api_route("", self.update_work_orders, methods=["PUT"], summary="更新工单")
+        self.add_api_route("", self.delete_work_order, methods=["DELETE"], summary="删除工单")
+        self.add_api_route("", self.update_work_order, methods=["PUT"], summary="更新工单")
         self.add_api_route("", self.create_work_order, methods=["POST"], summary="创建工单")
         self.add_api_route("/get_work_order", self.get_work_order_by_id, methods=["GET"], summary="根据ID获取工单")
         pass
@@ -64,8 +64,8 @@ class WorkOrderAPI(FastAPI):
             media_type="application/json",
         )
 
-    async def delete_work_orders(
-        self, id_list: list[int] = Body(None, description="WorkOrder ID list")
+    async def delete_work_order(
+        self, id:int = Query(... , description="id")
     ) -> Response:
         """_summary_
 
@@ -76,11 +76,10 @@ class WorkOrderAPI(FastAPI):
             Response: _description_
         """
 
-        for id in id_list:
-            service.delete_work_order(id)
+        service.delete_work_order(id)
         return Response(status_code=200)
 
-    async def update_work_orders(
+    async def update_work_order(
         self, work_order: WorkOrder = Body(description="WorkOrder object",example=WorkOrder.config.json_schema_extra["update"])
     ) -> Response:
         service.update_work_order(WorkOrder(**work_order.model_dump()))
