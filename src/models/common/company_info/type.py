@@ -68,7 +68,7 @@ class CompanyInfoFilter(FilterParams,SQLModel):
         print("CompanyInfoFilter build_sql_query " , self.company_id , self.company_name)
         if self.company_id is not None  and self.company_id != CompanyInfoFilterEnum.NoneValue:
             sql += " AND company_id = %s"
-            args.append(str(self.company_id))
+            args.append(str(self.company_id.value))
         
         if self.company_name is not None:
             sql += " AND company_name LIKE %s"

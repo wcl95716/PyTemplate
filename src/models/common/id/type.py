@@ -4,7 +4,10 @@
 
 from typing import Any, Optional
 import uuid
-from sqlmodel import SQLModel, Field 
+from pydantic import BaseModel
+from sqlmodel import SQLModel, Field
+
+from models.common.filter_params.type import FilterParams 
 
 
 class ID(SQLModel):
@@ -18,7 +21,7 @@ class ID(SQLModel):
             data['uu_id'] = str(uuid.uuid4())
         super().__init__(**data)
 
-class IDFilter(SQLModel):
+class IDFilter( FilterParams,BaseModel ):
     id: Optional[int] =  Field(None, description="数据库自动生成的ID",primary_key=True)
     uu_id: Optional[str] = Field(None, description="uuid 类初始化自动生成" , index=True)
     

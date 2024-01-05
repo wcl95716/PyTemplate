@@ -9,6 +9,7 @@ from sqlmodel import SQLModel, Field
 from pydantic import BaseModel, Field as PydanticField
 
 import json
+from models.common.filter_params.type import FilterParams
 from models.common.priority.type import Priority
 
 from models.common.record.type import Record, RecordFilter
@@ -16,7 +17,6 @@ from enum import Enum
 from models.common.status.type import Status  # Add missing import statement
 from models.common.id.type import ID, IDFilter  # Add missing import statement
 from typing import Any  # Add missing import statement
-
 
 class NotificationEnum(Enum):
     """
@@ -80,7 +80,7 @@ class NotificationTask( NotificationTaskBase, table = True):
     pass
 
 
-class NotificationTaskFilterParams(IDFilter,RecordFilter,BaseModel):
+class NotificationTaskFilterParams(IDFilter,RecordFilter,FilterParams,BaseModel):
     
     # 描述
     notification_type:NotificationFilterEnum = Field(default=NotificationFilterEnum.NoneValue,description="通知类型" )
@@ -90,18 +90,17 @@ class NotificationTaskFilterParams(IDFilter,RecordFilter,BaseModel):
     pass
 
     def build_sql_query(self) -> tuple[str,list[Any]]:
-        sql1 ,args1 = RecordFilter.build_sql_query(self)
-        sql2 ,args2 = IDFilter.build_sql_query(self)
-        
-        sql = ""
+        sql_fragments = []
         args = []
-        
-        sql += sql1
-        sql += sql2
-        
-        args.extend(args1)
-        args.extend(args2)
 
+        # 添加来自其他过滤器的 SQL 片段和参数
+        for filter_cls in [RecordFilter, IDFilter]:
+            sql_fragment, filter_args = filter_cls.build_sql_query(self) # type: ignore
+            sql_fragments.append(sql_fragment)
+            args.extend(filter_args)
+            
+        sql =  " ".join(sql_fragments)
+        
         if self.notification_type is not None and self.notification_type != NotificationFilterEnum.NoneValue :
             sql += " AND notification_type = %s"
             args.append(str(self.notification_type.value))

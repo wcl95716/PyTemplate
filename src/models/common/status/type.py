@@ -1,4 +1,6 @@
 import sys
+
+from models.common.filter_params.type import FilterParams
 sys.path.append("./src")
 
 from enum import Enum
@@ -50,7 +52,7 @@ class Status(SQLModel):
 
 
 
-class StatusFilter(SQLModel):
+class StatusFilter(FilterParams,SQLModel):
     # 使它生成的表中 为int类型
     status: Optional[StatusFilterEnum] = Field(None,index=True,sa_type=Integer)
     

@@ -1,4 +1,6 @@
 import sys
+
+from models.common.filter_params.type import FilterParams
 sys.path.append("./src")
 from typing import Any, Optional
 from models.common.company_info.type import CompanyInfo, CompanyInfoFilter
@@ -69,7 +71,7 @@ class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
 
 
 
-class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFilter ,SQLModel):
+class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFilter ,FilterParams,BaseModel):
     record_type: Optional[RecordFilterEnum] = PydanticField(None, description=RecordFilterEnum.__doc__,examples=[{"TEXT":1,"IMAGE":2,"VIDEO":3,"AUDIO":4,"FILE":5}] )
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
@@ -78,8 +80,8 @@ class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFil
     
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
-
     pass
+
 
     def build_sql_query(self) -> tuple[str,list[Any]]:
         

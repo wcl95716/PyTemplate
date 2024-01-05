@@ -2,7 +2,9 @@ from enum import Enum
 import random
 from typing import Optional
 from sqlalchemy import Integer
-from sqlmodel import SQLModel, Field 
+from sqlmodel import SQLModel, Field
+
+from models.common.filter_params.type import FilterParams 
 
 
 class PriorityEnum(Enum):
@@ -52,7 +54,7 @@ class Priority(SQLModel,extend_existing=True):
 
 
     
-class PriorityFilter(SQLModel):
+class PriorityFilter(FilterParams,SQLModel):
     priority: Optional[PriorityFilterEnum]= Field(None ,index=True,sa_type=Integer)
 
     class config:
