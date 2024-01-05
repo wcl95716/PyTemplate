@@ -54,19 +54,18 @@ class CompanyInfo(SQLModel,extend_existing=True):
 
 
 
-class CompanyInfoFilter(FilterParams,SQLModel):
+class CompanyInfoFilter(FilterParams, SQLModel):
     company_id: CompanyInfoFilterEnum = Field(CompanyInfoFilterEnum.NoneValue)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
         
-    def build_sql_query(self) -> tuple[str,list[Any]]:
+    def build_sql_query(self) -> tuple[str, list[Any]]:
         
         sql = ""
         args = []
-        print("CompanyInfoFilter build_sql_query " , self.company_id , self.company_name)
-        if self.company_id is not None  and self.company_id != CompanyInfoFilterEnum.NoneValue:
+        if self.company_id is not None and self.company_id != CompanyInfoFilterEnum.NoneValue:
             sql += " AND company_id = %s"
             args.append(str(self.company_id.value))
         
@@ -74,5 +73,5 @@ class CompanyInfoFilter(FilterParams,SQLModel):
             sql += " AND company_name LIKE %s"
             args.append(self.company_name)
             
-        return sql , args
-    pass
+        return sql, args
+    

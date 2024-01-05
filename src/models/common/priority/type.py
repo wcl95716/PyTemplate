@@ -1,6 +1,6 @@
 from enum import Enum
 import random
-from typing import Optional
+from typing import Any, Optional
 from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field
 
@@ -19,6 +19,7 @@ class PriorityEnum(Enum):
         - NOT_URGENT: 3 代表不紧急优先级。
         - NOT_NEEDED: 4 代表不需要优先级。
     """
+    NoneValue = None
     HIGHEST = 0
     URGENT = 1
     NORMAL = 2
@@ -38,6 +39,7 @@ class PriorityFilterEnum(str,Enum):
         - NOT_URGENT: 3 代表不紧急优先级。
         - NOT_NEEDED: 4 代表不需要优先级。
     """
+    NoneValue = None
     HIGHEST = 0
     URGENT = 1
     NORMAL = 2
@@ -60,3 +62,13 @@ class PriorityFilter(FilterParams,SQLModel):
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
         
+    def build_sql_query(self)-> tuple[str,list[Any]]:
+        sql = ""
+        args = []
+        if self.priority is not None and self.priority != PriorityFilterEnum.NoneValue:
+            sql += " AND priority = %s"
+            args.append(str(self.priority.value))
+            
+        return sql, args
+        pass
+    
