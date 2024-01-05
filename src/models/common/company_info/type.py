@@ -7,6 +7,8 @@ from enum import Enum
 from typing import Any, Optional
 from pydantic import BaseModel, Field as PydanticField
 
+from models.common.filter_params.type import FilterParams
+
 
 
 # 创建公司枚举类
@@ -52,7 +54,7 @@ class CompanyInfo(SQLModel,extend_existing=True):
 
 
 
-class CompanyInfoFilter(SQLModel):
+class CompanyInfoFilter(FilterParams,SQLModel):
     company_id: CompanyInfoFilterEnum = Field(CompanyInfoFilterEnum.NoneValue)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
@@ -63,7 +65,7 @@ class CompanyInfoFilter(SQLModel):
         
         sql = ""
         args = []
-
+        print("CompanyInfoFilter build_sql_query " , self.company_id , self.company_name)
         if self.company_id is not None  and self.company_id != CompanyInfoFilterEnum.NoneValue:
             sql += " AND company_id = %s"
             args.append(str(self.company_id))

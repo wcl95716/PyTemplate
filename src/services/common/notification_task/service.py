@@ -20,7 +20,7 @@ def insert_notification(task: NotificationTaskBase) -> bool:
 def query_notification_task_by_filter_params(filter_params: NotificationTaskFilterParams) -> list[NotificationTaskBase]:
     
     sql1, args1 = filter_params.build_sql_query()
-    sql = f"SELECT * FROM {table_name} WHERE 1=1"
+    sql = f"SELECT * FROM {table_name} WHERE 1=1 "
     sql += sql1
     
     args = []

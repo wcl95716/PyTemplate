@@ -69,7 +69,7 @@ class Record(UpdateTime,CompanyInfo, Status, Priority ,SQLModel):
 
 
 
-class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFilter ,BaseModel):
+class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFilter ,SQLModel):
     record_type: Optional[RecordFilterEnum] = PydanticField(None, description=RecordFilterEnum.__doc__,examples=[{"TEXT":1,"IMAGE":2,"VIDEO":3,"AUDIO":4,"FILE":5}] )
     content: Optional[str] = Field(None, description="记录内容")
     title: Optional[str] = Field(None, description="记录标题")
@@ -83,44 +83,32 @@ class RecordFilter(UpdateTimeFilter,CompanyInfoFilter, StatusFilter, PriorityFil
 
     def build_sql_query(self) -> tuple[str,list[Any]]:
         
-        sql1 ,args1 = CompanyInfoFilter.build_sql_query(self)
-        
-        sql = ""
-        sql += sql1
-        
+        sql_fragments = []
         args = []
-        args.extend(args1)
-        if self.assigned_to_id is not None:
-            sql += " AND assigned_to_id = %s"
-            args.append(self.assigned_to_id)
-        
-        if self.creator_id is not None:
-            sql += " AND creator_id = %s"
-            args.append(self.creator_id)
-        
-            
-        if self.priority is not None:
-            sql += " AND priority = %s"
-            args.append(str(self.priority.value))
 
-        if self.status is not None:
-            sql += " AND status = %s"
-            args.append(str(self.status.value))
-            
+        # 添加来自其他过滤器的 SQL 片段和参数
+        for filter_cls in [UpdateTimeFilter, CompanyInfoFilter]:
+            sql_fragment, filter_args = filter_cls.build_sql_query(self)
+            sql_fragments.append(sql_fragment)
+            args.extend(filter_args)
         
-        # 模糊搜索
-        if self.title is not None:
-            sql += " AND title LIKE %s"
-            args.append(self.title)
-        
-        if self.record_type is not None:
-            sql += " AND type = %s"
-            args.append(str(self.record_type.value))
-            
-        if self.content is not None:
-            sql += " AND content LIKE %s"
-            args.append(self.content)
-        
-        
-        return sql , args
-        
+        # 使用字典映射字段到 SQL 片段
+        field_to_sql = {
+            "assigned_to_id": "assigned_to_id = %s",
+            "creator_id": "creator_id = %s",
+            "title": "title LIKE %s",
+            "record_type": "type = %s",
+            "content": "content LIKE %s"
+        }
+
+        # 生成 SQL 片段和参数
+        for field, sql in field_to_sql.items():
+            value = getattr(self, field)
+            if value is not None:
+                sql_fragments.append(" AND " + sql)
+                args.append(str(value.value) if hasattr(value, "value") else value)
+
+        # 组合所有 SQL 片段
+        full_sql = " ".join(sql_fragments)
+
+        return full_sql, args

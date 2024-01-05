@@ -98,15 +98,13 @@ class NotificationTaskFilterParams(IDFilter,RecordFilter,BaseModel):
         
         sql += sql1
         sql += sql2
+        
         args.extend(args1)
         args.extend(args2)
 
-        
         if self.notification_type is not None and self.notification_type != NotificationFilterEnum.NoneValue :
             sql += " AND notification_type = %s"
             args.append(str(self.notification_type.value))
-        
-
             
         return sql , args
         
