@@ -4,7 +4,7 @@
 from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field as PydanticField
 
 
@@ -57,4 +57,19 @@ class CompanyInfoFilter(SQLModel):
     
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
+        
+    def build_sql_query(self) -> tuple[str,list[Any]]:
+        
+        sql = ""
+        args = []
+        
+        if self.company_id is not None :
+            sql += " AND company_id = %s"
+            args.append(str(self.company_id))
+        
+        if self.company_name is not None:
+            sql += " AND company_name LIKE %s"
+            args.append(self.company_name)
+            
+        return sql , args
     pass

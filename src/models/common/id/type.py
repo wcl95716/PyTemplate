@@ -17,5 +17,21 @@ class ID(SQLModel):
             # print("uu_id is None ",data)
             data['uu_id'] = str(uuid.uuid4())
         super().__init__(**data)
+    
+    def build_sql_query(self) -> tuple[str,list[Any]]:
+        
+        sql = ""
+        args = []
+        
+        
+        if self.id is not None :
+            sql += " AND id = %s"
+            args.append(str(self.id))
+        
+        if self.uu_id is not None:
+            sql += " AND uu_id = %s"
+            args.append(self.uu_id)
+            
+        return sql , args
         
     pass

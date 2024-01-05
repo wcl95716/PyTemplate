@@ -15,17 +15,44 @@ from models.common.record.type import Record, RecordFilter
 from enum import Enum
 from models.common.status.type import Status  # Add missing import statement
 from models.common.id.type import ID  # Add missing import statement
+from typing import Any  # Add missing import statement
+
 
 class NotificationEnum(Enum):
+    """
+    NotificationEnum 定义了不同类型的通知方式。
+
+    枚举值:
+    - NoneValue: 表示没有指定通知方式。
+    - WECHAT: 表示通过微信进行通知。
+    - WEBSITE: 表示通过网站进行通知。
+    - EMAIL: 表示通过电子邮件进行通知。
+    """
+    NoneValue = None
     WECHAT = 1
     WEBSITE = 2
     EMAIL = 3
     
+    
+# 添加过滤模型
+class NotificationFilterEnum(str,Enum):
+    """
+    NotificationEnum 定义了不同类型的通知方式。
 
-from typing import Any  # Add missing import statement
+    枚举值:
+    - NoneValue: 表示没有指定通知方式。
+    - WECHAT: 表示通过微信进行通知。
+    - WEBSITE: 表示通过网站进行通知。
+    - EMAIL: 表示通过电子邮件进行通知。
+    """
+    NoneValue = None
+    WECHAT = 1
+    WEBSITE = 2
+    EMAIL =3
+
 
 class NotificationTaskBase( ID , Record, SQLModel):
-    notification_type: NotificationEnum = Field(NotificationEnum.WECHAT, description="通知类型" ,index=True ,sa_type=Integer)
+    notification_type: NotificationEnum = Field(NotificationEnum.WECHAT ,index=True ,sa_type=Integer)
     destination: Optional[str] = None  # Fix missing type parameters for dict
     # id: Optional[int]  # Updated type annotation
     class config:
@@ -39,6 +66,7 @@ class NotificationTaskBase( ID , Record, SQLModel):
         return db_dict
     pass
 
+
 class NotificationTask( NotificationTaskBase, table = True):
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
@@ -50,27 +78,6 @@ class NotificationTask( NotificationTaskBase, table = True):
             db_dict['destination'] = json.dumps(db_dict['destination'])  # Fix reference to json.dumps
         return db_dict
     pass
-    
-# 添加过滤模型
-
-class NotificationFilterEnum(str,Enum):
-    NoneValue = None
-    WECHAT = 1
-    WEBSITE = 2
-    EMAIL =3
-
-    
-    
-# class NotificationTaskFilterParams(ID,RecordFilter,BaseModel):
-#     start_date: Optional[str] = None  # Updated type annotation
-#     end_date: Optional[str] = None  # Updated type annotation
-    
-#     # 描述
-#     notification_type: Optional[NotificationFilterEnum] = PydanticField(None, description="通知类型",examples=[{"name":"WECHAT","value":1},{"name":"WEBSITE","value":2},{"name":"EMAIL","value":3}] )
-    
-#     class config:
-#         use_enum_values = True  # 配置 Pydantic 使用枚举的值
-#     pass
 
 
 class NotificationTaskFilterParams(ID,RecordFilter,BaseModel):
@@ -86,12 +93,16 @@ class NotificationTaskFilterParams(ID,RecordFilter,BaseModel):
 
     def build_sql_query(self) -> tuple[str,list[Any]]:
         sql1 ,args1 = RecordFilter.build_sql_query(self)
+        sql2 ,args2 = ID.build_sql_query(self)
         
         sql = ""
         args = []
         
-        args.extend(args1)
         sql += sql1
+        sql += sql2
+        args.extend(args1)
+        args.extend(args2)
+
         
         if self.notification_type is not None and self.notification_type != NotificationFilterEnum.NoneValue :
             sql += " AND notification_type = %s"
