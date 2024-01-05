@@ -110,6 +110,22 @@ class DatabaseCRUD:
             print(f"Error occurred: {e}")
             return None
         pass
+    
+    @classmethod
+    def read_by_uu_id(cls, uu_id: str, T: Type[T]) -> Optional[T]:
+        try:
+            with Session(cls.engine) as session:
+                query = select(T).filter(T.uu_id == uu_id) # type: ignore
+                instance = session.exec(query).first()  # type: ignore
+                if instance is None:
+                    return None
+                print("instance",instance)
+                file_record = instance[0] if instance else None
+                return file_record  # type: ignore
+        except  Exception as e:
+            print(f"Error occurred: {e}")
+            return None
+        pass
 
     # @classmethod
     # def read_all(cls, T: Type[T]) -> Optional[List[T]]:

@@ -30,8 +30,10 @@ def upload_file(upload_file: UploadFile) -> Optional[FileStore] :
         # 指定文件保存路径
         save_path = "data/upload_file"
         os.makedirs(save_path, exist_ok=True)  # 确保目录存在
-        
-        with open(os.path.join(save_path, upload_file.filename), "wb") as dest_file:
+        #前缀添加时间戳
+        time = datetime.now().strftime("%Y%m%d%H%M%S")
+        file_name = time + upload_file.filename if upload_file.filename else ""
+        with open(os.path.join(save_path, file_name), "wb") as dest_file:
             while True:
                 chunk = upload_file.file.read(65536)  # 以64KB块读取文件
                 if not chunk:
@@ -52,11 +54,11 @@ def upload_file(upload_file: UploadFile) -> Optional[FileStore] :
         # 创建FileStore对象
         record = FileStore (
             file_name=upload_file.filename,
-            file_path=os.path.join(save_path, upload_file.filename),
+            file_path=os.path.join(save_path, file_name),
             file_size=file_size,
             file_type=upload_file.content_type,
             file_hash=file_hash,
-            file_extension=upload_file.filename.split(".")[-1]
+            file_extension=file_name.split(".")[-1]
         )
 
         # 在这里，你可以将record对象插入数据库或执行其他操作
@@ -80,9 +82,14 @@ def update_record(record: FileStore) -> bool:
 def delete_record(id: int) -> bool:
     return DatabaseCRUD.delete(id , FileStore)
 
-def get_record_by_id(work_order_id: int) -> Optional[FileStore]:
-    return DatabaseCRUD.read_by_id(work_order_id, FileStore)
+def get_record_by_id(id: int) -> Optional[FileStore]:
+    return DatabaseCRUD.read_by_id(id, FileStore)
 
+def get_record_by_uu_id(uu_id: str) -> Optional[FileStore]:
+    record = DatabaseCRUD.read_by_uu_id(uu_id, FileStore)
+    if record is None:
+        return None
+    return record
 
 def get_record_by_filter(
     filter_params:FileStoreFilterParams
