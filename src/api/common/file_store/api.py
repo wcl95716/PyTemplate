@@ -2,8 +2,10 @@
 This module provides the API endpoints for support work_orders.
 """
 import json
+import os
 
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
+
 from models.common.id.type import ID
 from models.tables.file_store.type import FileStore
 
@@ -12,6 +14,7 @@ from models.tables.notification_task.type import NotificationTask, NotificationT
 
 from fastapi import Body, Depends, FastAPI, Query, Response, UploadFile
 from typing import List
+
 
 from services.common.file_store import service
 from typing import TypeVar, List, Optional
@@ -50,23 +53,46 @@ class FileStoreAPI(FastAPI):
         return Response(status_code=200)
     
     async def get_record_by_uu_id(self , uu_id:str = Query(0, description="uu_id")) -> Response:
-        print("uu_id",uu_id)
+
         record:Optional[FileStore] = service.get_record_by_uu_id(uu_id)
-        print("record",record)
+        
+        # 如果没有找到记录，则返回404响应
         if record is None:
             return Response(status_code=404)
+        # 获取文件路径
         file_path = record.file_path
-        print("file_path",file_path)
-        return FileResponse(file_path)
+        # 以二进制读取模式打开文件
+        file_like = open(file_path, mode="rb")
+        
+        # 准备响应头部，包括接受范围请求和内容长度
+        headers = {
+            "Accept-Ranges": "bytes",
+            "Content-Length": str(record.file_size)
+        }   
+        
+        # 返回一个StreamingResponse，将文件流式传输到客户端
+        return StreamingResponse(file_like,  headers=headers , media_type=record.file_type)
         pass
 
 
     async def get_record_by_id(self , id:int = Query(0, description="uu_id")) -> Response:
+        # 从服务中根据ID获取文件存储记录
         record:Optional[FileStore] = service.get_record_by_id(id)
-        print("record",record)
+
+        # 如果没有找到记录，则返回404响应
         if record is None:
             return Response(status_code=404)
+        # 获取文件路径
         file_path = record.file_path
-        print("file_path",file_path)
-        return FileResponse(file_path)
+        # 以二进制读取模式打开文件
+        file_like = open(file_path, mode="rb")
+        
+        # 准备响应头部，包括接受范围请求和内容长度
+        headers = {
+            "Accept-Ranges": "bytes",
+            "Content-Length": str(record.file_size)
+        }   
+        
+        # 返回一个StreamingResponse，将文件流式传输到客户端
+        return StreamingResponse(file_like,  headers=headers , media_type=record.file_type)
         pass
