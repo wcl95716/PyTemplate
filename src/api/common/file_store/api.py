@@ -5,6 +5,7 @@ import json
 import os
 
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 from models.common.id.type import ID
 from models.tables.file_store.type import FileStore
@@ -27,7 +28,7 @@ class FileStoreAPI(FastAPI):
         self.add_api_route("", self.create_record, methods=["POST"], summary="创建")
         # self.add_api_route("", self.update_record, methods=["GET"], summary="更新")
         self.add_api_route("", self.delete_record, methods=["DELETE"], summary="删除")
-        self.add_api_route("/get_file", self.get_record_by_id, methods=["GET"], summary="获取")
+        self.add_api_route("/get_file/{id}", self.get_record_by_id, methods=["GET"], summary="获取")
         self.add_api_route("/get_file_uu_id", self.get_record_by_uu_id, methods=["GET"], summary="获取")
         pass
     
@@ -75,7 +76,7 @@ class FileStoreAPI(FastAPI):
         pass
 
 
-    async def get_record_by_id(self , id:int = Query(0, description="uu_id")) -> Response:
+    async def get_record_by_id(self , id:int ) -> Response:
         # 从服务中根据ID获取文件存储记录
         record:Optional[FileStore] = service.get_record_by_id(id)
 
@@ -95,4 +96,5 @@ class FileStoreAPI(FastAPI):
         
         # 返回一个StreamingResponse，将文件流式传输到客户端
         return StreamingResponse(file_like,  headers=headers , media_type=record.file_type)
+        # return StaticFiles(directory=file_path)
         pass
