@@ -29,7 +29,7 @@ class FileStoreAPI(FastAPI):
         # self.add_api_route("", self.update_record, methods=["GET"], summary="更新")
         self.add_api_route("", self.delete_record, methods=["DELETE"], summary="删除")
         self.add_api_route("/get_file/{id}", self.get_record_by_id, methods=["GET"], summary="获取")
-        self.add_api_route("/get_file_uu_id{uu_id}", self.get_record_by_uu_id, methods=["GET"], summary="获取")
+        self.add_api_route("/get_file_uu_id/{uu_id}", self.get_record_by_uu_id, methods=["GET"], summary="获取")
         pass
     
     async def create_record(self , upload_file: UploadFile ) -> Response:
