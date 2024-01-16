@@ -1,30 +1,45 @@
 #!/bin/bash
 
-# 请求用户输入域名
-read -p "请输入你的域名: " DOMAIN
+# 安装 acme.sh
+install_acme() {
+    echo "安装 acme.sh..."
+    curl https://get.acme.sh | sh
+    source ~/.bashrc
+}
 
-# 检查是否输入了域名
-if [ -z "$DOMAIN" ]; then
-    echo "错误：没有输入域名。"
-    exit 1
-fi
+# 使用 acme.sh 获取证书
+issue_certificate() {
+    local DOMAIN="$1"
+    local DNS_API="$2"
 
-# 定义邮箱地址
-EMAIL="your-email@example.com"
+    echo "申请 SSL 证书：$DOMAIN 通过 $DNS_API"
 
-# 安装 Certbot
-echo "正在安装 Certbot..."
-sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository universe
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-sudo apt-get install certbot python3-certbot-nginx
+    # 申请证书 (这里以 DNS API 验证为例)
+    ~/.acme.sh/acme.sh --issue --dns $DNS_API -d $DOMAIN --keylength ec-256
 
-# 获取证书
-echo "正在获取 Let's Encrypt 证书..."
-sudo certbot --nginx -d $DOMAIN -m $EMAIL --agree-tos --non-interactive
+    # 安装证书到指定位置（根据需要修改）
+    ~/.acme.sh/acme.sh --install-cert -d $DOMAIN \
+        --key-file /path/to/keyfile.key \
+        --fullchain-file /path/to/fullchain.cer \
+        --reloadcmd "sudo nginx -s reload"
+}
 
 # 设置自动续期
-echo "设置证书自动续期..."
-(crontab -l 2>/dev/null; echo "0 12 * * * /usr/bin/certbot renew --quiet") | crontab -
+setup_auto_renew() {
+    ~/.acme.sh/acme.sh --install-cronjob
+    echo "设置证书自动续期"
+}
+
+# 主流程
+main() {
+    # 替换为您的域名和 DNS API
+    local DOMAIN="yourdomain.com"
+    local DNS_API="dns_namecheap"
+
+    install_acme
+    issue_certificate $DOMAIN $DNS_API
+    setup_auto_renew
+}
+
+# 执行主流程
+main
