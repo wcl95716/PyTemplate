@@ -1,6 +1,16 @@
 #!/bin/bash
 
+function install_dns_utils() {
+    if ! command -v dig &> /dev/null; then
+        echo "dig 未安装，正在安装 dnsutils..."
+        sudo apt-get update && sudo apt-get install -y dnsutils
+    fi
+}
+
+
 function install_letsencrypt_tls() {
+    install_dns_utils
+    
     # 定义 acme.sh 的安装路径
     ACME_SH="$HOME/.acme.sh/acme.sh"
 
@@ -52,5 +62,7 @@ function install_letsencrypt_tls() {
         return 1
         fi
         }
+
+
 
 install_letsencrypt_tls
