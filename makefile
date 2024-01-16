@@ -6,7 +6,8 @@ stop:
 # 启动新程序
 # nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --reload &
 start:
-	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 ssl_keyfile="/etc/letsencrypt/live/panda-code.top/privkey.pem" ssl_certfile="/etc/letsencrypt/live/panda-code.top/fullchain.pem" --reload &
+	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --ssl-keyfile=/etc/letsencrypt/live/panda-code.top/privkey.pem --ssl-certfile=/etc/letsencrypt/live/panda-code.top/fullchain.pem --reload
+ &
 
 # 启动数据库
 start_mysql:
