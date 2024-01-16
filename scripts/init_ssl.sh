@@ -9,6 +9,7 @@ function install_dns_utils() {
 
 function check_certificate_exists() {
     domain="$1"
+    domain_ecc=$(echo "$domain" | sed 's/\./_/g')
     if [[ -f "$HOME/.acme.sh/$domain_ecc/fullchain.cer" ]] && [[ -f "$HOME/.acme.sh/$domain_ecc/$domain.key" ]]; then
         echo "已经拥有证书。"
         return 0
@@ -34,6 +35,8 @@ function install_or_renew_letsencrypt_tls() {
 
     # 输入域名
     read -p "请输入你要为其获取证书的域名: " domain
+    domain_ecc=$(echo "$domain" | sed 's/\./_/g')
+
     if [[ -z "$domain" ]]; then
         echo "域名不能为空。"
         return 1
