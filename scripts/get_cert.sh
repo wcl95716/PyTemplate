@@ -27,7 +27,8 @@ function install_letsencrypt_tls() {
 
     # 使用 acme.sh 的完整路径生成证书
     echo "正在从 Let's Encrypt 获取证书..."
-    "$ACME_SH" --issue --standalone -d "$domain" --keylength ec-256
+    "$ACME_SH" --issue --standalone -d "$domain" --keylength ec-256 --server letsencrypt
+
 
     # 检查证书是否生成成功
     if [[ -f "$HOME/.acme.sh/$domain_ecc/fullchain.cer" ]] && [[ -f "$HOME/.acme.sh/$domain_ecc/$domain.key" ]]; then
