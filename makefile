@@ -17,6 +17,7 @@ start_mysql:
 refresh_database:
 	python src/models/creat_talbes.py
 
+
 # 安装依赖
 install:
 	python -m pip install --upgrade pip

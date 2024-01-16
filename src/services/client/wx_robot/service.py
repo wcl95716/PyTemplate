@@ -10,9 +10,6 @@ from utils.download_file import download_file_to_folder
 from typing import Any, Callable, List, Tuple
 
 
-
-
-# type: ignore 
 wx: WeChat = WeChat() # type: ignore 
 
 
