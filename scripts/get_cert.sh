@@ -10,7 +10,7 @@ function install_dns_utils() {
 
 function install_letsencrypt_tls() {
     install_dns_utils
-    
+
     # 定义 acme.sh 的安装路径
     ACME_SH="$HOME/.acme.sh/acme.sh"
 
@@ -57,11 +57,11 @@ function install_letsencrypt_tls() {
         echo "证书成功生成。"
         echo "证书路径: $HOME/.acme.sh/$domain_ecc/fullchain.cer"
         echo "私钥路径: $HOME/.acme.sh/$domain_ecc/$domain.key"
-        else
+    else
         echo "证书生成失败。"
         return 1
-        fi
-        }
+    fi
+}
 
 
 
