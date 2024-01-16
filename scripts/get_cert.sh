@@ -26,6 +26,7 @@ function install_letsencrypt_tls() {
     # 获取服务器的公网 IP 地址
     server_ip=$(curl -s http://icanhazip.com)
     echo "服务器的公网 IP 地址: $server_ip"
+    echo "domain_ip $domain_ip"
 
     # 检查域名解析的 IP 地址是否与服务器的 IP 地址匹配
     if [[ "$domain_ip" != "$server_ip" ]]; then
