@@ -35,12 +35,13 @@ function install_or_renew_letsencrypt_tls() {
 
     # 输入域名
     read -p "请输入你要为其获取证书的域名: " domain
-    domain_ecc=$(echo "$domain" | sed 's/\./_/g')
 
     if [[ -z "$domain" ]]; then
         echo "域名不能为空。"
         return 1
     fi
+
+    domain_ecc=$(echo "$domain" | sed 's/\./_/g')
 
     # 检查是否已经拥有证书
     if check_certificate_exists "$domain"; then
