@@ -4,8 +4,9 @@ stop:
 	-lsof -t -i :443 | xargs kill -9
 
 # 启动新程序
+# nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --reload &
 start:
-	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --reload &
+	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 ssl_keyfile="/etc/letsencrypt/live/panda-code.top/privkey.pem" ssl_certfile="/etc/letsencrypt/live/panda-code.top/fullchain.pem" --reload &
 
 # 启动数据库
 start_mysql:
@@ -19,7 +20,7 @@ refresh_database:
 install:
 	python -m pip install --upgrade pip
 	pip install --ignore-installed -r requirements.txt
-	
+
 # 创建虚拟环境
 env:
 	conda env remove --name myenv
