@@ -1,45 +1,38 @@
 #!/bin/bash
 
-# 安装 acme.sh
-install_acme() {
-    echo "安装 acme.sh..."
-    curl https://get.acme.sh | sh
-    source ~/.bashrc
+function install_letsencrypt_tls() {
+    # 安装 acme.sh
+    if ! command -v acme.sh &> /dev/null; then
+        echo "正在安装 acme.sh..."
+        curl https://get.acme.sh | sh
+        source ~/.bashrc
+    fi
+
+    # 输入域名
+    read -p "请输入你要为其获取证书的域名: " domain
+    if [[ -z "$domain" ]]; then
+        echo "域名不能为空。"
+        return 1
+    fi
+
+    # 结束占用 80 端口的进程
+    echo "正在检查并结束占用 80 端口的进程..."
+    sudo fuser -k 80/tcp
+
+    # 使用 acme.sh 生成证书
+    echo "正在从 Let's Encrypt 获取证书..."
+    acme.sh --issue --standalone -d "$domain" --keylength ec-256
+
+    # 检查证书是否生成成功
+    if [[ -f "/root/.acme.sh/$domain_ecc/fullchain.cer" ]] && [[ -f "/root/.acme.sh/$domain_ecc/$domain.key" ]]; then
+        echo "证书成功生成。"
+        echo "证书路径: /root/.acme.sh/$domain_ecc/fullchain.cer"
+        echo "私钥路径: /root/.acme.sh/$domain_ecc/$domain.key"
+    else
+        echo "证书生成失败。"
+        return 1
+    fi
 }
 
-# 使用 acme.sh 获取证书
-issue_certificate() {
-    local DOMAIN="$1"
-    local DNS_API="$2"
-
-    echo "申请 SSL 证书：$DOMAIN 通过 $DNS_API"
-
-    # 申请证书 (这里以 DNS API 验证为例)
-    ~/.acme.sh/acme.sh --issue --dns $DNS_API -d $DOMAIN --keylength ec-256
-
-    # 安装证书到指定位置（根据需要修改）
-    ~/.acme.sh/acme.sh --install-cert -d $DOMAIN \
-        --key-file keyfile.key \
-        --fullchain-file fullchain.cer \
-        --reloadcmd "sudo nginx -s reload"
-}
-
-# 设置自动续期
-setup_auto_renew() {
-    ~/.acme.sh/acme.sh --install-cronjob
-    echo "设置证书自动续期"
-}
-
-# 主流程
-main() {
-    # 替换为您的域名和 DNS API
-    local DOMAIN="panda-code.top"
-    local DNS_API="dns_namecheap"
-
-    install_acme
-    issue_certificate $DOMAIN $DNS_API
-    setup_auto_renew
-}
-
-# 执行主流程
-main
+# 调用函数
+install_letsencrypt_tls
