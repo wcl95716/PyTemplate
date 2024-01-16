@@ -10,7 +10,8 @@ function install_dns_utils() {
 function check_certificate_exists() {
     domain="$1"
     domain_ecc=$(echo "$domain" | sed 's/\./_/g')
-    if [[ -f "$HOME/.acme.sh/$domain_ecc/fullchain.cer" ]] && [[ -f "$HOME/.acme.sh/$domain_ecc/$domain.key" ]]; then
+    cert_path="$HOME/.acme.sh/$domain_ecc"
+    if [[ -f "$cert_path/fullchain.cer" ]] && [[ -f "$cert_path/$domain.key" ]]; then
         echo "已经拥有证书。"
         return 0
     else
@@ -42,6 +43,7 @@ function install_or_renew_letsencrypt_tls() {
     fi
 
     domain_ecc=$(echo "$domain" | sed 's/\./_/g')
+    cert_path="$HOME/.acme.sh/$domain_ecc"
 
     # 检查是否已经拥有证书
     if check_certificate_exists "$domain"; then
@@ -81,8 +83,8 @@ function install_or_renew_letsencrypt_tls() {
     # 再次检查证书是否生成成功
     if check_certificate_exists "$domain"; then
         echo "证书成功生成。"
-        echo "证书路径: $HOME/.acme.sh/$domain_ecc/fullchain.cer"
-        echo "私钥路径: $HOME/.acme.sh/$domain_ecc/$domain.key"
+        echo "证书路径: $cert_path/fullchain.cer"
+        echo "私钥路径: $cert_path/$domain.key"
     else
         echo "证书生成失败。"
         return 1
