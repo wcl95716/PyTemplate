@@ -19,8 +19,8 @@ issue_certificate() {
 
     # 安装证书到指定位置（根据需要修改）
     ~/.acme.sh/acme.sh --install-cert -d $DOMAIN \
-        --key-file /path/to/keyfile.key \
-        --fullchain-file /path/to/fullchain.cer \
+        --key-file keyfile.key \
+        --fullchain-file fullchain.cer \
         --reloadcmd "sudo nginx -s reload"
 }
 
