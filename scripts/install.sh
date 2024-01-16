@@ -5,8 +5,13 @@ curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     # Linux操作系统
     echo "当前操作系统是Linux"
-    curl -O https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh && bash Anaconda3-2023.09-0-Linux-x86_64.sh
-    
+    # 安装make git 等
+    sudo apt update
+    sudo apt install make
+    sudo apt install git
+
+    curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && bash Miniconda3-latest-Linux-x86_64.sh
+
     # 在这里执行适用于Linux的命令
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS操作系统
