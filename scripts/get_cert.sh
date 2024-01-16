@@ -10,14 +10,26 @@ function install_letsencrypt_tls() {
         curl https://get.acme.sh | sh
         # 重新加载 shell 配置
         source "$HOME/.bashrc"
-        # 或者重新加载 acme.sh 的配置文件
-        # source "$HOME/.acme.sh/acme.sh.env"
     fi
 
     # 输入域名
     read -p "请输入你要为其获取证书的域名: " domain
     if [[ -z "$domain" ]]; then
         echo "域名不能为空。"
+        return 1
+    fi
+
+    # 解析域名并获取其 IP 地址
+    domain_ip=$(dig +short "$domain")
+    echo "域名 $domain 解析到的 IP 地址: $domain_ip"
+
+    # 获取服务器的公网 IP 地址
+    server_ip=$(curl -s http://icanhazip.com)
+    echo "服务器的公网 IP 地址: $server_ip"
+
+    # 检查域名解析的 IP 地址是否与服务器的 IP 地址匹配
+    if [[ "$domain_ip" != "$server_ip" ]]; then
+        echo "错误: 域名解析的 IP 地址与服务器的 IP 地址不匹配。"
         return 1
     fi
 
@@ -29,17 +41,15 @@ function install_letsencrypt_tls() {
     echo "正在从 Let's Encrypt 获取证书..."
     "$ACME_SH" --issue --standalone -d "$domain" --keylength ec-256 --server letsencrypt
 
-
     # 检查证书是否生成成功
     if [[ -f "$HOME/.acme.sh/$domain_ecc/fullchain.cer" ]] && [[ -f "$HOME/.acme.sh/$domain_ecc/$domain.key" ]]; then
         echo "证书成功生成。"
         echo "证书路径: $HOME/.acme.sh/$domain_ecc/fullchain.cer"
         echo "私钥路径: $HOME/.acme.sh/$domain_ecc/$domain.key"
-    else
+        else
         echo "证书生成失败。"
         return 1
-    fi
-}
+        fi
+        }
 
-# 调用函数
 install_letsencrypt_tls
