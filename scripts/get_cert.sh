@@ -33,7 +33,7 @@ setup_auto_renew() {
 # 主流程
 main() {
     # 替换为您的域名和 DNS API
-    local DOMAIN="yourdomain.com"
+    local DOMAIN="panda-code.top"
     local DNS_API="dns_namecheap"
 
     install_acme
