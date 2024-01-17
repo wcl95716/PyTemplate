@@ -4,7 +4,7 @@
 from sqlalchemy import Integer
 from sqlmodel import SQLModel, Field 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional, Tuple
 from pydantic import BaseModel, Field as PydanticField
 
 from models.common.filter_params.type import FilterParams
@@ -19,12 +19,34 @@ class CompanyEnum(Enum):
         Enum (_type_): _description_
         
         - NONE: 0 代表无公司。
-        - TIAN_YI: 1 代表天翼。
+        - TIAN_YI: 1 代表天熠。
     """
     NoneValue = None
     NONE = 0
     TIAN_YI = 1
     pass
+
+# 创建一个字典，将枚举成员映射到自定义的字符串名称
+enum_to_str = {
+    CompanyEnum.NONE: "无公司",
+    CompanyEnum.TIAN_YI: "天翼",
+}
+
+
+class CompanyInfo(SQLModel,extend_existing=True):
+    company_id: CompanyEnum = Field(CompanyEnum.NONE,index=True,sa_type=Integer)
+    company_name: Optional[str] = Field(None, description="公司名称", index=True)
+    
+    # 初始化的时候根据 enum_to_str 选择名字
+    
+    def __init__(self, **data: Any):
+        super().__init__(**data)
+        self.company_name = enum_to_str[self.company_id]
+     
+    class config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值
+    pass
+
 
 
 class CompanyInfoFilterEnum(str,Enum):
@@ -40,16 +62,6 @@ class CompanyInfoFilterEnum(str,Enum):
     NoneValue = None
     NONE = 0
     TIAN_YI = 1
-    pass
-
-
-
-class CompanyInfo(SQLModel,extend_existing=True):
-    company_id: CompanyEnum = Field(CompanyEnum.NONE,index=True,sa_type=Integer)
-    company_name: Optional[str] = Field(None, description="公司名称", index=True)
-    
-    class config:
-        use_enum_values = True  # 配置 Pydantic 使用枚举的值
     pass
 
 
