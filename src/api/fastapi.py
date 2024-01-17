@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, Query
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 from fastapi import FastAPI
-
+from fastapi.openapi.docs import get_swagger_ui_html
 
 app = FastAPI(docs_url=None, redoc_url=None)
 
@@ -12,8 +12,9 @@ app = FastAPI(docs_url=None, redoc_url=None)
 async def root():
     return RedirectResponse(url="/docs")
 
-
-# 其他路由和业务逻辑...
+@app.get("/docs", include_in_schema=False)
+async def custom_docs():
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="Custom Docs")
 
 
 
