@@ -2,13 +2,14 @@
 # 停止先前的程序
 stop:
 	-lsof -t -i :443 | xargs kill -9
+	-lsof -t -i :25432 | xargs kill -9
 
 # 启动新程序
 start_ssl:
 	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --ssl-keyfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.key --ssl-certfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.cer --reload &
 
 start:
-	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --reload &
+	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 25432 --reload &
 	
 # 启动数据库
 start_mysql:

@@ -8,6 +8,7 @@
 from typing import Optional
 from models.tables.user.type import User, UserFilterParams
 from utils.database import DatabaseManager
+from utils.database_crud import DatabaseCRUD
 
 
 # 添加
@@ -17,6 +18,8 @@ def  add_user(user: User) -> bool:
     print("find_user: ",len(find_user))
     if len(find_user) > 0:
         return False
+    
+    return DatabaseCRUD.create(user)
     
     columns, placeholders, args = DatabaseManager.build_insert_sql_components(user)
     # sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"

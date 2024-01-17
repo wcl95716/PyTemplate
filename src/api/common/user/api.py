@@ -6,7 +6,7 @@ import json
 
 
 from fastapi import Depends, FastAPI, Response
-from models.tables.user.type import User, UserFilterParams
+from models.tables.user.type import User, UserBase, UserFilterParams
 
 from services.common.user import service
 
@@ -23,7 +23,7 @@ class UserAPI(FastAPI):
         pass
     
     async def add_user(self, user: User) -> Response:
-        
+    
         if service.add_user(user):
             return Response(status_code=200)
         else:

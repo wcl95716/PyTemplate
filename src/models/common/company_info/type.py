@@ -37,14 +37,25 @@ class CompanyInfo(SQLModel,extend_existing=True):
     company_id: CompanyEnum = Field(CompanyEnum.NONE,index=True,sa_type=Integer)
     company_name: Optional[str] = Field(None, description="公司名称", index=True)
     
+    class config:
+        use_enum_values = True  # 配置 Pydantic 使用枚举的值
+        
     # 初始化的时候根据 enum_to_str 选择名字
     
     def __init__(self, **data: Any):
         super().__init__(**data)
-        self.company_name = enum_to_str[self.company_id]
+        try:
+            if isinstance(self.company_id, int):
+                self.company_name = enum_to_str[CompanyEnum(self.company_id)]
+            elif isinstance(self.company_id, CompanyEnum):
+                self.company_name = enum_to_str[self.company_id]
+            
+        except KeyError:
+            self.company_name = enum_to_str[CompanyEnum.NONE]
+            
+            pass
      
-    class config:
-        use_enum_values = True  # 配置 Pydantic 使用枚举的值
+
     pass
 
 
