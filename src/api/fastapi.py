@@ -1,7 +1,21 @@
 from typing import Any, Optional, Union
 import uuid
 from fastapi import Depends, FastAPI, Query
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
+from fastapi import FastAPI
+from fastapi.openapi.docs import get_swagger_ui_html
+
+app = FastAPI(docs_url=None, redoc_url=None)
+
+@app.get("/", include_in_schema=False)
+async def root():
+    return RedirectResponse(url="/docs")
+
+@app.get("/docs", include_in_schema=False)
+async def custom_docs():
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="Custom Docs")
+
 
 
 from api.common.chat_record.api import CharRecordAPI
@@ -39,10 +53,14 @@ fast_api.include_router(
 
 
 
+@fast_api.get("/", include_in_schema=False)
+async def root():
+    return RedirectResponse(url="/docs")
 
-@fast_api.get("/")
-def read_root() -> dict[str, str]:
-    return {"message": "Hello, World!"}
+@fast_api.get("/docs", include_in_schema=False)
+async def custom_docs():
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="Custom Docs")
+
 
 # 创建一个基本模型来定义输入参数
 class QueryParams(BaseModel):
@@ -58,22 +76,3 @@ async def get_items(query_params: QueryParams =  Depends()) -> dict[str, Union[s
     # 在这里使用 param1 和 param2 来执行操作，例如从数据库中检索数据
 
     return {"param1": "param1", "param2": 2}
-
-
-# @api_bp.route('/msg_cb', methods=['POST'])
-# def message_callback():
-#     if request.method == 'POST':
-#         # 解析JSON数据
-#         data = request.get_json()
-#         # print("data ",data)
-
-#         # 获取消息内容
-#         message_content = data.get('content', '')
-
-#         # 处理消息，这里简单打印消息内容
-#         print("Received message:", message_content)
-        
-#         sendMsg(message_content,"Panda")
-
-#         # 返回成功响应
-#         return jsonify({"status": "success"})

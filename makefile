@@ -4,8 +4,8 @@ stop:
 	-lsof -t -i :443 | xargs kill -9
 
 # 启动新程序
-# # nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --ssl-keyfile=/etc/letsencrypt/live/panda-code.top/privkey.pem --ssl-certfile=/etc/letsencrypt/live/panda-code.top/fullchain.pem --reload &
-# nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --ssl-keyfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.key --ssl-certfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.cer --reload &
+start_ssl:
+	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --ssl-keyfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.key --ssl-certfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.cer --reload &
 
 start:
 	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --reload &
@@ -20,7 +20,7 @@ refresh_database:
 
 
 # 安装依赖
-install:
+install_requirements:
 	python -m pip install --upgrade pip
 	pip install --ignore-installed -r requirements.txt
 
