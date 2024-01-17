@@ -24,7 +24,8 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     sudo apt install git
     
     # 安装conda , python 环境
-    install_conda
+    install_linux_conda
+
     install_python
 
     # 在这里执行适用于Linux的命令
