@@ -72,7 +72,10 @@ class FileStoreAPI(FastAPI):
         }   
         
         # 返回一个StreamingResponse，将文件流式传输到客户端
-        return StreamingResponse(file_like,  headers=headers , media_type=record.file_type)
+        # return StreamingResponse(file_like,  headers=headers , media_type=record.file_type)
+    
+        # 使用FileResponse以流的方式发送文件
+        return FileResponse(file_path, headers={"Accept-Ranges": "bytes"})
         pass
 
 
