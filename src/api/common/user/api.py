@@ -34,10 +34,8 @@ class UserAPI(FastAPI):
             user_filter:UserFilterParams = Depends()
        ) -> Response:
         # user_filter = UserFilterParams(**user_filter.model_dump())
-        print("user_filter: ",user_filter)
         users: list[User] = service.get_users_by_filter(user_filter)
         users_data: list[dict[str, Any]] = [user.model_dump() for user in users]
-        print("users_data: ",users_data)
         return Response(
             content=json.dumps(users_data), 
             status_code=200)

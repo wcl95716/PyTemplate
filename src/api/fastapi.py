@@ -7,19 +7,6 @@ from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
 
-# app = FastAPI(docs_url=None, redoc_url=None)
-
-# @app.get("/", include_in_schema=False)
-# async def root() -> RedirectResponse:
-#     return RedirectResponse(url="/docs")
-
-# from fastapi.responses import HTMLResponse
-
-# @app.get("/docs", include_in_schema=False)
-# async def custom_docs() -> HTMLResponse:
-#     return get_swagger_ui_html(openapi_url="/openapi.json", title="Custom Docs")
-
-
 
 from api.common.chat_record.api import CharRecordAPI
 
@@ -63,14 +50,6 @@ async def root() -> RedirectResponse:
 @fast_api.get("/docs", include_in_schema=False)
 async def custom_docs() -> HTMLResponse:
     return get_swagger_ui_html(openapi_url="/openapi.json", title="Custom Docs")
-
-# @fast_api.get("/", include_in_schema=False)
-# async def root():
-#     return RedirectResponse(url="/docs")
-
-# @fast_api.get("/docs", include_in_schema=False)
-# async def custom_docs():
-#     return get_swagger_ui_html(openapi_url="/openapi.json", title="Custom Docs")
 
 
 # 创建一个基本模型来定义输入参数

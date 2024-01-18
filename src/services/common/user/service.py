@@ -6,6 +6,7 @@
 
 
 from typing import Optional
+from models.common.company_info.type import CompanyInfoFilterEnum
 from models.tables.user.type import User, UserFilterParams
 from utils.database import DatabaseManager
 from utils.database_crud import DatabaseCRUD
@@ -56,7 +57,8 @@ def get_users_by_filter(
         args.append(f"%{user_filter.email}%")
     
     # company_id 精确搜索
-    if user_filter.company_id:
+    if user_filter.company_id != CompanyInfoFilterEnum.NONE \
+        and user_filter.company_id != CompanyInfoFilterEnum.NoneValue:
         sql += " AND company_id = %s"  # Convert to string
         args.append(str(user_filter.company_id.value))  # Convert to string
         
