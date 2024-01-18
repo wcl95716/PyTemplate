@@ -20,11 +20,22 @@ class UserAPI(FastAPI):
         self.add_api_route(
             "", self.get_users_by_filter, methods=["Get"], summary="获取用户"
         )
+        self.add_api_route(
+            "",self.update, methods=["Put"] , summary = "更新用户信息"
+        )
         pass
     
     async def add_user(self, user: User) -> Response:
     
         if service.add_user(user):
+            return Response(status_code=200)
+        else:
+            return Response(status_code=500)
+        pass
+    
+    # 修改用户信息
+    async def update(self,user:User) -> Response:
+        if service.update(user):
             return Response(status_code=200)
         else:
             return Response(status_code=500)
@@ -40,4 +51,6 @@ class UserAPI(FastAPI):
             content=json.dumps(users_data), 
             status_code=200)
         pass
+    
+
     

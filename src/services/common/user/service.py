@@ -21,16 +21,10 @@ def  add_user(user: User) -> bool:
         return False
     
     return DatabaseCRUD.create(user)
-    
-    columns, placeholders, args = DatabaseManager.build_insert_sql_components(user)
-    # sql = "INSERT INTO chat_record (type, content, title, creator_id, assigned_to_id) VALUES (%s, %s, %s, %s, %s)"
-    sql = f"INSERT INTO user ({columns}) VALUES ({placeholders})"
-    print(columns, placeholders, args)
-    
-    if DatabaseManager.execute(sql, args):
-        return True
-    return False
-    pass
+
+
+def update(user: User) -> bool:
+    return DatabaseCRUD.update(user)
     
 # 获取用户 
 # 添加过滤条件
