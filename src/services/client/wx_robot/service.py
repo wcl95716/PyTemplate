@@ -1,9 +1,9 @@
-import datetime
-import os
-import schedule
-from external.PyOfficeRobot import PyOfficeRobot
-from external.PyOfficeRobot.PyOfficeRobot.core.WeChatType import WeChat
+import sys
+sys.path.append("./src")
 
+
+from external.PyOfficeRobot.PyOfficeRobot.core.WeChatType import WeChat
+from external.PyOfficeRobot.PyOfficeRobot.api import chat
 
 from utils import local_logger
 from utils.download_file import download_file_to_folder
@@ -88,7 +88,7 @@ def chat_by_keywords(who:str, keywords:dict[str, Any]) -> None:
                 tem = keywords[key](who, wx.GetAllMessage[-1],wx.GetAllMessage)
                 print("tem",tem)
                 if tem is not None:
-                    PyOfficeRobot.chat.send_message(who=who, message=tem[2])  # type: ignore
+                    chat.send_message(who=who, message=tem[2])  # type: ignore
                 break
 
     except:
