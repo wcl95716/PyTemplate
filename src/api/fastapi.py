@@ -90,4 +90,4 @@ async def get_uploaded_file(file_name: str) -> Response:
     file_path = os.path.join(root_directory, file_name)
     
     # 使用FileResponse返回文件
-    return FileResponse(file_path)
+    return FileResponse(file_path,headers={"Content-Disposition": "inline"})
