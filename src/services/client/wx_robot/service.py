@@ -89,7 +89,7 @@ def chat_by_keywords(who:str, keywords:dict[str, Any]) -> None:
                 print("tem",tem)
                 if tem is not None:
                     chat.send_message(who=who, message=tem[2])  # type: ignore
-                break
+                    break
 
     except:
         pass
