@@ -9,7 +9,7 @@ from typing import Any
 import pandas as pd
 
 from custom.tianyi.utils.functions import work_order_create
-from services.common.wx_robot.service import chat_by_keywords, get_chat_group_list, get_robot_name
+from services.client.wx_robot.service import chat_by_keywords, get_chat_group_list, get_robot_name
 
 from utils import local_logger
 
@@ -17,7 +17,6 @@ from utils import local_logger
 def get_group_list_from_excel() -> list[str]:
     try:
         df = pd.read_excel("data/微信服务群.xlsx", engine='openpyxl')
-        print(df)
         result = []
         for index, row in df.iterrows():
             # 微信服务群名称
