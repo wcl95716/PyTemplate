@@ -83,8 +83,9 @@ async def get_items(query_params: QueryParams =  Depends()) -> dict[str, Union[s
 @fast_api.get("/{file_name}")
 async def get_uploaded_file(file_name: str) -> Response:
     # 定义域名根目录的路径，根据您的实际设置进行更改
-    root_directory = f"data/files"
+    root_directory = "data/files"
     
+    print("file_name ", file_name)
     # 拼接要返回的文件的完整路径
     file_path = os.path.join(root_directory, file_name)
     
