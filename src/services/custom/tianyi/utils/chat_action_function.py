@@ -1,9 +1,10 @@
 import sys
+sys.path.append("./src")
 
 from api.common.work_order.client_api import WorkOrderClient
 from models.common.record.type import RecordEnum
 from models.tables.work_order.type import WorkOrder
-sys.path.append("./src")
+
 
 import json
 from typing import Any, Optional

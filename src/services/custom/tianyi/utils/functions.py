@@ -4,7 +4,7 @@
 from datetime import datetime
 from typing import Optional
 import uuid
-from custom.tianyi.utils.chat_action_function import UtilsHelper
+from services.custom.tianyi.utils.chat_action_function import UtilsHelper
 from models.common.record.type import RecordEnum
 from models.tables.work_order.type import WorkOrder
 
