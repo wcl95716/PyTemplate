@@ -40,7 +40,7 @@ def process_one_group_tasks(process_group:str,group_list:list[str],robot_keyword
         pass
     pass
 
-def chec_groups(group_list: list[str],robot_keywords_config:Any) -> None:
+def check_groups(group_list: list[str],robot_keywords_config:Any) -> None:
     chat_groups = get_chat_group_list()[:3]
     for group in chat_groups:
         process_one_group_tasks(group,group_list,robot_keywords_config)
@@ -57,7 +57,7 @@ def groups_check() -> None:
     group_list.append("测试3群")
     
     while True:
-        chec_groups(group_list,robot_keywords_config)
+        check_groups(group_list,robot_keywords_config)
         time.sleep(1)
     
     
