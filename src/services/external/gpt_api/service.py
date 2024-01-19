@@ -43,5 +43,5 @@ def get_ai_response(user_id: str, user_message: str) -> str:
     return ai_message
 
 # 测试函数
-print(get_ai_response("user1", "给我一首李白的诗 中文回复"))
-print(get_ai_response("user2", "你好，我是另一个用户。"))
+# print(get_ai_response("user1", "给我一首李白的诗 中文回复"))
+# print(get_ai_response("user2", "你好，我是另一个用户。"))
