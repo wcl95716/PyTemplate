@@ -20,6 +20,8 @@ from api.common.file_store.api import FileStoreAPI
 
 from api.common.gpt.api import GptAPI
 
+from api.custom.wechat_receive.api import WechatReceiveAPI
+
 
 fast_api = FastAPI()
 fast_api.include_router(
@@ -43,6 +45,10 @@ fast_api.include_router(
 
 fast_api.include_router(
     GptAPI().router, prefix="/gpt", tags=[" gpt"]
+)
+
+fast_api.include_router(
+    WechatReceiveAPI().router, prefix="/wechat", tags=[" 微信"]
 )
 
 

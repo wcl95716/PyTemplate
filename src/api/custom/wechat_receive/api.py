@@ -3,15 +3,11 @@ This module provides the API endpoints for support work_orders.
 """
 import json
 
-
-
 from fastapi import Body, Depends, FastAPI, Query, Response
 from typing import Any, List
 
-from typing import TypeVar, List, Optional
-from services.external.gpt_api import service
 
-class GptAPI(FastAPI):
+class WechatReceiveAPI(FastAPI):
     def __init__(self) -> None:
         super().__init__()
         self.add_api_route("", self.get_res, methods=["POST"], summary="接收企业微信消息")
@@ -19,9 +15,9 @@ class GptAPI(FastAPI):
 
     
     async def get_res(self,
-                      data: dict[str, Any]     
+                      # data: dict[str, Any]     
                   ) -> Response:
-        print("data " ,data)
+        # print("data " ,data)
         return  Response(status_code=200 , content="success")
         
 # @api_bp.route('/msg_cb', methods=['POST'])
