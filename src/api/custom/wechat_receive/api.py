@@ -15,9 +15,9 @@ class WechatReceiveAPI(FastAPI):
 
     
     async def get_res(self,
-                      # data: dict[str, Any]     
+                      data: dict[str, Any]     
                   ) -> Response:
-        # print("data " ,data)
+        print("data " ,data)
         return  Response(status_code=200 , content="success")
         
 # @api_bp.route('/msg_cb', methods=['POST'])
