@@ -1,7 +1,8 @@
+import os
 from typing import Any, Optional, Union
 import uuid
-from fastapi import Depends, FastAPI, Query
-from fastapi.responses import RedirectResponse
+from fastapi import Depends, FastAPI, Query, Response
+from fastapi.responses import FileResponse, RedirectResponse
 from pydantic import BaseModel, Field
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -77,3 +78,15 @@ async def get_items(query_params: QueryParams =  Depends()) -> dict[str, Union[s
     # 在这里使用 param1 和 param2 来执行操作，例如从数据库中检索数据
 
     return {"param1": "param1", "param2": 2}
+
+# 使用模型来定义 GET 请求的路由
+@fast_api.get("/{file_name}")
+async def get_uploaded_file(file_name: str) -> Response:
+    # 定义域名根目录的路径，根据您的实际设置进行更改
+    root_directory = f"data/files"
+    
+    # 拼接要返回的文件的完整路径
+    file_path = os.path.join(root_directory, file_name)
+    
+    # 使用FileResponse返回文件
+    return FileResponse(file_path)
