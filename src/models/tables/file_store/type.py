@@ -30,10 +30,10 @@ class FileStore(FileStoreBase,table=True):
         
 
 class FileStoreFilterParams(IDFilter,FilterParams,SQLModel):
-    file_name : Optional[str] = Field(...,index=True)
-    file_size : Optional[int] = Field(...,index=True)
-    file_type : Optional[str] = Field(...,index=True)
-    file_hash : Optional[str] = Field(...,index=True)
+    file_name : Optional[str] = Field(None,index=True)
+    file_size : Optional[int] = Field(None,index=True)
+    file_type : Optional[str] = Field(None,index=True)
+    file_hash : Optional[str] = Field(None,index=True)
     
 
     def build_sql_query(self)-> tuple[str,list[Any]]:

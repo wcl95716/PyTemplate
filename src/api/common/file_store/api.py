@@ -36,8 +36,8 @@ class FileStoreAPI(FastAPI):
         record = service.upload_file(upload_file)
         if record is None:
             return Response(status_code=500) 
-        if service.insert_record(record) is False:
-            return Response(status_code=500)
+        # if service.insert_record(record) is False:
+        #     return Response(status_code=500,content=json.dumps(record.model_dump()) , media_type="application/json")
         return Response(status_code=200 ,  content=json.dumps(record.model_dump()) , media_type="application/json") 
     
     async def update_record(

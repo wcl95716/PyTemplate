@@ -22,6 +22,7 @@ import hashlib
 import os
 
 def upload_file(upload_file: UploadFile) -> Optional[FileStore] :
+    
     try:
         # 初始化文件大小和哈希值
         file_size = 0
@@ -60,9 +61,16 @@ def upload_file(upload_file: UploadFile) -> Optional[FileStore] :
             file_hash=file_hash,
             file_extension=file_name.split(".")[-1]
         )
-
+        res = get_record_by_filter(FileStoreFilterParams(file_hash = file_hash))
+        if len(res) > 0 and res[0].file_size == record.file_size and res[0].file_extension == record.file_extension:
+            # 删除 file_path 的文件
+            os.remove(record.file_path)
+            return res[0]
         # 在这里，你可以将record对象插入数据库或执行其他操作
-        return record
+        if insert_record(record):
+            return record
+        else:
+            return None
     except Exception as e:
         # 处理异常
         print(e)
@@ -94,8 +102,16 @@ def get_record_by_uu_id(uu_id: str) -> Optional[FileStore]:
 def get_record_by_filter(
     filter_params:FileStoreFilterParams
 ) -> List[FileStore]:
-
-
+    sql = f"SELECT * FROM {table_name} WHERE 1=1 "
+    sql1,args =  filter_params.build_sql_query()
+    sql += sql1
+    res = DatabaseManager.query_to_dict(sql, args)
+    tasks:list[FileStore] = []
+    for row in res:
+        task = FileStore(**row)
+        tasks.append(task)
+        pass
+    return tasks
     return []
 
 
