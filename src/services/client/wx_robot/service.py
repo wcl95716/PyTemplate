@@ -6,7 +6,7 @@ from external.PyOfficeRobot.PyOfficeRobot.core.WeChatType import WeChat
 from external.PyOfficeRobot.PyOfficeRobot.api import chat
 
 from utils import local_logger
-from utils.download_file import download_file_to_folder
+from utils.file_operations_utils import download_file_to_folder
 from typing import Any, Callable, List, Tuple
 
 

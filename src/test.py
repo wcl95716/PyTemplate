@@ -1,26 +1,16 @@
-#Note: The openai-python library support for Azure OpenAI is in preview.
-      #Note: This code sample requires OpenAI Python library version 0.28.1 or lower.
-import os
-import openai
+from flask import Flask
+from flask_cors import CORS
 
-openai.api_type = "azure"
-openai.api_base = "https://chenglongwen.openai.azure.com/"
-openai.api_version = "2023-07-01-preview"
-openai.api_key = "62f432e462164233993b473d45854844"
+app = Flask(__name__)
 
-message_text = [
-    {"role":"user","content":"给我一首李白的诗 中文回复"},
-]
+# 配置CORS，允许所有来源的请求
+CORS(app)
 
-response = openai.ChatCompletion.create(
-  engine="test1",
-  messages = message_text,
-  temperature=0.7,
-  max_tokens=800,
-  top_p=0.95,
-  frequency_penalty=0,
-  presence_penalty=0,
-  stop=None
-)
-print(response)
-print(response['choices'][0]['message']['content'])
+
+@app.route('/')
+def hello_world() -> str:
+    return 'Hello, World!'
+
+if __name__ == '__main__':
+    # app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='::', port=9001)

@@ -2,11 +2,11 @@
 import json
 import sys
 
-from utils.database_crud import DatabaseCRUD
+from utils.database_sqlmodel_util import DatabaseCRUD
 sys.path.append("./src")
 
 from models.tables.notification_task.type import NotificationTaskBase, NotificationTaskFilterParams
-from utils.database import DatabaseManager
+from utils.database_pymysql_util import DatabaseManager
 
 table_name = "notificationtask"
 

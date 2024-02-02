@@ -1,8 +1,8 @@
 from models.tables.chat_record.type import ChatRecord, ChatRecordBase
-from utils.database import DatabaseManager
+from utils.database_pymysql_util import DatabaseManager
 
 from models.tables.work_order.type import WorkOrder
-from utils.database_crud import DatabaseCRUD
+from utils.database_sqlmodel_util import DatabaseCRUD
 
 # 增加一条记录
 def add_chat_record(chat_record: ChatRecord) -> bool:

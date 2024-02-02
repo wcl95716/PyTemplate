@@ -9,8 +9,8 @@ from typing import Any, Dict, List, Optional, Union
 from utils import local_logger
 
 
-from utils.database import DatabaseManager
-from utils.database_crud import DatabaseCRUD
+from utils.database_pymysql_util import DatabaseManager
+from utils.database_sqlmodel_util import DatabaseCRUD
 
 table_name = "workorder"
 

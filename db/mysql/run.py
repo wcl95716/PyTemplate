@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.append("./src")
 
-from utils.database import DatabaseManager
+from utils.database_pymysql_util import DatabaseManager
 
 
 def main() -> None:
