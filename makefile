@@ -11,7 +11,9 @@ start_ssl:
 	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 80 --reload &
 
 start:
-	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 25432 --reload &
+	nohup python src/main.py --reload &
+	# nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 25432 --reload &
+
 	
 # 启动数据库
 start_mysql:
