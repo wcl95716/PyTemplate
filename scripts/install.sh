@@ -4,6 +4,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 
 function install_python(){
     # 安装python依赖
+    export PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
     python -m pip install --upgrade pip
 	pip install --ignore-installed -r requirements.txt
     echo "python依赖安装完成"

@@ -15,12 +15,11 @@ start:
 	
 # 启动数据库
 start_mysql:
-	bash  scripts/setup-database.sh 
+	sudo bash  scripts/setup-database.sh 
 
 # 刷新数据库
 refresh_database:
 	python src/models/creat_talbes.py
-
 
 # 安装依赖
 install_requirements:
