@@ -29,9 +29,11 @@ def update(record: ServerIPMap) -> bool:
     filter_params:ServerIPMapParams = ServerIPMapParams(
         server_mac_address = record.server_mac_address
     )
-    result_list = get_by_filter(filter_params)  
+    result_list = get_by_filter(filter_params)
+    
     if(len(result_list) == 0):
         return insert(record)
+    record.id = result_list[0].id
     
     return DatabaseCRUD.update(record)
 

@@ -18,7 +18,9 @@ if __name__ == "__main__":
         server_name = hostname,
         server_ipv4 = ipv4,
         server_ipv6 = ipv6,
-        server_mac_address = mac_address
+        server_mac_address = mac_address,
+        server_user="root",
+        server_password="123456"
     )
     
     print(server_ip_map)
