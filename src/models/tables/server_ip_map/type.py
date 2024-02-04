@@ -5,9 +5,10 @@ from sqlmodel import SQLModel, Field
 from models.common.filter_params.type import FilterParams
 
 from models.common.id.type import ID, IDFilter
+from models.common.update_time.type import UpdateTime
 
 
-class ServerIPMapBase(ID, SQLModel):
+class ServerIPMapBase(ID,UpdateTime, SQLModel):
     server_name: Optional[str] = Field(None, index=True)
     server_ipv4: Optional[str] = Field(None, index=True)
     server_ipv6: Optional[str] = Field(None, index=True)
@@ -21,7 +22,7 @@ class ServerIPMapBase(ID, SQLModel):
     pass
 
 
-class ServerIPMap(ServerIPMapBase,table=True):
+class ServerIPMap(ServerIPMapBase,extend_existing=True ,table=True):
     class config:
         use_enum_values = True  # 配置 Pydantic 使用枚举的值
         
