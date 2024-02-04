@@ -4,6 +4,7 @@ stop:
 	-lsof -t -i :443 | xargs kill -9
 	-lsof -t -i :25432 | xargs kill -9
 	-lsof -t -i :80 | xargs kill -9
+	-lsof -t -i :1001 | xargs kill -9
 
 # 启动新程序
 start_ssl:
