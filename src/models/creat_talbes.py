@@ -37,7 +37,7 @@ import_all_modules_from_pattern('./src/models/tables/*/type.py')
 
 
 engine = create_engine("mysql+mysqlconnector://root:12345678@localhost:3308/panda_code_database")
-# SQLModel.metadata.drop_all(engine)
+SQLModel.metadata.drop_all(engine)
 # 创建表，如果已存在则跳过
 # SQLModel.metadata.create_all(engine)
 # 更新表，如果已存在则更新
