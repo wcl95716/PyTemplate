@@ -22,8 +22,8 @@ if __name__ == "__main__":
     )
     
     print(server_ip_map)
-    #server_ip_map_client = ServerIPMapClient("http://47.103.45.149:1001")
-    server_ip_map_client = ServerIPMapClient("http://192.168.0.100:25432")
+    server_ip_map_client = ServerIPMapClient("http://47.103.45.149:1001")
+    # server_ip_map_client = ServerIPMapClient("http://192.168.0.100:25432")
     res = server_ip_map_client.update_record(server_ip_map)
     print(res)
     
