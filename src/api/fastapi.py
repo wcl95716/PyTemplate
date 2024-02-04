@@ -19,6 +19,8 @@ from api.common.notification_task.api import NotificationTaskAPI
 
 from api.common.file_store.api import FileStoreAPI
 
+from api.common.server_ip_map.api import ServerIPMapAPI
+
 from api.common.gpt.api import GptAPI
 
 from api.custom.wechat_receive.api import WechatReceiveAPI
@@ -51,6 +53,11 @@ fast_api.include_router(
 fast_api.include_router(
     WechatReceiveAPI().router, prefix="/wechat", tags=[" 微信"]
 )
+
+fast_api.include_router(
+    ServerIPMapAPI().router, prefix="/server_ip_map", tags=[" Server IP Map Operations"]
+)
+
 
 
 @fast_api.get("/", include_in_schema=False)

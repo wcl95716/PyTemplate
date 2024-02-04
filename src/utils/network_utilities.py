@@ -1,5 +1,6 @@
 import socket
 import logging
+import uuid
 import requests
 from typing import Dict, Optional
 
@@ -76,6 +77,13 @@ class NetworkUtils:
                 continue
         return False
     
+    #获取本机mac地址
+    @classmethod
+    def get_mac_address(cls) -> str:
+        mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+        mac_address = ":".join([mac[e:e+2] for e in range(0, 12, 2)])
+        return mac_address
+    
     @classmethod
     def get_interface_details(cls) -> Dict[str, int]:
         """
@@ -104,3 +112,6 @@ if __name__ == "__main__":
 
     # 获取所有网络接口详情
     print("网络接口详情:", NetworkUtils.get_interface_details())
+    
+    #获取mac地址
+    print("mac地址:",NetworkUtils.get_mac_address())
