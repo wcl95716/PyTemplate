@@ -2,13 +2,9 @@ from enum import Enum
 from typing import Any, Optional
 # from pydantic import BaseModel, Field
 from sqlmodel import SQLModel, Field 
-from models.common.company_info.type import CompanyInfo, CompanyInfoFilter
 from models.common.filter_params.type import FilterParams
 
 from models.common.id.type import ID, IDFilter
-from models.common.priority.type import Priority
-from models.common.record.type import Record
-from models.common.status.type import Status
 
 
 class ServerIPMapBase(ID, SQLModel):
