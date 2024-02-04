@@ -93,6 +93,12 @@ class NetworkUtils:
         """
         return {interface[1]: socket.if_nametoindex(interface[1]) for interface in socket.if_nameindex()}
     
+    # get hostname
+    @classmethod
+    def get_hostname(cls) -> str:
+        return socket.gethostname()
+    
+    
 NetworkUtils.__new__(NetworkUtils)
 
 

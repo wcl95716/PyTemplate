@@ -10,10 +10,12 @@ start_ssl:
 	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 443 --ssl-keyfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.key --ssl-certfile /root/.acme.sh/panda-code.top_ecc/panda-code.top.cer --reload &
 	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 80 --reload &
 
-start:
+start_ipv6:
 	nohup python src/main.py --reload &
 	# nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 25432 --reload &
 
+start_ipv4:
+	nohup uvicorn src.main:fast_api --host 0.0.0.0 --port 1001 --reload &
 	
 # 启动数据库
 start_mysql:
