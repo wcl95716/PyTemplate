@@ -35,16 +35,17 @@ class UpdateTime(SQLModel,extend_existing=True):
     def update_time_str(self) -> Optional[str]:
         return self.update_time.strftime("%Y-%m-%d %H:%M:%S") if self.update_time is not None else None
     
-    # def model_dump(self, *, mode: str = 'json', exclude: set[str] = None, include: set[str] = None, by_alias: bool = True, exclude_unset: bool = False, exclude_defaults: bool = False, exclude_none: bool = False, round_trip: bool = False, warnings: bool = True) -> dict[str, Any]:# type: ignore
-    #     data = super().model_dump(mode=mode, exclude=exclude, include=include, by_alias=by_alias, exclude_unset=exclude_unset, exclude_defaults=exclude_defaults, exclude_none=exclude_none, round_trip=round_trip, warnings=warnings)
+    def model_dump(self, *, mode: str = 'json', exclude: set[str] = None, include: set[str] = None, by_alias: bool = True, exclude_unset: bool = False, exclude_defaults: bool = False, exclude_none: bool = False, round_trip: bool = False, warnings: bool = True) -> dict[str, Any]:# type: ignore
+        data = super().model_dump(mode=mode, exclude=exclude, include=include, by_alias=by_alias, exclude_unset=exclude_unset, exclude_defaults=exclude_defaults, exclude_none=exclude_none, round_trip=round_trip, warnings=warnings)
         
-    #     if self.create_time is not None:
-    #         # data["create_time"] = self.create_time.strftime("%Y-%m-%d %H:%M:%S")
-    #         data["create_time"] = (self.create_time +  timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
-    #     if self.update_time is not None:
-    #         data["update_time"] = (self.update_time + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+        if self.create_time is not None:
+            data["create_time"] = self.create_time.strftime("%Y-%m-%d %H:%M:%S")
+            # data["create_time"] = (self.create_time +  timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+        if self.update_time is not None:
+            # data["update_time"] = (self.update_time + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+            data["create_time"] = self.update_time.strftime("%Y-%m-%d %H:%M:%S")
         
-    #     return data
+        return data
     
     
 class UpdateTimeFilter(FilterParams,BaseModel):
