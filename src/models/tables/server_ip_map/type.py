@@ -14,7 +14,7 @@ class ServerIPMapBase(ID,UpdateTime, SQLModel):
     server_ipv6: Optional[str] = Field(None, index=True)
     server_mac_address: Optional[str] = Field(None, index=True)
     server_user: Optional[str] = Field(None, index=True)
-    server_password: Optional[str] = Field(None, index=True)
+    server_password: Optional[str] = Field(None)
     
     
     class config:
@@ -33,7 +33,7 @@ class ServerIPMapParams(IDFilter,FilterParams,SQLModel):
     server_ipv6: Optional[str] = Field(None, index=True)
     server_mac_address: Optional[str] = Field(None, index=True)
     server_user: Optional[str] = Field(None, index=True)
-    server_password: Optional[str] = Field(None, index=True)
+    server_password: Optional[str] = Field(None)
 
     def build_sql_query(self)-> tuple[str,list[Any]]:
         
