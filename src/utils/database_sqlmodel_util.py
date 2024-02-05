@@ -69,7 +69,7 @@ class DatabaseCRUD:
                 if existing_record:
                     # 更新字段值
                     for key, value in new_instance.model_dump().items():
-                        if key == "create_time" or key == "update_time":
+                        if key == "create_time" or key == "update_time" or value == None:
                             continue
                         setattr(existing_record, key, value)
                     
