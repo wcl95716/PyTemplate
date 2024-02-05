@@ -47,8 +47,12 @@ def delete(id: int) -> bool:
     return DatabaseCRUD.delete(id , ServerIPMap)
 
 def get_by_id(work_order_id: int) -> Optional[ServerIPMap]:
-    return DatabaseCRUD.read_by_id(work_order_id, ServerIPMap)
-
+    record = DatabaseCRUD.read_by_id(work_order_id, ServerIPMap)
+    # print(f"record is {record.model_dump()}")
+    if record is None:
+        return None
+    # record =  ServerIPMap(**record.model_dump())
+    return record
 def get_by_filter(
     filter_params:ServerIPMapParams
 ) -> List[ServerIPMap]:

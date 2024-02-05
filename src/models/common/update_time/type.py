@@ -20,12 +20,12 @@ class UpdateTime(SQLModel,extend_existing=True):
 
     def __init__(self, **data: Any):
         super().__init__(**data)
-        # 切换成北京时间
-        if self.create_time is not None:
-            self.create_time = self.create_time + timedelta(hours=8)
-            # print("UpdateTime __init__222 " , self.create_time , self.update_time , type(self.create_time) , type(self.update_time))
-        if self.update_time is not None:
-            self.update_time = self.update_time + timedelta(hours=8)
+        # # 切换成北京时间
+        # if self.create_time is not None:
+        #     self.create_time = self.create_time + timedelta(hours=8)
+        #     # print("UpdateTime __init__222 " , self.create_time , self.update_time , type(self.create_time) , type(self.update_time))
+        # if self.update_time is not None:
+        #     self.update_time = self.update_time + timedelta(hours=8)
             
     @property
     def create_time_str(self) -> Optional[str]:
@@ -39,9 +39,10 @@ class UpdateTime(SQLModel,extend_existing=True):
         data = super().model_dump(mode=mode, exclude=exclude, include=include, by_alias=by_alias, exclude_unset=exclude_unset, exclude_defaults=exclude_defaults, exclude_none=exclude_none, round_trip=round_trip, warnings=warnings)
         
         if self.create_time is not None:
-            data["create_time"] = self.create_time.strftime("%Y-%m-%d %H:%M:%S")
+            # data["create_time"] = self.create_time.strftime("%Y-%m-%d %H:%M:%S")
+            data["create_time"] = (self.create_time +  timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
         if self.update_time is not None:
-            data["update_time"] = self.update_time.strftime("%Y-%m-%d %H:%M:%S")
+            data["update_time"] = (self.update_time + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
         
         return data
     

@@ -1,6 +1,9 @@
 import sys
 sys.path.append("./src")
 
+from utils import local_logger
+
+
 from models.common.id.type import ID
 from models.common.update_time.type import UpdateTime
 
@@ -9,10 +12,7 @@ from typing import Any, List, Optional, Type, TypeVar, Dict, Generic, cast
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy.engine.base import Engine
 from dbutils.pooled_db import PooledDB
-import sqlalchemy
 from typing import Optional, Type, TypeVar, Dict, Generic
-from sqlmodel import SQLModel
-
 import glob
 import pathlib
 import importlib.util
@@ -40,7 +40,8 @@ class DatabaseCRUD:
     
     @classmethod
     def initialize(cls, database_url: str) -> None:
-        cls.engine = create_engine(database_url)
+        cls.engine = create_engine(database_url, connect_args={'time_zone': 'Asia/Shanghai'})
+        
         
     # @classmethod
     # def register_model(cls, model_name: str, model: Type[SQLModel]) -> None:
@@ -65,11 +66,11 @@ class DatabaseCRUD:
             new_instance = model_instance.__class__(**model_instance.model_dump())
             with Session(cls.engine) as session:
                 existing_record = session.get(new_instance.__class__, model_instance.id)
-                print("existing_record",existing_record)
+                local_logger.logger.info("existing_record: ",existing_record)
                 if existing_record:
                     # 更新字段值
                     for key, value in new_instance.model_dump().items():
-                        if key == "create_time" or key == "update_time" or value == None:
+                        if key == "create_time" or key == "update_time" or value == None or key == "uu_id":
                             continue
                         setattr(existing_record, key, value)
                     
@@ -138,6 +139,7 @@ class DatabaseCRUD:
     #         return None
     
 # 初始化 DatabaseCRUD
+# engine = create_engine("mysql+mysqlconnector://root:12345678@localhost:3308/panda_code_database?timezone=Asia%2FShanghai")
 DatabaseCRUD.initialize("mysql+mysqlconnector://root:12345678@localhost:3308/panda_code_database")
 
 
