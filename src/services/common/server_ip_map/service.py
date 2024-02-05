@@ -26,14 +26,20 @@ def insert( record: ServerIPMap) -> bool :
     pass
 
 def update(record: ServerIPMap) -> bool:
-    filter_params:ServerIPMapParams = ServerIPMapParams(
-        server_mac_address = record.server_mac_address
-    )
-    result_list = get_by_filter(filter_params)
-    
-    if(len(result_list) == 0):
-        return insert(record)
-    record.id = result_list[0].id
+    local_logger.logger.info(f"update record is {record}")
+    if (record.id == None): 
+        if record.server_mac_address == None:
+            local_logger.logger.info("server_mac_address is None")
+            return False
+        
+        filter_params:ServerIPMapParams = ServerIPMapParams(
+            server_mac_address = record.server_mac_address,
+            id = record.id
+        )
+        result_list = get_by_filter(filter_params)
+        if(len(result_list) == 0):
+            return insert(record)
+        record.id = result_list[0].id
     
     return DatabaseCRUD.update(record)
 
@@ -49,8 +55,7 @@ def get_by_filter(
     sql = f"SELECT * FROM {table_name} WHERE 1=1 "
     sql1,args =  filter_params.build_sql_query()
     sql += sql1
-    print(sql)
-    print(args)
+    local_logger.logger.info(f"sql {sql} , args {args}")
     res = DatabaseManager.query_to_dict(sql, args)
     result_list:list[ServerIPMap] = []
     for row in res:
