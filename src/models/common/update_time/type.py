@@ -43,7 +43,7 @@ class UpdateTime(SQLModel,extend_existing=True):
             # data["create_time"] = (self.create_time +  timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
         if self.update_time is not None:
             # data["update_time"] = (self.update_time + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
-            data["create_time"] = self.update_time.strftime("%Y-%m-%d %H:%M:%S")
+            data["update_time"] = self.update_time.strftime("%Y-%m-%d %H:%M:%S")
         
         return data
     
