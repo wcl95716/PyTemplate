@@ -66,7 +66,8 @@ class DatabaseCRUD:
             new_instance = model_instance.__class__(**model_instance.model_dump())
             with Session(cls.engine) as session:
                 existing_record = session.get(new_instance.__class__, model_instance.id)
-                local_logger.logger.info("existing_record: ",existing_record)
+                local_logger.logger.info(f"existing_record: {existing_record} ")
+                # print("existing_record: ",existing_record)
                 if existing_record:
                     # 更新字段值
                     for key, value in new_instance.model_dump().items():
