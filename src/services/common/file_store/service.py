@@ -14,6 +14,7 @@ from utils import local_logger
 
 from utils.database_pymysql_util import DatabaseManager
 from utils.database_sqlmodel_util import DatabaseCRUD
+from utils.file_operations_utils import calculate_file_hash, calculate_file_size
 
 table_name = "filestore"
 
@@ -22,40 +23,28 @@ import hashlib
 import os
 
 def upload_file(upload_file: UploadFile) -> Optional[FileStore] :
-    
     try:
-        # 初始化文件大小和哈希值
-        file_size = 0
-        hasher = hashlib.md5()
+
         
         # 指定文件保存路径
         save_path = "data/upload_file"
         os.makedirs(save_path, exist_ok=True)  # 确保目录存在
         #前缀添加时间戳
         time = datetime.now().strftime("%Y%m%d%H%M%S")
-        file_name = time + upload_file.filename if upload_file.filename else ""
-        with open(os.path.join(save_path, file_name), "wb") as dest_file:
-            while True:
-                chunk = upload_file.file.read(65536)  # 以64KB块读取文件
-                if not chunk:
-                    break
-                
-                # 更新文件大小
-                file_size += len(chunk)
-                
-                # 更新哈希值
-                hasher.update(chunk)
-                
-                # 写入文件
-                dest_file.write(chunk)
         
-        # 计算文件哈希值
-        file_hash = hasher.hexdigest()
+        file_name = time + upload_file.filename if upload_file.filename else ""
+        file_path = os.path.join(save_path, file_name)
+        with open(file_path, "wb") as dest_file:
+            dest_file.write(upload_file.file.read())
+            pass
+        
+        file_hash = calculate_file_hash(file_path)
+        file_size = calculate_file_size(file_path)
         
         # 创建FileStore对象
         record = FileStore (
             file_name=upload_file.filename,
-            file_path=os.path.join(save_path, file_name),
+            file_path=file_path,
             file_size=file_size,
             file_type=upload_file.content_type,
             file_hash=file_hash,
